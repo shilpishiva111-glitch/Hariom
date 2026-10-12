@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#07080c">
+<title>Scratch Pro</title>
+<style>
+:root{
+  --bg:#07080c; --line:rgba(255,255,255,.09); --txt:#eaeef7; --muted:#8b93a7;
+  --gold:#ffd35c; --ok:#38e08a; --danger:#ff5c6c; --info:#5cbcff;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%}
+body{
+  margin:0;color:var(--txt);overflow-x:hidden;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif;
+  background:
+    radial-gradient(800px 480px at 10% -10%, #1b2340 0%, transparent 60%),
+    radial-gradient(700px 460px at 105% 0%, #2b1b3d 0%, transparent 55%),
+    var(--bg);
+  background-attachment:fixed;
+}
+.screen{display:none;min-height:100dvh}
+.screen.show{display:block}
+.hidden{display:none !important}
+
+/* ---------- AUTH ---------- */
+#authScreen{display:none;flex-direction:column;align-items:center;justify-content:center;gap:22px;padding:30px 18px}
+#authScreen.show{display:flex}
+.brand{text-align:center}
+.logo{font-size:56px;filter:drop-shadow(0 10px 24px rgba(255,211,92,.35));animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+.brand h1{margin:8px 0 3px;font-size:31px;letter-spacing:3px;font-weight:800}
+.brand h1 span{background:linear-gradient(180deg,#fff3c4,#ffd35c 45%,#b8860b);-webkit-background-clip:text;background-clip:text;color:transparent}
+.tag{margin:0;color:var(--muted);font-size:13px;letter-spacing:.4px}
+
+.glass{
+  background:linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+  border:1px solid var(--line);
+  backdrop-filter:blur(18px) saturate(140%);
+  -webkit-backdrop-filter:blur(18px) saturate(140%);
+  box-shadow:0 24px 60px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.12);
+}
+.panel{width:100%;max-width:400px;border-radius:22px;padding:18px}
+
+.tabs{display:flex;gap:6px;background:rgba(0,0,0,.35);padding:5px;border-radius:14px;margin-bottom:16px}
+.tab{flex:1;padding:11px;border:0;border-radius:10px;background:transparent;color:var(--muted);font-weight:700;font-size:14px;cursor:pointer;transition:.2s;font-family:inherit}
+.tab.active{background:linear-gradient(180deg,#2a3247,#1a2032);color:#fff;box-shadow:0 4px 14px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.1)}
+
+.form{display:flex;flex-direction:column;gap:12px}
+.field{display:flex;align-items:center;gap:10px;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:14px;padding:0 12px;height:50px;transition:.2s}
+.field:focus-within{border-color:rgba(255,211,92,.55);box-shadow:0 0 0 4px rgba(255,211,92,.09)}
+.field input{flex:1;min-width:0;background:transparent;border:0;outline:0;color:var(--txt);font-size:15px;height:100%;font-family:inherit}
+.field input::placeholder{color:#5f677b}
+.ico{font-size:15px;opacity:.75}
+.eye{background:transparent;border:0;font-size:15px;opacity:.6;cursor:pointer;padding:6px}
+
+.btn{position:relative;height:50px;border:0;border-radius:14px;font-size:15px;font-weight:800;letter-spacing:.3px;
+  cursor:pointer;color:#fff;background:#1c2233;font-family:inherit;
+  transition:transform .08s, box-shadow .2s, filter .2s}
+.btn:active{transform:translateY(1px) scale(.99)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.primary{background:linear-gradient(180deg,#3b4a6b,#232c44);box-shadow:0 8px 22px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.14)}
+.btn.gold{background:linear-gradient(180deg,#ffe08a,#ffcf4d 40%,#d29a1c);color:#2a1d00;box-shadow:0 10px 26px rgba(255,196,60,.28), inset 0 1px 0 rgba(255,255,255,.6)}
+.btn.ghost{background:transparent;border:1px solid var(--line);color:var(--muted);height:44px;font-weight:600}
+.btn.danger{background:linear-gradient(180deg,#8a2a37,#5c1a24);box-shadow:0 8px 22px rgba(255,92,108,.2), inset 0 1px 0 rgba(255,255,255,.12)}
+.btn.ok{background:linear-gradient(180deg,#2a7a50,#1a5136);box-shadow:0 8px 22px rgba(56,224,138,.2), inset 0 1px 0 rgba(255,255,255,.12)}
+.btn.sm{height:38px;font-size:13px;border-radius:11px;padding:0 14px}
+
+.row{display:flex;align-items:center;justify-content:space-between;font-size:12.5px;color:var(--muted)}
+.chk{display:flex;align-items:center;gap:7px;cursor:pointer}
+.chk input{accent-color:#ffd35c;width:15px;height:15px}
+.link{color:var(--gold);text-decoration:none;font-weight:700;cursor:pointer}
+.hint{font-size:12.5px;color:var(--muted);margin:0;text-align:center;line-height:1.6}
+.msg{font-size:12.5px;min-height:16px;text-align:center;line-height:1.4}
+.msg.err{color:var(--danger)}
+.msg.ok{color:var(--ok)}
+
+.loader{display:flex;align-items:center;gap:10px;color:var(--muted);font-size:13px}
+.spin{width:18px;height:18px;border-radius:50%;border:2px solid rgba(255,255,255,.15);border-top-color:var(--gold);animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* ---------- BROADCAST ---------- */
+.broadcast{
+  margin:0 16px;margin-top:12px;padding:11px 14px;border-radius:14px;font-size:13px;
+  background:linear-gradient(160deg, rgba(92,188,255,.16), rgba(92,188,255,.06));
+  border:1px solid rgba(92,188,255,.35); display:flex; gap:10px; align-items:flex-start;
+  animation:pop .3s ease-out;
+}
+.broadcast .x{background:transparent;border:0;color:var(--muted);font-size:16px;cursor:pointer;padding:0 4px;font-family:inherit}
+.broadcast .txt{flex:1;line-height:1.5}
+
+/* ---------- TOPBAR ---------- */
+.topbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 16px;background:rgba(7,8,12,.72);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--line)}
+.who{display:flex;align-items:center;gap:10px;min-width:0}
+.avatar{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-weight:800;flex:none;
+  background:linear-gradient(140deg,#ffd35c,#b8860b);color:#221800;box-shadow:0 6px 18px rgba(255,196,60,.25)}
+.uname{font-weight:700;font-size:14px;max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.uid{font-size:11px;color:var(--muted);max-width:130px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.topRight{display:flex;align-items:center;gap:8px}
+.coinChip{display:flex;align-items:center;gap:6px;border-radius:999px;padding:8px 13px;font-size:14px;
+  background:linear-gradient(180deg,rgba(255,211,92,.18),rgba(255,211,92,.06));
+  border:1px solid rgba(255,211,92,.3)}
+.iconBtn{width:38px;height:38px;border-radius:12px;border:1px solid var(--line);background:rgba(255,255,255,.05);
+  color:var(--txt);font-size:20px;line-height:1;cursor:pointer;display:grid;place-items:center;font-family:inherit}
+
+/* ---------- MENU ---------- */
+.menuWrap{position:relative}
+.menu{position:absolute;right:0;top:46px;min-width:220px;padding:6px;border-radius:16px;z-index:50;
+  background:linear-gradient(180deg,#181d29,#10131b);border:1px solid var(--line);
+  box-shadow:0 24px 50px rgba(0,0,0,.7);animation:pop .16s ease-out}
+@keyframes pop{from{opacity:0;transform:translateY(-6px) scale(.97)}to{opacity:1;transform:none}}
+.menu button{display:flex;width:100%;align-items:center;gap:10px;padding:12px;border:0;background:transparent;
+  color:var(--txt);font-size:14px;font-weight:600;border-radius:11px;cursor:pointer;text-align:left;font-family:inherit}
+.menu button:active{background:rgba(255,255,255,.08)}
+.menu button.danger{color:var(--danger)}
+.menu .sep{height:1px;background:var(--line);margin:5px 8px}
+.menu .admBadge{font-size:10px;padding:2px 6px;border-radius:5px;background:rgba(255,211,92,.18);color:var(--gold);margin-left:auto;font-weight:700}
+
+/* ---------- MAIN ---------- */
+.wrap{max-width:520px;margin:0 auto;padding:16px 16px 44px;display:flex;flex-direction:column;gap:16px}
+.statsRow{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.stat{background:rgba(255,255,255,.04);border:1px solid var(--line);border-radius:16px;padding:12px;text-align:center}
+.stat span{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.5px;text-transform:uppercase}
+.stat b{display:block;margin-top:5px;font-size:18px;color:var(--gold)}
+
+.cardWrap{position:relative}
+.cardWrap::before{content:"";position:absolute;inset:-14px;border-radius:30px;pointer-events:none;
+  background:radial-gradient(60% 70% at 50% 40%, rgba(255,196,60,.28), transparent 70%);filter:blur(12px)}
+.card{position:relative;width:100%;aspect-ratio:16/9.4;border-radius:20px;overflow:hidden;touch-action:none;
+  border:1px solid rgba(255,211,92,.35);
+  background:linear-gradient(160deg,#161b26,#0b0e15);
+  box-shadow:0 26px 60px rgba(0,0,0,.75), inset 0 1px 0 rgba(255,255,255,.1), 0 0 0 6px rgba(255,211,92,.06)}
+.prizeLayer{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:4px;text-align:center;padding:14px}
+.pLabel{font-size:11.5px;letter-spacing:2.5px;text-transform:uppercase;color:var(--muted)}
+.pValue{font-size:46px;font-weight:900;line-height:1.05;
+  background:linear-gradient(180deg,#fff6d0,#ffd35c 45%,#c58f16);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  filter:drop-shadow(0 4px 14px rgba(255,196,60,.35))}
+.pSub{font-size:12.5px;color:var(--muted)}
+#scratch{position:absolute;inset:0;width:100%;height:100%;display:block;cursor:crosshair;
+  touch-action:none;transition:opacity .5s ease, transform .5s ease}
+#scratch.gone{opacity:0;transform:scale(1.05);pointer-events:none}
+
+.progWrap{display:flex;align-items:center;gap:10px}
+.prog{flex:1;height:8px;border-radius:99px;background:rgba(255,255,255,.07);overflow:hidden}
+.prog i{display:block;height:100%;width:0;border-radius:99px;transition:width .15s linear;
+  background:linear-gradient(90deg,#ffd35c,#ff9d2e);box-shadow:0 0 12px rgba(255,196,60,.6)}
+#progTxt{font-size:12px;color:var(--muted);min-width:40px;text-align:right}
+.actions{display:grid;grid-template-columns:1.4fr 1fr;gap:10px}
+
+/* ---------- SHEET ---------- */
+.sheetBack{position:fixed;inset:0;background:rgba(0,0,0,.65);backdrop-filter:blur(6px);z-index:100;
+  display:flex;align-items:flex-end;justify-content:center}
+.sheet{width:100%;max-width:520px;max-height:80dvh;display:flex;flex-direction:column;
+  background:linear-gradient(180deg,#151a25,#0c0f16);border:1px solid var(--line);border-bottom:0;
+  border-radius:22px 22px 0 0;animation:up .25s cubic-bezier(.2,.8,.2,1)}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+.sheetHead{display:flex;align-items:center;justify-content:space-between;padding:16px;border-bottom:1px solid var(--line)}
+.sheetBody{padding:12px 16px 30px;overflow-y:auto;-webkit-overflow-scrolling:touch}
+
+.lbRow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:14px;margin-bottom:8px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line)}
+.lbRow.me{border-color:rgba(255,211,92,.5);background:rgba(255,211,92,.08)}
+.lbRank{width:32px;height:32px;flex:none;border-radius:10px;display:grid;place-items:center;font-weight:800;font-size:13px;
+  background:rgba(255,255,255,.07)}
+.lbRow:first-child .lbRank{background:linear-gradient(140deg,#ffe08a,#c9962a);color:#2a1d00}
+.lbName{flex:1;min-width:0;font-weight:600;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lbVal{font-weight:800;color:var(--gold);font-size:14px;flex:none}
+
+/* ---------- ADMIN PANEL ---------- */
+.adminPanel{
+  position:fixed;inset:0;z-index:150;background:
+    radial-gradient(700px 400px at 0% 0%, #22132e 0%, transparent 55%),
+    radial-gradient(700px 400px at 100% 100%, #132238 0%, transparent 55%),
+    #08090e;
+  display:flex;flex-direction:column;animation:fadein .25s ease-out;
+}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.adminHead{
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+  padding:14px 16px;border-bottom:1px solid var(--line);
+  background:rgba(7,8,12,.7);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+  position:sticky;top:0;z-index:2;
+}
+.adminHead h2{margin:0;font-size:17px;letter-spacing:.5px;display:flex;align-items:center;gap:8px}
+.adminHead h2 .tagp{
+  font-size:10px;padding:2px 7px;border-radius:5px;
+  background:linear-gradient(180deg,#ffe08a,#c9962a);color:#2a1d00;font-weight:800;letter-spacing:.5px;
+}
+.adminTabs{display:flex;gap:4px;padding:10px 16px;overflow-x:auto;border-bottom:1px solid var(--line);
+  background:rgba(7,8,12,.5);scrollbar-width:none}
+.adminTabs::-webkit-scrollbar{display:none}
+.atab{padding:9px 14px;border-radius:10px;border:1px solid transparent;background:rgba(255,255,255,.04);
+  color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;transition:.15s}
+.atab.active{background:linear-gradient(180deg,#2a3247,#1a2032);color:#fff;border-color:var(--line)}
+.adminBody{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:16px 16px 60px;
+  max-width:720px;width:100%;margin:0 auto}
+
+.aGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+@media(min-width:520px){.aGrid{grid-template-columns:repeat(4,1fr)}}
+.aStat{background:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  border:1px solid var(--line);border-radius:16px;padding:14px;text-align:center}
+.aStat span{display:block;font-size:10.5px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase}
+.aStat b{display:block;margin-top:6px;font-size:22px;color:var(--gold)}
+
+.secTitle{font-size:12px;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);
+  margin:20px 0 10px;font-weight:700}
+.secTitle:first-child{margin-top:4px}
+
+.card2{background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border:1px solid var(--line);border-radius:16px;padding:14px;margin-bottom:10px}
+
+.userRow{display:flex;align-items:center;gap:12px;padding:11px;border-radius:14px;margin-bottom:8px;
+  background:rgba(255,255,255,.035);border:1px solid var(--line);cursor:pointer;transition:.15s}
+.userRow:active{background:rgba(255,255,255,.07)}
+.userRow.banned{opacity:.55;border-color:rgba(255,92,108,.4)}
+.avmini{width:36px;height:36px;border-radius:10px;flex:none;display:grid;place-items:center;
+  font-weight:800;font-size:14px;background:linear-gradient(140deg,#5c6b8f,#2a3247);color:#fff}
+.userRow .info{flex:1;min-width:0}
+.userRow .info b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.userRow .info span{display:block;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.userRow .c{font-size:13px;color:var(--gold);font-weight:800;flex:none}
+
+.aInput{width:100%;background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;color:var(--txt);font-size:14px;outline:0;font-family:inherit;transition:.15s}
+.aInput:focus{border-color:rgba(255,211,92,.55);box-shadow:0 0 0 3px rgba(255,211,92,.09)}
+textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
+.aLabel{display:block;font-size:11.5px;color:var(--muted);margin:0 0 6px;font-weight:600;letter-spacing:.3px}
+
+.aBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+.aBtns .btn{flex:1;min-width:110px;height:44px;font-size:13.5px}
+
+.empty{text-align:center;padding:30px 12px;color:var(--muted);font-size:13px}
+
+/* ---------- TOAST ---------- */
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);z-index:300;padding:12px 18px;
+  border-radius:14px;font-size:13.5px;font-weight:600;max-width:88vw;text-align:center;
+  background:linear-gradient(180deg,#1d2333,#12161f);border:1px solid var(--line);
+  box-shadow:0 16px 40px rgba(0,0,0,.7);opacity:0;pointer-events:none;transition:.25s}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast.ok{border-color:rgba(56,224,138,.5)}
+.toast.err{border-color:rgba(255,92,108,.5)}
+</style>
+</head>
+<body>
+
+<!-- ================= AUTH SCREEN ================= -->
+<section id="authScreen" class="screen">
+  <div class="brand">
+    <div class="logo">🎰</div>
+    <h1>SCRATCH <span>PRO</span></h1>
+    <p class="tag">Ungli se khiso — jeeto!</p>
+  </div>
+
+  <div class="glass panel">
+    <div class="tabs">
+      <button class="tab active" data-tab="login" type="button">Login</button>
+      <button class="tab" data-tab="register" type="button">Register</button>
+    </div>
+
+    <form id="loginForm" class="form">
+      <div class="field"><span class="ico">✉️</span>
+        <input id="loginEmail" type="email" placeholder="Email" autocomplete="email" required></div>
+      <div class="field"><span class="ico">🔒</span>
+        <input id="loginPass" type="password" placeholder="Password" autocomplete="current-password" required>
+        <button type="button" class="eye" data-eye="loginPass">👁️</button></div>
+      <div class="row">
+        <label class="chk"><input type="checkbox" id="remember" checked><span>Remember me</span></label>
+        <a class="link" id="forgotLink">Forgot password?</a>
+      </div>
+      <button class="btn primary" type="submit"><span>Login</span></button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+
+    <form id="registerForm" class="form hidden">
+      <div class="field"><span class="ico">👤</span>
+        <input id="regName" type="text" placeholder="Aapka naam" maxlength="20" required></div>
+      <div class="field"><span class="ico">✉️</span>
+        <input id="regEmail" type="email" placeholder="Email" autocomplete="email" required></div>
+      <div class="field"><span class="ico">🔒</span>
+        <input id="regPass" type="password" placeholder="Password (min 6)" autocomplete="new-password" required></div>
+      <div class="field"><span class="ico">🔐</span>
+        <input id="regPass2" type="password" placeholder="Confirm password" autocomplete="new-password" required></div>
+      <button class="btn primary" type="submit"><span>Create Account</span></button>
+      <div class="msg" id="regMsg"></div>
+    </form>
+
+    <form id="forgotForm" class="form hidden">
+      <p class="hint">Apna registered email daalein — reset link bhej denge.</p>
+      <div class="field"><span class="ico">✉️</span>
+        <input id="forgotEmail" type="email" placeholder="Email" required></div>
+      <button class="btn primary" type="submit"><span>Send Reset Link</span></button>
+      <button type="button" class="btn ghost" id="backToLogin">← Back to Login</button>
+      <div class="msg" id="forgotMsg"></div>
+    </form>
+  </div>
+
+  <div class="loader hidden" id="bootLoader"><div class="spin"></div><span>Session check ho raha hai…</span></div>
+</section>
+
+<!-- ================= APP SCREEN ================= -->
+<section id="appScreen" class="screen">
+  <header class="topbar">
+    <div class="who">
+      <div class="avatar" id="avatar">P</div>
+      <div>
+        <div class="uname" id="userName">Player</div>
+        <div class="uid" id="userMail">—</div>
+      </div>
+    </div>
+    <div class="topRight">
+      <div class="coinChip"><span>🪙</span><b id="coinVal">0</b></div>
+      <div class="menuWrap">
+        <button id="menuBtn" class="iconBtn" aria-label="menu" type="button">⋮</button>
+        <div id="menu" class="menu hidden">
+          <button data-act="profile" type="button">👤 Profile</button>
+          <button data-act="leaderboard" type="button">🏆 Leaderboard</button>
+          <button data-act="history" type="button">📜 My History</button>
+          <button data-act="daily" type="button">🎁 Daily Bonus</button>
+          <button data-act="sound" type="button">🔊 Sound: ON</button>
+          <div class="sep"></div>
+          <button data-act="admin" type="button">🛡️ Admin Panel <span class="admBadge">PRO</span></button>
+          <div class="sep"></div>
+          <button data-act="logout" class="danger" type="button">🚪 Logout</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div id="broadcastBox" class="broadcast hidden">
+    <span>📢</span>
+    <div class="txt" id="broadcastTxt"></div>
+    <button class="x" id="broadcastClose" type="button">✕</button>
+  </div>
+
+  <main class="wrap">
+    <div class="statsRow">
+      <div class="stat"><span>Total Won</span><b id="statWon">0</b></div>
+      <div class="stat"><span>Cards</span><b id="statCards">0</b></div>
+      <div class="stat"><span>Best Win</span><b id="statBest">0</b></div>
+    </div>
+
+    <div class="cardWrap">
+      <div class="card">
+        <div class="prizeLayer">
+          <div class="pLabel">Aapka Inaam</div>
+          <div class="pValue" id="prizeValue">?</div>
+          <div class="pSub" id="prizeSub">Card kharido aur scratch karo</div>
+        </div>
+        <canvas id="scratch"></canvas>
+      </div>
+    </div>
+
+    <div class="progWrap">
+      <div class="prog"><i id="progBar"></i></div>
+      <span id="progTxt">0%</span>
+    </div>
+
+    <div class="actions">
+      <button class="btn gold" id="buyBtn" type="button">🎫 Naya Card · 10 🪙</button>
+      <button class="btn primary" id="claimBtn" type="button" disabled>✅ Claim</button>
+    </div>
+
+    <button class="btn ghost" id="dailyBtn" type="button">🎁 Daily Bonus Claim karo</button>
+  </main>
+
+  <div class="sheetBack hidden" id="sheetBack">
+    <div class="sheet">
+      <div class="sheetHead">
+        <b id="sheetTitle">Title</b>
+        <button id="sheetClose" class="iconBtn" type="button">✕</button>
+      </div>
+      <div class="sheetBody" id="sheetBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+</section>
+
+<!-- ================= ADMIN PANEL ================= -->
+<div id="adminPanel" class="adminPanel hidden">
+  <div class="adminHead">
+    <h2>🛡️ Admin <span class="tagp">PANEL</span></h2>
+    <button id="adminClose" class="iconBtn" type="button">✕</button>
+  </div>
+  <div class="adminTabs" id="adminTabs">
+    <button class="atab active" data-atab="dash" type="button">📊 Dashboard</button>
+    <button class="atab" data-atab="users" type="button">👥 Users</button>
+    <button class="atab" data-atab="broadcast" type="button">📢 Broadcast</button>
+    <button class="atab" data-atab="config" type="button">⚙️ Config</button>
+    <button class="atab" data-atab="history" type="button">📜 All History</button>
+  </div>
+  <div class="adminBody" id="adminBody"></div>
+</div>
+
+<script>
+/* =========================================================
+   1. CONFIG
+   ========================================================= */
+const CFG = {
+  apiKey  : "AIzaSyAKuwq0GGhkoXCgHzHly1PHwbDpREahcK8",
+  dbUrl   : "https://hariom-scratch-gaming-app-default-rtdb.asia-southeast1.firebasedatabase.app",
+  authBase: "https://identitytoolkit.googleapis.com/v1/accounts:",
+  tokenUrl: "https://securetoken.googleapis.com/v1/token",
+  ADMIN_PW: "Hariom@123456"
+};
+
+const CARD_COST   = 10;
+const START_COINS = 100;
+const REVEAL_AT   = 55;
+const DAILY_AMOUNT = 25;
+const DAY_MS      = 24 * 60 * 60 * 1000;
+
+/* =========================================================
+   2. STATE
+   ========================================================= */
+const LS_KEY = 'scratchpro_session_v1';
+const LS_ANN = 'scratchpro_ann_dismissed';
+
+const S = {
+  idToken:null, refreshToken:null, uid:null, email:null, expiresAt:0,
+  profile:null, sound:true, card:null,
+  isAdmin:false, cfg:{ broadcast:'', multiplier:1 }
+};
+
+let cardState = 'idle';
+let adminTab  = 'dash';
+
+/* =========================================================
+   3. HELPERS
+   ========================================================= */
+const $  = (s, r=document) => r.querySelector(s);
+const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+
+let toastTimer;
+function toast(msg, kind=''){
+  const t = $('#toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + kind;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => { t.className = 'toast ' + kind; }, 2600);
+}
+function setMsg(el, text, kind=''){ el.textContent = text || ''; el.className = 'msg ' + kind; }
+const fmt = n => Number(n || 0).toLocaleString('en-IN');
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const initials = s => String(s || 'P').trim().charAt(0).toUpperCase();
+
+let actx = null;
+function beep(freq=600, dur=.07, type='sine', vol=.05){
+  if(!S.sound) return;
+  try{
+    actx = actx || new (window.AudioContext || window.webkitAudioContext)();
+    if(actx.state === 'suspended') actx.resume();
+    const o = actx.createOscillator(), g = actx.createGain();
+    o.type = type; o.frequency.value = freq;
+    g.gain.value = vol;
+    o.connect(g); g.connect(actx.destination);
+    o.start();
+    g.gain.exponentialRampToValueAtTime(0.0001, actx.currentTime + dur);
+    o.stop(actx.currentTime + dur);
+  }catch(e){}
+}
+
+/* =========================================================
+   4. SESSION
+   ========================================================= */
+function persist(){
+  localStorage.setItem(LS_KEY, JSON.stringify({
+    refreshToken:S.refreshToken, uid:S.uid, email:S.email, sound:S.sound
+  }));
+}
+function loadStored(){
+  try{
+    const d = JSON.parse(localStorage.getItem(LS_KEY) || 'null');
+    if(d){
+      S.refreshToken = d.refreshToken || null;
+      S.uid  = d.uid  || null;
+      S.email = d.email || null;
+      S.sound = d.sound !== false;
+    }
+  }catch(e){}
+}
+function clearStored(){ localStorage.removeItem(LS_KEY); }
+
+/* =========================================================
+   5. AUTH REST
+   ========================================================= */
+const ERR = {
+  EMAIL_EXISTS:'Ye email pehle se registered hai',
+  EMAIL_NOT_FOUND:'Ye email registered nahi hai',
+  INVALID_PASSWORD:'Password galat hai',
+  INVALID_LOGIN_CREDENTIALS:'Email ya password galat hai',
+  INVALID_EMAIL:'Email sahi nahi hai',
+  MISSING_PASSWORD:'Password daalein',
+  WEAK_PASSWORD:'Password kam se kam 6 characters ka hona chahiye',
+  TOO_MANY_ATTEMPTS_TRY_LATER:'Bahut zyada koshish — thodi der baad try karein',
+  USER_DISABLED:'Ye account band kar diya gaya hai',
+  INVALID_ID_TOKEN:'Session expire ho gaya, dobara login karein',
+  MISSING_EMAIL:'Email daalein'
+};
+
+async function authAPI(endpoint, body){
+  const res = await fetch(CFG.authBase + endpoint + '?key=' + CFG.apiKey, {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify(body)
+  });
+  const data = await res.json().catch(() => ({}));
+  if(!res.ok){
+    const code = (data && data.error && data.error.message) || 'UNKNOWN_ERROR';
+    const err = new Error(ERR[code] || code.replace(/_/g,' ').toLowerCase());
+    err.code = code;
+    throw err;
+  }
+  return data;
+}
+function useAuthResult(d){
+  S.idToken = d.idToken;
+  S.refreshToken = d.refreshToken;
+  S.uid = d.localId;
+  S.email = d.email;
+  S.expiresAt = Date.now() + (parseInt(d.expiresIn,10) || 3600) * 1000;
+  persist();
+}
+async function refreshSession(){
+  if(!S.refreshToken) throw new Error('NO_SESSION');
+  const res = await fetch(CFG.tokenUrl + '?key=' + CFG.apiKey, {
+    method:'POST', headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'grant_type=refresh_token&refresh_token=' + encodeURIComponent(S.refreshToken)
+  });
+  const d = await res.json().catch(() => ({}));
+  if(!res.ok) throw new Error('SESSION_EXPIRED');
+  S.idToken = d.id_token;
+  S.refreshToken = d.refresh_token;
+  S.uid = d.user_id;
+  S.expiresAt = Date.now() + (parseInt(d.expires_in,10) || 3600) * 1000;
+  persist();
+}
+async function ensureToken(){
+  if(!S.refreshToken) throw new Error('NO_SESSION');
+  if(!S.idToken || Date.now() > S.expiresAt - 60000) await refreshSession();
+  return S.idToken;
+}
+
+/* =========================================================
+   6. DB REST
+   ========================================================= */
+async function dbReq(method, path, body, retry=true){
+  await ensureToken();
+  const url = `${CFG.dbUrl}/${path}.json?auth=${encodeURIComponent(S.idToken)}`;
+  const res = await fetch(url, {
+    method,
+    headers: body !== undefined ? {'Content-Type':'application/json'} : undefined,
+    body: body !== undefined ? JSON.stringify(body) : undefined
+  });
+  if(!res.ok){
+    if(res.status === 401 && retry){ S.idToken = null; await refreshSession(); return dbReq(method, path, body, false); }
+    throw new Error('DB_' + res.status);
+  }
+  return res.status === 204 ? null : res.json().catch(() => null);
+}
+const dbGet   = p     => dbReq('GET',   p);
+const dbSet   = (p,d) => dbReq('PUT',   p, d);
+const dbPatch = (p,d) => dbReq('PATCH', p, d);
+const dbPush  = (p,d) => dbReq('POST',  p, d);
+
+/* =========================================================
+   7. PROFILE
+   ========================================================= */
+async function loadProfile(){
+  const uid = S.uid;
+  let p = await dbGet('users/' + uid);
+  if(!p){
+    p = {
+      name: S.email ? S.email.split('@')[0] : 'Player',
+      email: S.email || '',
+      coins: START_COINS,
+      totalWon: 0, cardsPlayed: 0, best: 0,
+      banned: false, lastBonus: 0,
+      createdAt: Date.now()
+    };
+    await dbSet('users/' + uid, p);
+    await dbPatch('leaderboard/' + uid, { name:p.name, totalWon:0, updatedAt:Date.now() });
+  }
+  p.coins       = p.coins       || 0;
+  p.totalWon    = p.totalWon    || 0;
+  p.cardsPlayed = p.cardsPlayed || 0;
+  p.best        = p.best        || 0;
+  p.name        = p.name        || 'Player';
+  p.banned      = !!p.banned;
+
+  if(p.banned){
+    clearStored();
+    S.idToken = S.refreshToken = null;
+    toast('Account banned hai. Admin se contact karein.', 'err');
+    setTimeout(() => location.reload(), 2200);
+    return;
+  }
+
+  S.profile = p;
+  renderProfile();
+  renderDailyBtn();
+}
+
+function renderProfile(){
+  const p = S.profile || {};
+  $('#userName').textContent  = p.name || 'Player';
+  $('#userMail').textContent  = p.email || S.email || '—';
+  $('#avatar').textContent    = initials(p.name);
+  $('#coinVal').textContent   = fmt(p.coins);
+  $('#statWon').textContent   = fmt(p.totalWon);
+  $('#statCards').textContent = fmt(p.cardsPlayed);
+  $('#statBest').textContent  = fmt(p.best);
+}
+
+/* =========================================================
+   8. DAILY BONUS
+   ========================================================= */
+function dailyReady(){
+  const p = S.profile;
+  if(!p) return false;
+  return (Date.now() - (p.lastBonus || 0)) >= DAY_MS;
+}
+function renderDailyBtn(){
+  const btn = $('#dailyBtn');
+  if(!btn) return;
+  if(!S.profile) return;
+  if(dailyReady()){
+    btn.disabled = false;
+    btn.textContent = `🎁 Daily Bonus +${DAILY_AMOUNT} 🪙`;
+    btn.style.opacity = '1';
+  }else{
+    btn.disabled = true;
+    const left = DAY_MS - (Date.now() - (S.profile.lastBonus || 0));
+    const h = Math.floor(left / 3600000);
+    const m = Math.floor((left % 3600000) / 60000);
+    btn.textContent = `⏳ Bonus ready in ${h}h ${m}m`;
+    btn.style.opacity = '.55';
+  }
+}
+async function claimDaily(){
+  if(!dailyReady()) return toast('Kal aana! ⏳', 'err');
+  const p = S.profile;
+  p.coins += DAILY_AMOUNT;
+  p.lastBonus = Date.now();
+  renderProfile(); renderDailyBtn();
+  beep(880, .1, 'triangle');
+  toast(`Daily bonus +${DAILY_AMOUNT} 🪙`, 'ok');
+  try{
+    await dbPatch('users/' + S.uid, { coins:p.coins, lastBonus:p.lastBonus });
+  }catch(e){ toast('Sync fail', 'err'); }
+}
+
+/* =========================================================
+   9. BROADCAST
+   ========================================================= */
+async function loadConfig(){
+  try{
+    const cfg = await dbGet('admin/config');
+    if(cfg){
+      S.cfg.broadcast = cfg.broadcast || '';
+      S.cfg.multiplier = Number(cfg.multiplier) || 1;
+    }
+  }catch(e){}
+  renderBroadcast();
+}
+function renderBroadcast(){
+  const box = $('#broadcastBox');
+  const msg = S.cfg.broadcast || '';
+  const dismissed = localStorage.getItem(LS_ANN) || '';
+  if(!msg || dismissed === msg){ box.classList.add('hidden'); return; }
+  $('#broadcastTxt').textContent = msg;
+  box.classList.remove('hidden');
+}
+$('#broadcastClose').addEventListener('click', () => {
+  localStorage.setItem(LS_ANN, S.cfg.broadcast || '');
+  $('#broadcastBox').classList.add('hidden');
+});
+
+/* =========================================================
+   10. SCRATCH ENGINE
+   ========================================================= */
+const cv  = $('#scratch');
+const ctx = cv.getContext('2d', { willReadFrequently:true });
+const CW = 640, CH = 376;
+cv.width = CW; cv.height = CH;
+const SCRATCH_R = 42;
+let drawing = false, lastPt = null, checkTimer = null;
+
+const PRIZES = [
+  { v:0,   w:34,   label:'₹0',            sub:'Better luck next time 😕' },
+  { v:5,   w:26,   label:'+5',            sub:'Coins mile! 🪙' },
+  { v:10,  w:18,   label:'+10',           sub:'Shabaash! 🎉' },
+  { v:25,  w:12,   label:'+25',           sub:'Mast! 🔥' },
+  { v:50,  w:7,    label:'+50',           sub:'Zabardast! 🔥🔥' },
+  { v:100, w:2.5,  label:'+100',          sub:'Wow! 💎' },
+  { v:500, w:0.5,  label:'JACKPOT +500',  sub:'MEGA WIN 🏆' }
+];
+function pickPrize(){
+  const total = PRIZES.reduce((a,p) => a + p.w, 0);
+  let r = Math.random() * total;
+  for(const p of PRIZES){ if((r -= p.w) <= 0) return p; }
+  return PRIZES[0];
+}
+
+function paintFoil(){
+  ctx.globalCompositeOperation = 'source-over';
+  ctx.globalAlpha = 1;
+  ctx.clearRect(0, 0, CW, CH);
+  const g = ctx.createLinearGradient(0, 0, CW, CH);
+  g.addColorStop(0,'#8f96a3'); g.addColorStop(.14,'#eef1f6'); g.addColorStop(.30,'#a4abb8');
+  g.addColorStop(.46,'#f8fafc'); g.addColorStop(.62,'#9aa1ae'); g.addColorStop(.80,'#e7ebf1'); g.addColorStop(1,'#7f8794');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+  ctx.globalAlpha = .07;
+  for(let i = 0; i < 300; i++){
+    ctx.strokeStyle = (i % 2) ? '#ffffff' : '#000000';
+    ctx.lineWidth = 1;
+    const y = Math.random() * CH;
+    ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(CW, y + (Math.random() * 4 - 2)); ctx.stroke();
+  }
+  ctx.globalAlpha = .13;
+  for(let i = 0; i < 2200; i++){
+    ctx.fillStyle = Math.random() > .5 ? '#ffffff' : '#4a5160';
+    ctx.fillRect(Math.random() * CW, Math.random() * CH, 1.5, 1.5);
+  }
+  ctx.globalAlpha = 1;
+  const sh = ctx.createLinearGradient(0, 0, CW * .75, CH);
+  sh.addColorStop(0,'rgba(255,255,255,0)'); sh.addColorStop(.40,'rgba(255,255,255,.45)');
+  sh.addColorStop(.50,'rgba(255,255,255,.80)'); sh.addColorStop(.60,'rgba(255,255,255,.45)');
+  sh.addColorStop(1,'rgba(255,255,255,0)');
+  ctx.fillStyle = sh; ctx.fillRect(0, 0, CW, CH);
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = 'rgba(255,255,255,.55)';
+  ctx.font = '800 36px -apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('SCRATCH HERE', CW / 2, CH / 2 - 14);
+  ctx.fillStyle = 'rgba(45,52,68,.55)';
+  ctx.fillText('SCRATCH HERE', CW / 2, CH / 2 - 12);
+  ctx.fillStyle = 'rgba(45,52,68,.45)';
+  ctx.font = '600 19px -apple-system,"Segoe UI",Roboto,sans-serif';
+  ctx.fillText('ungli se khiso', CW / 2, CH / 2 + 26);
+}
+
+function toCanvas(e){
+  const r = cv.getBoundingClientRect();
+  return { x:(e.clientX - r.left) * (CW / r.width), y:(e.clientY - r.top) * (CH / r.height) };
+}
+function scratchAt(pt){
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.beginPath(); ctx.arc(pt.x, pt.y, SCRATCH_R, 0, Math.PI * 2); ctx.fill();
+}
+function scratchLine(a, b){
+  ctx.globalCompositeOperation = 'destination-out';
+  ctx.lineWidth = SCRATCH_R * 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
+}
+cv.addEventListener('pointerdown', e => {
+  if(cardState !== 'active') return;
+  e.preventDefault();
+  try{ cv.setPointerCapture(e.pointerId); }catch(_){}
+  drawing = true; lastPt = toCanvas(e); scratchAt(lastPt); scheduleCheck();
+});
+cv.addEventListener('pointermove', e => {
+  if(!drawing) return;
+  e.preventDefault();
+  const pt = toCanvas(e); scratchLine(lastPt, pt); lastPt = pt;
+  if(navigator.vibrate) navigator.vibrate(4);
+  scheduleCheck();
+});
+['pointerup','pointercancel','pointerleave'].forEach(ev => cv.addEventListener(ev, () => {
+  if(!drawing) return;
+  drawing = false; lastPt = null; scheduleCheck();
+}));
+function scheduleCheck(){
+  if(checkTimer) return;
+  checkTimer = setTimeout(() => { checkTimer = null; computeProgress(); }, 150);
+}
+function computeProgress(){
+  if(cardState !== 'active') return;
+  let data;
+  try{ data = ctx.getImageData(0, 0, CW, CH).data; }catch(e){ return; }
+  let clear = 0, total = 0;
+  for(let i = 3; i < data.length; i += 4 * 16){ total++; if(data[i] < 40) clear++; }
+  const pct = Math.round((clear / total) * 100);
+  updateProg(pct);
+  if(pct >= REVEAL_AT) revealCard();
+}
+function updateProg(pct){
+  $('#progBar').style.width = Math.min(100, pct) + '%';
+  $('#progTxt').textContent = pct + '%';
+}
+
+/* =========================================================
+   11. GAME FLOW
+   ========================================================= */
+async function buyCard(){
+  if(cardState === 'active')   return toast('Pehle ye card scratch karo 👆', 'err');
+  if(cardState === 'revealed') return toast('Pehle prize claim karo ✅', 'err');
+  const p = S.profile;
+  if(!p) return;
+  if((p.coins || 0) < CARD_COST) return toast('Coins kam hain! 🪙', 'err');
+
+  cardState = 'active';
+  const prize = pickPrize();
+  S.card = { prize, revealed:false, claimed:false };
+
+  p.coins -= CARD_COST;
+  p.cardsPlayed = (p.cardsPlayed || 0) + 1;
+  renderProfile();
+
+  cv.classList.remove('gone');
+  paintFoil();
+  updateProg(0);
+  $('#prizeValue').textContent = '?';
+  $('#prizeSub').textContent = 'Ungli se khiso! 👆';
+  $('#claimBtn').disabled = true;
+  beep(680, .07, 'triangle');
+
+  try{ await dbPatch('users/' + S.uid, { coins:p.coins, cardsPlayed:p.cardsPlayed }); }
+  catch(e){ toast('Sync fail', 'err'); }
+}
+
+function revealCard(){
+  if(cardState !== 'active') return;
+  cardState = 'revealed';
+  S.card.revealed = true;
+  const prize = S.card.prize;
+  cv.classList.add('gone');
+  updateProg(100);
+  $('#prizeValue').textContent = prize.label;
+  $('#prizeSub').textContent = prize.sub;
+
+  if(prize.v <= 0){
+    $('#claimBtn').disabled = true;
+    cardState = 'idle';
+    toast('Is baar kuch nahi mila 😕', 'err');
+  }else{
+    $('#claimBtn').disabled = false;
+    beep(880, .11, 'square');
+    setTimeout(() => beep(1320, .16, 'square'), 90);
+    if(navigator.vibrate) navigator.vibrate([20, 40, 30]);
+    toast('Aapne jeeta ' + prize.label + '! 🎉', 'ok');
+  }
+}
+
+async function claimPrize(){
+  if(cardState !== 'revealed' || !S.card || S.card.claimed) return;
+  const prize = S.card.prize;
+  if(prize.v <= 0) return;
+  S.card.claimed = true;
+  cardState = 'idle';
+
+  const p = S.profile;
+  p.coins    = (p.coins    || 0) + prize.v;
+  p.totalWon = (p.totalWon || 0) + prize.v;
+  p.best     = Math.max(p.best || 0, prize.v);
+  renderProfile();
+  $('#claimBtn').disabled = true;
+  $('#prizeSub').textContent = 'Claimed ✅';
+
+  try{
+    await dbPatch('users/' + S.uid, { coins:p.coins, totalWon:p.totalWon, best:p.best });
+    await dbPush('users/' + S.uid + '/history', { prize:prize.v, label:prize.label, at:Date.now() });
+    await dbPatch('leaderboard/' + S.uid, { name:p.name, totalWon:p.totalWon, updatedAt:Date.now() });
+  }catch(e){ toast('Sync fail', 'err'); }
+
+  toast('+' + prize.v + ' coins add ho gaye 🪙', 'ok');
+  beep(1046, .1, 'sine');
+  S.card = null;
+}
+
+/* =========================================================
+   12. BOTTOM SHEET VIEWS
+   ========================================================= */
+function openSheet(title, html){
+  $('#sheetTitle').textContent = title;
+  $('#sheetBody').innerHTML = html;
+  $('#sheetBack').classList.remove('hidden');
+}
+function closeSheet(){ $('#sheetBack').classList.add('hidden'); }
+$('#sheetClose').addEventListener('click', closeSheet);
+$('#sheetBack').addEventListener('click', e => { if(e.target.id === 'sheetBack') closeSheet(); });
+
+function openProfile(){
+  const p = S.profile || {};
+  openSheet('👤 Profile', `
+    <div class="lbRow"><div class="lbRank">👤</div><div class="lbName">${esc(p.name)}</div></div>
+    <div class="lbRow"><div class="lbRank">✉️</div><div class="lbName" style="font-size:12.5px">${esc(p.email || S.email)}</div></div>
+    <div class="lbRow"><div class="lbRank">🪙</div><div class="lbName">Balance</div><div class="lbVal">${fmt(p.coins)}</div></div>
+    <div class="lbRow"><div class="lbRank">🏆</div><div class="lbName">Total Won</div><div class="lbVal">${fmt(p.totalWon)}</div></div>
+    <div class="lbRow"><div class="lbRank">🎫</div><div class="lbName">Cards Played</div><div class="lbVal">${fmt(p.cardsPlayed)}</div></div>
+    <div class="lbRow"><div class="lbRank">⭐</div><div class="lbName">Best Win</div><div class="lbVal">${fmt(p.best)}</div></div>
+    <div class="lbRow"><div class="lbRank">🆔</div><div class="lbName" style="font-size:11px;color:#8b93a7">${esc(S.uid)}</div></div>
+  `);
+}
+async function openLeaderboard(){
+  openSheet('🏆 Leaderboard', '<p class="hint">Loading…</p>');
+  try{
+    const data = await dbGet('leaderboard') || {};
+    const rows = Object.entries(data).map(([uid,v]) => ({uid, ...(v||{})}))
+      .sort((a,b) => (b.totalWon||0) - (a.totalWon||0)).slice(0, 50);
+    if(!rows.length){ $('#sheetBody').innerHTML = '<p class="hint">Abhi koi player nahi hai.</p>'; return; }
+    $('#sheetBody').innerHTML = rows.map((r,i) => `
+      <div class="lbRow ${r.uid === S.uid ? 'me' : ''}">
+        <div class="lbRank">${i+1}</div>
+        <div class="lbName">${esc(r.name||'Player')}${r.uid === S.uid ? ' <span style="color:#8b93a7;font-size:11px">(you)</span>' : ''}</div>
+        <div class="lbVal">${fmt(r.totalWon)} 🪙</div>
+      </div>`).join('');
+  }catch(e){ $('#sheetBody').innerHTML = '<p class="hint">Leaderboard load nahi hua.</p>'; }
+}
+async function openHistory(){
+  openSheet('📜 My History', '<p class="hint">Loading…</p>');
+  try{
+    const data = await dbGet('users/' + S.uid + '/history') || {};
+    const rows = Object.values(data).sort((a,b) => (b.at||0) - (a.at||0)).slice(0, 40);
+    if(!rows.length){ $('#sheetBody').innerHTML = '<p class="hint">Abhi tak koi card nahi khela.</p>'; return; }
+    $('#sheetBody').innerHTML = rows.map(r => `
+      <div class="lbRow">
+        <div class="lbRank">${r.prize > 0 ? '🎁' : '—'}</div>
+        <div class="lbName">${esc(r.label || ('+'+r.prize))}
+          <div style="font-size:11px;color:#8b93a7;font-weight:400">${new Date(r.at).toLocaleString()}</div>
+        </div>
+        <div class="lbVal" style="${r.prize > 0 ? '' : 'color:#8b93a7'}">${r.prize > 0 ? '+' + fmt(r.prize) : '0'}</div>
+      </div>`).join('');
+  }catch(e){ $('#sheetBody').innerHTML = '<p class="hint">History load nahi hui.</p>'; }
+}
+
+/* =========================================================
+   13. THREE-DOT MENU
+   ========================================================= */
+const menuEl = $('#menu');
+$('#menuBtn').addEventListener('click', e => { e.stopPropagation(); menuEl.classList.toggle('hidden'); });
+document.addEventListener('click', () => menuEl.classList.add('hidden'));
+
+menuEl.addEventListener('click', e => {
+  const b = e.target.closest('button[data-act]');
+  if(!b) return;
+  const act = b.dataset.act;
+  menuEl.classList.add('hidden');
+
+  if(act === 'profile')     openProfile();
+  if(act === 'leaderboard') openLeaderboard();
+  if(act === 'history')     openHistory();
+  if(act === 'daily')       claimDaily();
+  if(act === 'sound'){ S.sound = !S.sound; persist(); applySound(); toast(S.sound ? 'Sound ON 🔊' : 'Sound OFF 🔇'); }
+  if(act === 'admin')       askAdminPassword();
+  if(act === 'logout')      logout();
+});
+function applySound(){
+  const b = document.querySelector('#menu button[data-act="sound"]');
+  if(b) b.textContent = S.sound ? '🔊 Sound: ON' : '🔇 Sound: OFF';
+}
+function logout(){
+  clearStored();
+  S.idToken = S.refreshToken = S.uid = S.email = S.profile = S.card = null;
+  location.reload();
+}
+
+/* =========================================================
+   14. ADMIN PANEL
+   ========================================================= */
+function askAdminPassword(){
+  openSheet('🛡️ Admin Access', `
+    <p class="hint" style="margin-bottom:14px">Enter admin password to continue</p>
+    <label class="aLabel">Password</label>
+    <input id="adminPw" class="aInput" type="password" placeholder="••••••••" autocomplete="off">
+    <div class="aBtns" style="margin-top:14px">
+      <button class="btn primary" id="adminPwGo" type="button">Unlock</button>
+    </div>
+    <div class="msg" id="adminPwMsg" style="margin-top:8px"></div>
+  `);
+  setTimeout(() => $('#adminPw')?.focus(), 100);
+
+  const go = async () => {
+    const pw = $('#adminPw').value;
+    if(pw !== CFG.ADMIN_PW){
+      setMsg($('#adminPwMsg'), 'Galat password ❌', 'err');
+      beep(220, .12, 'square');
+      return;
+    }
+    S.isAdmin = true;
+    closeSheet();
+    openAdmin();
+    toast('Admin access granted ✅', 'ok');
+  };
+  $('#adminPwGo').addEventListener('click', go);
+  $('#adminPw').addEventListener('keydown', e => { if(e.key === 'Enter') go(); });
+}
+
+function openAdmin(){
+  $('#adminPanel').classList.remove('hidden');
+  adminTab = 'dash';
+  $$('#adminTabs .atab').forEach(t => t.classList.toggle('active', t.dataset.atab === 'dash'));
+  renderAdmin();
+}
+$('#adminClose').addEventListener('click', () => {
+  $('#adminPanel').classList.add('hidden');
+});
+$('#adminTabs').addEventListener('click', e => {
+  const t = e.target.closest('.atab');
+  if(!t) return;
+  adminTab = t.dataset.atab;
+  $$('#adminTabs .atab').forEach(x => x.classList.toggle('active', x === t));
+  renderAdmin();
+});
+
+async function renderAdmin(){
+  const body = $('#adminBody');
+  body.innerHTML = '<div class="loader"><div class="spin"></div><span>Loading…</span></div>';
+
+  try{
+    if(adminTab === 'dash')       return renderAdminDash(body);
+    if(adminTab === 'users')      return renderAdminUsers(body);
+    if(adminTab === 'broadcast')  return renderAdminBroadcast(body);
+    if(adminTab === 'config')     return renderAdminConfig(body);
+    if(adminTab === 'history')    return renderAdminHistory(body);
+  }catch(e){
+    body.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`;
+  }
+}
+
+/* ------- Dashboard ------- */
+async function renderAdminDash(body){
+  const users = await dbGet('users') || {};
+  const list = Object.values(users);
+  const totalUsers    = list.length;
+  const totalCoins    = list.reduce((a,u) => a + (u.coins||0), 0);
+  const totalWon      = list.reduce((a,u) => a + (u.totalWon||0), 0);
+  const totalCards    = list.reduce((a,u) => a + (u.cardsPlayed||0), 0);
+  const banned        = list.filter(u => u.banned).length;
+  const activeToday   = list.filter(u => (Date.now() - (u.createdAt||0)) < DAY_MS).length;
+
+  body.innerHTML = `
+    <div class="secTitle">Global Stats</div>
+    <div class="aGrid">
+      <div class="aStat"><span>Total Users</span><b>${fmt(totalUsers)}</b></div>
+      <div class="aStat"><span>Coins in App</span><b>${fmt(totalCoins)}</b></div>
+      <div class="aStat"><span>Total Won</span><b>${fmt(totalWon)}</b></div>
+      <div class="aStat"><span>Cards Played</span><b>${fmt(totalCards)}</b></div>
+      <div class="aStat"><span>Banned</span><b>${fmt(banned)}</b></div>
+      <div class="aStat"><span>New (24h)</span><b>${fmt(activeToday)}</b></div>
+      <div class="aStat"><span>Prize Multi</span><b>${S.cfg.multiplier}x</b></div>
+      <div class="aStat"><span>Broadcast</span><b>${S.cfg.broadcast ? 'ON' : '—'}</b></div>
+    </div>
+    <div class="secTitle">Quick Actions</div>
+    <div class="aBtns">
+      <button class="btn primary sm" id="dashRefresh" type="button" style="height:44px;font-size:13.5px">🔄 Refresh</button>
+      <button class="btn ok sm" type="button" style="height:44px;font-size:13.5px" onclick="document.querySelector('.atab[data-atab=\\'users\\']').click()">👥 Manage Users</button>
+      <button class="btn gold sm" type="button" style="height:44px;font-size:13.5px" onclick="document.querySelector('.atab[data-atab=\\'broadcast\\']').click()">📢 Broadcast</button>
+    </div>
+  `;
+  $('#dashRefresh').addEventListener('click', renderAdmin);
+}
+
+/* ------- Users ------- */
+let adminUserSearch = '';
+async function renderAdminUsers(body){
+  const users = await dbGet('users') || {};
+  const rows = Object.entries(users).map(([uid,u]) => ({uid, ...u}))
+    .filter(u => {
+      if(!adminUserSearch) return true;
+      const q = adminUserSearch.toLowerCase();
+      return (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) || u.uid.includes(q);
+    })
+    .sort((a,b) => (b.createdAt||0) - (a.createdAt||0));
+
+  body.innerHTML = `
+    <div class="secTitle">Users (${rows.length})</div>
+    <input id="adminUserSearch" class="aInput" type="text" placeholder="🔍 Search by name, email or ID…" value="${esc(adminUserSearch)}">
+    <div style="margin-top:12px" id="adminUserList"></div>
+  `;
+  $('#adminUserSearch').addEventListener('input', e => {
+    adminUserSearch = e.target.value;
+    renderAdminUsers(body);
+  });
+  setTimeout(() => $('#adminUserSearch')?.focus(), 50);
+
+  const list = $('#adminUserList');
+  if(!rows.length){
+    list.innerHTML = '<div class="empty">Koi user nahi mila.</div>';
+    return;
+  }
+  list.innerHTML = rows.map(u => `
+    <div class="userRow ${u.banned ? 'banned' : ''}" data-uid="${u.uid}">
+      <div class="avmini">${initials(u.name)}</div>
+      <div class="info">
+        <b>${esc(u.name || 'Player')} ${u.banned ? '🚫' : ''}</b>
+        <span>${esc(u.email || '—')}</span>
+      </div>
+      <div class="c">${fmt(u.coins)} 🪙</div>
+    </div>
+  `).join('');
+
+  list.querySelectorAll('.userRow').forEach(el => {
+    el.addEventListener('click', () => openUserActions(el.dataset.uid, rows.find(r => r.uid === el.dataset.uid)));
+  });
+}
+
+function openUserActions(uid, u){
+  if(!u) return;
+  openSheet('👤 ' + esc(u.name || 'User'), `
+    <div class="lbRow"><div class="lbRank">🆔</div><div class="lbName" style="font-size:11px;color:#8b93a7">${esc(uid)}</div></div>
+    <div class="lbRow"><div class="lbRank">✉️</div><div class="lbName" style="font-size:12.5px">${esc(u.email || '—')}</div></div>
+    <div class="lbRow"><div class="lbRank">🪙</div><div class="lbName">Balance</div><div class="lbVal">${fmt(u.coins)}</div></div>
+    <div class="lbRow"><div class="lbRank">🏆</div><div class="lbName">Total Won</div><div class="lbVal">${fmt(u.totalWon)}</div></div>
+    <div class="lbRow"><div class="lbRank">🎫</div><div class="lbName">Cards Played</div><div class="lbVal">${fmt(u.cardsPlayed)}</div></div>
+    <div class="lbRow"><div class="lbRank">${u.banned ? '🚫' : '✅'}</div><div class="lbName">Status</div><div class="lbVal">${u.banned ? 'BANNED' : 'ACTIVE'}</div></div>
+
+    <div class="secTitle">Add Coins</div>
+    <input id="addCoinAmt" class="aInput" type="number" placeholder="Amount (e.g. 100)" inputmode="numeric">
+    <div class="aBtns">
+      <button class="btn ok" id="addCoinsBtn" type="button">➕ Add</button>
+      <button class="btn danger" id="subCoinsBtn" type="button">➖ Remove</button>
+    </div>
+
+    <div class="secTitle">Danger Zone</div>
+    <div class="aBtns">
+      <button class="btn ${u.banned ? 'ok' : 'danger'}" id="banBtn" type="button">${u.banned ? '✅ Unban' : '🚫 Ban'}</button>
+      <button class="btn danger" id="resetBtn" type="button">🔄 Reset Stats</button>
+    </div>
+  `);
+
+  $('#addCoinsBtn').addEventListener('click', async () => {
+    const amt = Math.max(0, parseInt($('#addCoinAmt').value, 10) || 0);
+    if(!amt) return toast('Amount daalein', 'err');
+    const newBal = (u.coins || 0) + amt;
+    await dbPatch('users/' + uid, { coins:newBal });
+    toast(`+${amt} coins added ✅`, 'ok'); closeSheet(); renderAdmin();
+    if(uid === S.uid){ S.profile.coins = newBal; renderProfile(); }
+  });
+  $('#subCoinsBtn').addEventListener('click', async () => {
+    const amt = Math.max(0, parseInt($('#addCoinAmt').value, 10) || 0);
+    if(!amt) return toast('Amount daalein', 'err');
+    const newBal = Math.max(0, (u.coins || 0) - amt);
+    await dbPatch('users/' + uid, { coins:newBal });
+    toast(`-${amt} coins removed ✅`, 'ok'); closeSheet(); renderAdmin();
+    if(uid === S.uid){ S.profile.coins = newBal; renderProfile(); }
+  });
+  $('#banBtn').addEventListener('click', async () => {
+    await dbPatch('users/' + uid, { banned: !u.banned });
+    toast(u.banned ? 'User unbanned ✅' : 'User banned 🚫', 'ok');
+    closeSheet(); renderAdmin();
+  });
+  $('#resetBtn').addEventListener('click', async () => {
+    if(!confirm('Reset user stats? (coins, won, cards)')) return;
+    await dbPatch('users/' + uid, { coins: START_COINS, totalWon:0, cardsPlayed:0, best:0 });
+    await dbPatch('leaderboard/' + uid, { totalWon:0, updatedAt:Date.now() });
+    toast('User reset ✅', 'ok'); closeSheet(); renderAdmin();
+  });
+}
+
+/* ------- Broadcast ------- */
+async function renderAdminBroadcast(body){
+  body.innerHTML = `
+    <div class="secTitle">📢 Broadcast Message</div>
+    <p class="hint" style="text-align:left;margin-bottom:10px">
+      Ye message sabhi users ko unke home screen par dikhega.
+    </p>
+    <label class="aLabel">Message (max 200 chars)</label>
+    <textarea id="bcText" class="aInput" maxlength="200" placeholder="e.g. Aaj raat 9 baje double coins! 🎉">${esc(S.cfg.broadcast || '')}</textarea>
+    <div class="aBtns">
+      <button class="btn primary" id="bcSave" type="button">📢 Publish</button>
+      <button class="btn danger" id="bcClear" type="button">🗑️ Clear</button>
+    </div>
+    <div class="msg" id="bcMsg" style="margin-top:8px"></div>
+  `;
+  $('#bcSave').addEventListener('click', async () => {
+    const msg = $('#bcText').value.trim();
+    if(!msg) return setMsg($('#bcMsg'), 'Message khali hai', 'err');
+    await dbPatch('admin/config', { broadcast: msg, updatedAt: Date.now() });
+    S.cfg.broadcast = msg;
+    localStorage.removeItem(LS_ANN);
+    renderBroadcast();
+    setMsg($('#bcMsg'), 'Broadcast published ✅', 'ok');
+    toast('Broadcast live 🎉', 'ok');
+  });
+  $('#bcClear').addEventListener('click', async () => {
+    await dbPatch('admin/config', { broadcast: '', updatedAt: Date.now() });
+    S.cfg.broadcast = '';
+    renderBroadcast();
+    $('#bcText').value = '';
+    setMsg($('#bcMsg'), 'Broadcast cleared', 'ok');
+  });
+}
+
+/* ------- Config ------- */
+async function renderAdminConfig(body){
+  body.innerHTML = `
+    <div class="secTitle">⚙️ Game Config</div>
+    <label class="aLabel">Prize Multiplier (1.0 = normal, 2.0 = double chance weighted)</label>
+    <input id="mulInput" class="aInput" type="number" step="0.1" min="0.5" max="5" value="${S.cfg.multiplier || 1}">
+    <div class="aBtns">
+      <button class="btn primary" id="mulSave" type="button">💾 Save</button>
+    </div>
+    <div class="msg" id="cfgMsg" style="margin-top:8px"></div>
+
+    <div class="secTitle">🧹 Maintenance</div>
+    <div class="aBtns">
+      <button class="btn danger" id="lbReset" type="button">🔄 Reset Leaderboard</button>
+      <button class="btn danger" id="allReset" type="button">⚠️ Reset All User Stats</button>
+    </div>
+    <p class="hint" style="text-align:left;margin-top:12px;font-size:11.5px">
+      <b style="color:#ff5c6c">Warning:</b> Ye actions undo nahi ho sakte.
+    </p>
+  `;
+  $('#mulSave').addEventListener('click', async () => {
+    const v = Math.max(0.5, Math.min(5, parseFloat($('#mulInput').value) || 1));
+    await dbPatch('admin/config', { multiplier: v, updatedAt: Date.now() });
+    S.cfg.multiplier = v;
+    setMsg($('#cfgMsg'), `Multiplier = ${v}x ✅`, 'ok');
+  });
+  $('#lbReset').addEventListener('click', async () => {
+    if(!confirm('Reset entire leaderboard? Ye undo nahi hoga.')) return;
+    const users = await dbGet('users') || {};
+    const patch = {};
+    Object.entries(users).forEach(([uid,u]) => {
+      patch[uid] = { name: u.name || 'Player', totalWon: 0, updatedAt: Date.now() };
+    });
+    await dbSet('leaderboard', patch);
+    toast('Leaderboard reset ✅', 'ok');
+  });
+  $('#allReset').addEventListener('click', async () => {
+    if(!confirm('SABHI users ke stats reset karne hain? Ye undo nahi hoga.')) return;
+    const users = await dbGet('users') || {};
+    for(const uid of Object.keys(users)){
+      await dbPatch('users/' + uid, { coins: START_COINS, totalWon:0, cardsPlayed:0, best:0 });
+    }
+    await dbSet('leaderboard', Object.fromEntries(
+      Object.entries(users).map(([uid,u]) => [uid, { name:u.name||'Player', totalWon:0, updatedAt:Date.now() }])
+    ));
+    toast('All users reset ✅', 'ok');
+  });
+}
+
+/* ------- All History ------- */
+async function renderAdminHistory(body){
+  const users = await dbGet('users') || {};
+  const all = [];
+  Object.entries(users).forEach(([uid, u]) => {
+    if(u.history){
+      Object.values(u.history).forEach(h => all.push({ ...h, uid, name: u.name || 'Player' }));
+    }
+  });
+  all.sort((a,b) => (b.at||0) - (a.at||0));
+  const recent = all.slice(0, 80);
+
+  if(!recent.length){
+    body.innerHTML = '<div class="empty">Koi history nahi hai abhi.</div>';
+    return;
+  }
+  const totalPayout = recent.reduce((a,r) => a + (r.prize||0), 0);
+  body.innerHTML = `
+    <div class="secTitle">Recent Activity (last ${recent.length})</div>
+    <div class="card2" style="text-align:center">
+      <div style="font-size:11px;color:#8b93a7;letter-spacing:1px">TOTAL PAYOUT</div>
+      <div style="font-size:26px;font-weight:900;color:#ffd35c;margin-top:4px">${fmt(totalPayout)} 🪙</div>
+    </div>
+    ${recent.map(r => `
+      <div class="lbRow">
+        <div class="lbRank">${r.prize > 0 ? '🎁' : '—'}</div>
+        <div class="lbName" style="font-size:12.5px">
+          ${esc(r.name)}
+          <div style="font-size:11px;color:#8b93a7;font-weight:400">${esc(r.label || ('+'+r.prize))} · ${new Date(r.at).toLocaleString()}</div>
+        </div>
+        <div class="lbVal" style="${r.prize > 0 ? '' : 'color:#8b93a7'}">${r.prize > 0 ? '+' + fmt(r.prize) : '0'}</div>
+      </div>`).join('')}
+  `;
+}
+
+/* =========================================================
+   15. AUTH UI WIRING
+   ========================================================= */
+const tabs = $$('.tab');
+tabs.forEach(t => t.addEventListener('click', () => {
+  tabs.forEach(x => x.classList.remove('active'));
+  t.classList.add('active');
+  const tab = t.dataset.tab;
+  $('#loginForm').classList.toggle('hidden',    tab !== 'login');
+  $('#registerForm').classList.toggle('hidden', tab !== 'register');
+  $('#forgotForm').classList.add('hidden');
+}));
+
+$('#forgotLink').addEventListener('click', () => {
+  $('#loginForm').classList.add('hidden');
+  $('#registerForm').classList.add('hidden');
+  $('#forgotForm').classList.remove('hidden');
+  const e = $('#loginEmail').value.trim();
+  if(e) $('#forgotEmail').value = e;
+});
+$('#backToLogin').addEventListener('click', () => {
+  $('#forgotForm').classList.add('hidden');
+  $('#loginForm').classList.remove('hidden');
+  tabs.forEach(x => x.classList.toggle('active', x.dataset.tab === 'login'));
+});
+$$('.eye').forEach(btn => btn.addEventListener('click', () => {
+  const inp = document.getElementById(btn.dataset.eye);
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+}));
+
+$('#loginForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  const email = $('#loginEmail').value.trim();
+  const pass  = $('#loginPass').value;
+  setMsg($('#loginMsg'), '');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Logging in…';
+  try{
+    const d = await authAPI('signInWithPassword', { email, password:pass, returnSecureToken:true });
+    useAuthResult(d);
+    await loadProfile();
+    if(S.profile?.banned) return;
+    await loadConfig();
+    toast('Welcome back, ' + S.profile.name + '! 👋', 'ok');
+    showApp();
+  }catch(err){
+    setMsg($('#loginMsg'), err.message, 'err');
+  }finally{
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Login';
+  }
+});
+
+$('#registerForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn   = e.target.querySelector('button[type=submit]');
+  const name  = $('#regName').value.trim();
+  const email = $('#regEmail').value.trim();
+  const p1    = $('#regPass').value;
+  const p2    = $('#regPass2').value;
+  setMsg($('#regMsg'), '');
+  if(name.length < 2) return setMsg($('#regMsg'), 'Naam kam se kam 2 letters ka ho', 'err');
+  if(p1.length < 6)   return setMsg($('#regMsg'), 'Password kam se kam 6 characters ka ho', 'err');
+  if(p1 !== p2)       return setMsg($('#regMsg'), 'Dono password match nahi kar rahe', 'err');
+
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Creating…';
+  try{
+    const d = await authAPI('signUp', { email, password:p1, returnSecureToken:true });
+    useAuthResult(d);
+    await dbSet('users/' + S.uid, {
+      name, email, coins: START_COINS, totalWon: 0, cardsPlayed: 0, best: 0,
+      banned: false, lastBonus: 0, createdAt: Date.now()
+    });
+    await dbPatch('leaderboard/' + S.uid, { name, totalWon:0, updatedAt: Date.now() });
+    S.profile = { name, email, coins:START_COINS, totalWon:0, cardsPlayed:0, best:0, banned:false, lastBonus:0 };
+    await loadConfig();
+    toast('Account ban gaya! 🎉 ' + START_COINS + ' coins mile', 'ok');
+    showApp();
+  }catch(err){
+    setMsg($('#regMsg'), err.message, 'err');
+  }finally{
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Create Account';
+  }
+});
+
+$('#forgotForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const btn = e.target.querySelector('button[type=submit]');
+  const email = $('#forgotEmail').value.trim();
+  setMsg($('#forgotMsg'), '');
+  btn.disabled = true;
+  btn.querySelector('span').textContent = 'Sending…';
+  try{
+    await authAPI('sendOobCode', { requestType:'PASSWORD_RESET', email });
+    setMsg($('#forgotMsg'), 'Reset link bhej diya ✅ (spam folder bhi check karein)', 'ok');
+  }catch(err){
+    setMsg($('#forgotMsg'), err.message, 'err');
+  }finally{
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Send Reset Link';
+  }
+});
+
+/* =========================================================
+   16. SCREEN SWITCHING + BOOT
+   ========================================================= */
+function showAuth(){
+  $('#appScreen').classList.remove('show');
+  $('#authScreen').classList.add('show');
+}
+function showApp(){
+  $('#authScreen').classList.remove('show');
+  $('#appScreen').classList.add('show');
+  cardState = 'idle';
+  S.card = null;
+  cv.classList.remove('gone');
+  paintFoil();
+  updateProg(0);
+  $('#prizeValue').textContent = '?';
+  $('#prizeSub').textContent = 'Card kharido aur scratch karo';
+  $('#claimBtn').disabled = true;
+  renderProfile();
+  renderDailyBtn();
+  applySound();
+}
+
+$('#buyBtn').addEventListener('click', buyCard);
+$('#claimBtn').addEventListener('click', claimPrize);
+$('#dailyBtn').addEventListener('click', claimDaily);
+
+setInterval(() => { if(S.profile && $('#appScreen').classList.contains('show')) renderDailyBtn(); }, 60000);
+
+(async function boot(){
+  loadStored();
+  applySound();
+  if(S.refreshToken){
+    $('#bootLoader').classList.remove('hidden');
+    try{
+      await refreshSession();
+      await loadProfile();
+      if(S.profile?.banned) return;
+      await loadConfig();
+      $('#bootLoader').classList.add('hidden');
+      showApp();
+      return;
+    }catch(e){
+      clearStored();
+      $('#bootLoader').classList.add('hidden');
+    }
+  }
+  showAuth();
+})();
+</script>
+</body>
+                                              </html>
