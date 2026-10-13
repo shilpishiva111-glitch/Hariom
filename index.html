@@ -9,7 +9,6 @@
 :root{
   --bg:#0a0612; --line:rgba(255,255,255,.09); --txt:#f0f2ff; --muted:#8b8fa8;
   --gold:#ffd35c; --ok:#38e08a; --danger:#ff5c6c; --purple:#a855f7;
-  --low:#38e08a; --medium:#a855f7; --rare:#f43f5e;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
@@ -104,9 +103,6 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
   background:rgba(255,255,255,.05);color:var(--txt);font-size:20px;cursor:pointer;
   display:grid;place-items:center;font-family:inherit;transition:.2s;position:relative}
 .iconBtn:active{transform:scale(.95)}
-.iconBtn .badge{position:absolute;top:-4px;right:-4px;min-width:18px;height:18px;padding:0 5px;
-  border-radius:9px;background:linear-gradient(135deg,#f43f5e,#881337);color:#fff;font-size:10px;
-  font-weight:800;display:grid;place-items:center;box-shadow:0 4px 12px rgba(244,63,94,.5);border:2px solid var(--bg)}
 .menuWrap{position:relative}
 .menu{position:absolute;right:0;top:52px;min-width:240px;padding:8px;border-radius:20px;z-index:50;
   background:linear-gradient(180deg,#1e1430,#0f0a1e);border:1px solid var(--line);
@@ -140,30 +136,22 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
   border:1px solid var(--line);border-radius:18px;padding:13px;text-align:center}
 .stat span{display:block;font-size:10px;color:var(--muted);letter-spacing:.6px;text-transform:uppercase;font-weight:700}
 .stat b{display:block;margin-top:5px;font-size:18px;color:var(--gold);font-weight:900}
-
-/* CARD PICKER */
 .sectionTitle{font-size:12px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);
   font-weight:900;margin:6px 0 -4px}
 .pickWrap{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.pickCard{
-  position:relative;border-radius:20px;padding:16px 8px 14px;text-align:center;
-  border:2px solid var(--line);background:rgba(255,255,255,.035);
-  cursor:pointer;transition:.25s;overflow:hidden;
-}
+.pickCard{position:relative;border-radius:20px;padding:16px 8px 14px;text-align:center;
+  border:2px solid var(--line);background:rgba(255,255,255,.035);cursor:pointer;transition:.25s;overflow:hidden}
 .pickCard::before{content:"";position:absolute;inset:0;opacity:0;transition:opacity .3s;
   background:radial-gradient(80% 80% at 50% 0%, currentColor, transparent 70%)}
 .pickCard:active{transform:scale(.97)}
-.pickCard.low{color:var(--low)}
-.pickCard.medium{color:var(--medium)}
-.pickCard.rare{color:var(--rare)}
-.pickCard.low{border-color:rgba(56,224,138,.35)}
-.pickCard.medium{border-color:rgba(168,85,247,.35)}
-.pickCard.rare{border-color:rgba(244,63,94,.5)}
+.pickCard.low{color:#38e08a;border-color:rgba(56,224,138,.35)}
+.pickCard.medium{color:#a855f7;border-color:rgba(168,85,247,.35)}
+.pickCard.rare{color:#f43f5e;border-color:rgba(244,63,94,.5)}
 .pickCard.active{transform:scale(1.04)}
 .pickCard.active::before{opacity:.22}
-.pickCard.low.active{border-color:var(--low);box-shadow:0 12px 30px rgba(56,224,138,.35), inset 0 1px 0 rgba(255,255,255,.2)}
-.pickCard.medium.active{border-color:var(--medium);box-shadow:0 12px 30px rgba(168,85,247,.4), inset 0 1px 0 rgba(255,255,255,.2)}
-.pickCard.rare.active{border-color:var(--rare);box-shadow:0 12px 30px rgba(244,63,94,.5), inset 0 1px 0 rgba(255,255,255,.2)}
+.pickCard.low.active{border-color:#38e08a;box-shadow:0 12px 30px rgba(56,224,138,.35)}
+.pickCard.medium.active{border-color:#a855f7;box-shadow:0 12px 30px rgba(168,85,247,.4)}
+.pickCard.rare.active{border-color:#f43f5e;box-shadow:0 12px 30px rgba(244,63,94,.5)}
 .pickIcon{font-size:28px;line-height:1;position:relative;z-index:1;margin-bottom:6px;
   filter:drop-shadow(0 4px 10px currentColor)}
 .pickName{font-size:10.5px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;
@@ -176,12 +164,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
   background:rgba(244,63,94,.9);color:#fff;display:none}
 .pickCard.rare .pickBadge{display:block}
 
-/* SCRATCH AREA */
-.selectedCard{
-  border-radius:22px;padding:14px 16px;margin-bottom:-6px;
+.selectedCard{border-radius:22px;padding:14px 16px;margin-bottom:-6px;
   background:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.01));
-  border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px;
-}
+  border:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
 .selectedCard .sc-left{display:flex;align-items:center;gap:12px}
 .selectedCard .sc-ic{font-size:32px;line-height:1}
 .selectedCard .sc-info b{display:block;font-size:14px;font-weight:900;letter-spacing:.5px}
@@ -192,12 +177,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .cardWrap{position:relative}
 .cardWrap::before{content:"";position:absolute;inset:-18px;border-radius:34px;pointer-events:none;
   background:radial-gradient(60% 70% at 50% 40%, currentColor, transparent 70%);filter:blur(14px);opacity:.4}
-.cardWrap.low{color:var(--low)}
-.cardWrap.medium{color:var(--medium)}
-.cardWrap.rare{color:var(--rare)}
+.cardWrap.low{color:#38e08a} .cardWrap.medium{color:#a855f7} .cardWrap.rare{color:#f43f5e}
 .card{position:relative;width:100%;aspect-ratio:16/9.4;border-radius:22px;overflow:hidden;touch-action:none;
-  background:linear-gradient(160deg,#1a1330,#0b0818);
-  box-shadow:0 30px 70px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.12)}
+  background:linear-gradient(160deg,#1a1330,#0b0818);box-shadow:0 30px 70px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.12)}
 .cardWrap.low .card{border:1px solid rgba(56,224,138,.45);box-shadow:0 30px 70px rgba(0,0,0,.8), 0 0 0 6px rgba(56,224,138,.08)}
 .cardWrap.medium .card{border:1px solid rgba(168,85,247,.5);box-shadow:0 30px 70px rgba(0,0,0,.8), 0 0 0 6px rgba(168,85,247,.1)}
 .cardWrap.rare .card{border:1px solid rgba(255,211,92,.55);box-shadow:0 30px 70px rgba(0,0,0,.8), 0 0 0 6px rgba(244,63,94,.12)}
@@ -224,7 +206,6 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .lockBox b{display:block;font-size:15px;margin-bottom:4px;color:#ff8b96}
 .lockBox p{margin:0 0 12px;font-size:12.5px;color:var(--muted)}
 
-/* BOTTOM NAV */
 .bnav{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:40;display:flex;gap:4px;padding:6px;border-radius:22px;
   background:rgba(15,10,26,.85);border:1px solid var(--line);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);
   box-shadow:0 20px 50px rgba(0,0,0,.7), inset 0 1px 0 rgba(255,255,255,.1)}
@@ -235,7 +216,6 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .bnav button.active{background:linear-gradient(180deg,#3a2a55,#221838);color:#fff;
   box-shadow:0 8px 24px rgba(168,85,247,.4), inset 0 1px 0 rgba(255,255,255,.14)}
 
-/* TXN */
 .txnRow{display:flex;align-items:center;gap:12px;padding:13px;border-radius:16px;margin-bottom:9px;
   background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.01));border:1px solid var(--line)}
 .txnIcon{width:42px;height:42px;flex:none;border-radius:13px;display:grid;place-items:center;font-size:18px;background:rgba(255,255,255,.06)}
@@ -272,55 +252,45 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .lbHeroStats b{display:block;font-size:16px;color:#ffd35c;margin-top:3px;font-weight:900}
 .podium{display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:8px;align-items:end;margin:18px 0 22px}
 .podCard{border-radius:22px;padding:14px 8px 12px;text-align:center;position:relative;overflow:hidden}
-.podCard:active{transform:scale(.97)}
 .podCard.first{background:linear-gradient(180deg,#ffe9a0,#ffcf3d 40%,#c9962a);color:#2a1d00;
   padding-top:24px;padding-bottom:16px;box-shadow:0 22px 50px rgba(255,196,60,.6), inset 0 2px 0 rgba(255,255,255,.9);
   transform:translateY(-12px);z-index:2}
-.podCard.first::before{content:"";position:absolute;inset:-40%;pointer-events:none;
-  background:conic-gradient(from 0deg, transparent, rgba(255,255,255,.5) 40deg, transparent 80deg);
-  animation:rotate 4s linear infinite}
 .podCard.second{background:linear-gradient(180deg,#e6ecf5,#a2adc0 50%,#6a7688);color:#0f1424;
   box-shadow:0 14px 34px rgba(180,200,230,.35), inset 0 2px 0 rgba(255,255,255,.7)}
 .podCard.third{background:linear-gradient(180deg,#f0c795,#c98a4a 50%,#8a5523);color:#2a1500;
   box-shadow:0 14px 34px rgba(200,140,80,.35), inset 0 2px 0 rgba(255,255,255,.5)}
-.podMedal{font-size:34px;line-height:1;filter:drop-shadow(0 4px 10px rgba(0,0,0,.3));position:relative;z-index:1}
+.podMedal{font-size:34px;line-height:1;position:relative;z-index:1}
 .podAvatar{width:52px;height:52px;border-radius:16px;margin:8px auto 6px;display:grid;place-items:center;
   font-size:20px;font-weight:900;position:relative;z-index:1;background:rgba(0,0,0,.25);color:#fff;
-  border:2px solid rgba(255,255,255,.35);box-shadow:0 8px 20px rgba(0,0,0,.25), inset 0 1px 0 rgba(255,255,255,.4)}
-.podCard.first .podAvatar{width:62px;height:62px;font-size:24px;background:rgba(0,0,0,.2);
-  border:3px solid rgba(255,255,255,.6);box-shadow:0 0 30px rgba(255,255,255,.5)}
+  border:2px solid rgba(255,255,255,.35)}
+.podCard.first .podAvatar{width:62px;height:62px;font-size:24px;border:3px solid rgba(255,255,255,.6);
+  box-shadow:0 0 30px rgba(255,255,255,.5)}
 .podName{font-size:12.5px;font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
   padding:0 4px;position:relative;z-index:1}
 .podCard.first .podName{font-size:14px}
-.podAmt{font-size:15px;font-weight:900;margin-top:4px;position:relative;z-index:1;
-  display:flex;align-items:center;justify-content:center;gap:3px}
+.podAmt{font-size:15px;font-weight:900;margin-top:4px;position:relative;z-index:1}
 .podCard.first .podAmt{font-size:17px}
 .podTier{font-size:9px;font-weight:900;letter-spacing:.6px;text-transform:uppercase;margin-top:4px;
   position:relative;z-index:1;opacity:.85}
-.podCrownTop{position:absolute;top:4px;left:50%;transform:translateX(-50%);font-size:20px;z-index:1;
-  filter:drop-shadow(0 4px 8px rgba(255,196,60,.8));animation:float 2.5s ease-in-out infinite}
 .yourRank{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;margin-bottom:16px;
   background:linear-gradient(135deg, rgba(124,58,237,.25), rgba(236,72,153,.15));
-  border:1px solid rgba(168,85,247,.4);box-shadow:0 12px 30px rgba(124,58,237,.25), inset 0 1px 0 rgba(255,255,255,.12)}
+  border:1px solid rgba(168,85,247,.4);box-shadow:0 12px 30px rgba(124,58,237,.25)}
 .yourRank .rankNum{width:44px;height:44px;border-radius:14px;flex:none;display:grid;place-items:center;
-  font-weight:900;font-size:15px;background:linear-gradient(135deg,#ffd35c,#b8860b);color:#221800;
-  box-shadow:0 8px 20px rgba(255,196,60,.4)}
+  font-weight:900;font-size:15px;background:linear-gradient(135deg,#ffd35c,#b8860b);color:#221800}
 .yourRank .info{flex:1;min-width:0}
 .yourRank .info b{display:block;font-size:14px;font-weight:900}
 .yourRank .info span{display:block;font-size:11px;color:rgba(255,255,255,.7);margin-top:2px}
 .yourRank .amt{font-weight:900;font-size:15px;color:#ffd35c;flex:none}
 .rankList{display:flex;flex-direction:column;gap:8px}
 .rankItem{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;
-  background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.01));
-  border:1px solid var(--line)}
+  background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.01));border:1px solid var(--line)}
 .rankItem.me{background:linear-gradient(135deg, rgba(255,211,92,.15), rgba(168,85,247,.1));
-  border-color:rgba(255,211,92,.5);box-shadow:0 8px 24px rgba(255,196,60,.15)}
+  border-color:rgba(255,211,92,.5)}
 .rankNum{width:36px;height:36px;border-radius:12px;flex:none;display:grid;place-items:center;
   font-weight:900;font-size:13px;background:rgba(255,255,255,.06);color:var(--muted)}
 .rankItem.me .rankNum{background:linear-gradient(135deg,#ffd35c,#b8860b);color:#221800}
 .rankAv{width:38px;height:38px;border-radius:12px;flex:none;display:grid;place-items:center;
-  font-weight:900;font-size:14px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4c1d95);
-  box-shadow:0 6px 18px rgba(124,58,237,.3)}
+  font-weight:900;font-size:14px;color:#fff;background:linear-gradient(135deg,#7c3aed,#4c1d95)}
 .rankInfo{flex:1;min-width:0}
 .rankInfo b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:800}
 .rankInfo .tier{display:inline-block;font-size:9px;font-weight:900;letter-spacing:.4px;text-transform:uppercase;
@@ -338,9 +308,9 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .sheetBack{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);z-index:100;
   display:flex;align-items:flex-end;justify-content:center;animation:fadeIn .2s}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-.sheet{width:100%;max-width:560px;max-height:88dvh;display:flex;flex-direction:column;
+.sheet{width:100%;max-width:560px;max-height:90dvh;display:flex;flex-direction:column;
   background:linear-gradient(180deg,#1a1228,#0c0719);border:1px solid var(--line);border-bottom:0;
-  border-radius:26px 26px 0 0;animation:up .3s cubic-bezier(.2,.9,.3,1);box-shadow:0 -20px 60px rgba(0,0,0,.7)}
+  border-radius:26px 26px 0 0;animation:up .3s cubic-bezier(.2,.9,.3,1)}
 @keyframes up{from{transform:translateY(100%)}to{transform:none}}
 .sheetHead{display:flex;align-items:center;justify-content:space-between;padding:18px;border-bottom:1px solid var(--line)}
 .sheetHead b{font-size:16px}
@@ -363,8 +333,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
   border-color:rgba(168,85,247,.6);color:#fff;box-shadow:0 6px 20px rgba(124,58,237,.3)}
 .qrBox{background:linear-gradient(160deg,#fff,#f0f0f5);border-radius:20px;padding:16px;margin:14px 0;text-align:center;
   box-shadow:0 20px 50px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.9)}
-.qrBox .qrImg{width:200px;height:200px;max-width:70vw;object-fit:contain;background:#fff;border-radius:14px;padding:8px;
-  box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.qrBox .qrImg{width:200px;height:200px;max-width:70vw;object-fit:contain;background:#fff;border-radius:14px;padding:8px}
 .qrBox .qrLabel{font-size:11px;font-weight:900;letter-spacing:2px;text-transform:uppercase;color:#1a1a2e;margin-top:10px}
 .qrBox .qrSub{font-size:11px;color:#666;margin-top:3px}
 .qrPlaceholder{width:200px;height:200px;max-width:70vw;border-radius:14px;border:2px dashed rgba(0,0,0,.15);
@@ -373,10 +342,9 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
 .upiOpenBtn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:52px;border-radius:15px;
   border:0;font-size:15px;font-weight:900;cursor:pointer;font-family:inherit;
   background:linear-gradient(135deg,#26d97a,#158a4c);color:#fff;
-  box-shadow:0 12px 30px rgba(56,224,138,.4), inset 0 1px 0 rgba(255,255,255,.25);margin-bottom:10px;transition:.15s}
+  box-shadow:0 12px 30px rgba(56,224,138,.4);margin-bottom:10px;transition:.15s}
 .upiOpenBtn:active{transform:scale(.98)}
 .upiOpenBtn.paytm{background:linear-gradient(135deg,#4bb8ff,#0369a1);box-shadow:0 12px 30px rgba(75,184,255,.4)}
-.upiOpenBtn:disabled{opacity:.4;cursor:not-allowed}
 .payInfo{background:rgba(0,0,0,.35);border:1px dashed rgba(255,211,92,.4);border-radius:14px;padding:14px;margin:12px 0}
 .payInfoRow{display:flex;justify-content:space-between;align-items:center;font-size:13px;padding:6px 0}
 .payInfoRow span{color:var(--muted)}
@@ -394,16 +362,18 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
 .adminHead h2{margin:0;font-size:18px;display:flex;align-items:center;gap:9px;font-weight:900}
 .adminHead h2 .tagp{font-size:10px;padding:3px 8px;border-radius:6px;
   background:linear-gradient(135deg,#ffe08a,#c9962a);color:#2a1d00;font-weight:900;letter-spacing:.6px}
-.adminTabs{display:flex;gap:5px;padding:11px 16px;overflow-x:auto;border-bottom:1px solid var(--line);
+.adminTabs{display:flex;gap:6px;padding:12px 16px;overflow-x:auto;border-bottom:1px solid var(--line);
   background:rgba(10,6,18,.6);scrollbar-width:none}
 .adminTabs::-webkit-scrollbar{display:none}
-.atab{padding:10px 15px;border-radius:12px;border:1px solid transparent;background:rgba(255,255,255,.05);
-  color:var(--muted);font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;font-family:inherit;transition:.2s;position:relative}
-.atab.active{background:linear-gradient(180deg,#3a2a55,#221838);color:#fff;border-color:var(--line);
-  box-shadow:0 6px 20px rgba(168,85,247,.3)}
-.atab .nBadge{position:absolute;top:-4px;right:-4px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;
+.atab{padding:10px 16px;border-radius:12px;border:1px solid transparent;
+  background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  color:var(--muted);font-size:13px;font-weight:800;cursor:pointer;white-space:nowrap;font-family:inherit;
+  transition:.2s;position:relative;display:flex;align-items:center;gap:6px}
+.atab.active{background:linear-gradient(135deg,#a855f7,#7c3aed);color:#fff;border-color:rgba(168,85,247,.5);
+  box-shadow:0 8px 24px rgba(168,85,247,.5), inset 0 1px 0 rgba(255,255,255,.2)}
+.atab .nBadge{min-width:20px;height:20px;padding:0 5px;border-radius:10px;
   background:linear-gradient(135deg,#f43f5e,#881337);color:#fff;font-size:10px;font-weight:900;
-  display:grid;place-items:center;box-shadow:0 4px 12px rgba(244,63,94,.5);border:2px solid #0a0612}
+  display:grid;place-items:center;box-shadow:0 4px 12px rgba(244,63,94,.5)}
 .adminBody{flex:1;overflow-y:auto;padding:16px 16px 80px;max-width:780px;width:100%;margin:0 auto}
 .aGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
 @media(min-width:560px){.aGrid{grid-template-columns:repeat(4,1fr)}}
@@ -411,60 +381,88 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
   border:1px solid var(--line);border-radius:18px;padding:14px;text-align:center}
 .aStat span{display:block;font-size:10px;color:var(--muted);letter-spacing:.7px;text-transform:uppercase;font-weight:800}
 .aStat b{display:block;margin-top:6px;font-size:22px;color:var(--gold);font-weight:900}
-.secTitle{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);margin:22px 0 11px;font-weight:900}
+.secTitle{font-size:11.5px;letter-spacing:1.4px;text-transform:uppercase;color:var(--muted);
+  margin:22px 0 11px;font-weight:900;display:flex;align-items:center;gap:8px}
 .secTitle:first-child{margin-top:4px}
 .card2{background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
   border:1px solid var(--line);border-radius:18px;padding:15px;margin-bottom:10px}
 .userRow{display:flex;align-items:center;gap:12px;padding:12px;border-radius:16px;margin-bottom:9px;
   background:linear-gradient(160deg, rgba(255,255,255,.045), rgba(255,255,255,.01));border:1px solid var(--line);
   cursor:pointer;transition:.15s}
-.userRow:active{background:rgba(255,255,255,.08);transform:scale(.99)}
-.userRow.banned{opacity:.55;border-color:rgba(255,92,108,.4)}
-.avmini{width:40px;height:40px;border-radius:13px;flex:none;display:grid;place-items:center;font-weight:900;
-  font-size:15px;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;box-shadow:0 6px 18px rgba(124,58,237,.3)}
+.userRow:active{background:rgba(255,255,255,.08)}
+.userRow.banned{opacity:.55;border-color:rgba(255,92,108,.4);background:linear-gradient(160deg, rgba(255,92,108,.08), rgba(255,92,108,.02))}
+.avmini{width:44px;height:44px;border-radius:14px;flex:none;display:grid;place-items:center;font-weight:900;
+  font-size:16px;background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;
+  box-shadow:0 6px 18px rgba(124,58,237,.3);position:relative}
+.avmini .dot{position:absolute;bottom:-2px;right:-2px;width:12px;height:12px;border-radius:50%;
+  border:2px solid #0a0612}
 .userRow .info{flex:1;min-width:0}
-.userRow .info b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.userRow .info span{display:block;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px}
-.userRow .c{font-size:13px;color:var(--gold);font-weight:900;flex:none}
-.payCard{background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
-  border:1px solid var(--line);border-radius:18px;padding:14px;margin-bottom:11px;border-left:4px solid var(--gold)}
-.payCard.dep{border-left-color:#38e08a} .payCard.wd{border-left-color:#ff8b96}
-.payCard .head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-.payCard .head .typ{display:flex;align-items:center;gap:8px;font-weight:900;font-size:13px}
-.payCard .amt{font-size:20px;font-weight:900;
-  background:linear-gradient(135deg,#fff8d6,#ffd35c 60%,#c9962a);
-  -webkit-background-clip:text;background-clip:text;color:transparent}
-.payCard .det{font-size:12px;color:var(--muted);line-height:1.65}
-.payCard .det b{color:var(--txt);font-weight:700}
-.payCard .det .kv{display:flex;justify-content:space-between;padding:3px 0}
+.userRow .info b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+  display:flex;align-items:center;gap:6px}
+.userRow .info span{display:block;font-size:11px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;
+  white-space:nowrap;margin-top:3px}
+.userRow .c{font-size:14px;color:var(--gold);font-weight:900;flex:none;text-align:right}
+.userRow .c small{display:block;font-size:9px;color:var(--muted);font-weight:700;margin-top:2px}
+
+/* Filter chips */
+.chips{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none;margin-bottom:8px}
+.chips::-webkit-scrollbar{display:none}
+.chip{padding:7px 13px;border-radius:11px;border:1px solid var(--line);
+  background:rgba(255,255,255,.05);color:var(--muted);font-size:12px;font-weight:800;
+  cursor:pointer;font-family:inherit;white-space:nowrap;transition:.15s;display:flex;align-items:center;gap:5px}
+.chip.active{background:linear-gradient(135deg,#7c3aed,#4c1d95);color:#fff;border-color:transparent;
+  box-shadow:0 6px 18px rgba(124,58,237,.4)}
+
+/* Card editor */
+.cardEditor{background:linear-gradient(160deg, rgba(255,255,255,.05), rgba(255,255,255,.015));
+  border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px}
+.cardEditor .ceHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;
+  padding-bottom:12px;border-bottom:1px solid var(--line)}
+.cardEditor .ceHead .left{display:flex;align-items:center;gap:12px}
+.cardEditor .ceHead .ic{font-size:34px;line-height:1}
+.cardEditor .ceHead b{display:block;font-size:15px;font-weight:900;letter-spacing:.5px}
+.cardEditor .ceHead span{display:block;font-size:11px;color:var(--muted);margin-top:2px}
+.ceGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.ceField{background:rgba(0,0,0,.35);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.ceField label{display:block;font-size:10px;color:var(--muted);font-weight:800;letter-spacing:.4px;
+  text-transform:uppercase;margin-bottom:5px}
+.ceField input{width:100%;background:transparent;border:0;outline:0;color:var(--txt);
+  font-size:17px;font-weight:900;font-family:inherit}
+.ceField input:focus{color:var(--gold)}
+.prizeEditRow{display:grid;grid-template-columns:1fr 70px 36px;gap:8px;align-items:center;
+  padding:9px 10px;border-radius:12px;background:rgba(255,255,255,.04);
+  border:1px solid var(--line);margin-bottom:7px}
+.prizeEditRow .pv{font-size:16px;font-weight:900;color:var(--gold)}
+.prizeEditRow .pw{font-size:13px;font-weight:800;color:var(--txt);text-align:center}
+.prizeEditRow input{background:transparent;border:0;outline:0;color:inherit;font:inherit;width:100%;padding:0}
+.prizeEditRow .delBtn{width:32px;height:32px;border-radius:9px;border:1px solid rgba(244,63,94,.4);
+  background:rgba(244,63,94,.15);color:#ff8b96;font-size:14px;cursor:pointer;font-family:inherit;font-weight:900}
+.oddsPreview{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden;margin-top:6px}
+.oddsPreview i{display:block;height:100%;background:linear-gradient(90deg,#ffd35c,#ff9d2e);transition:width .3s}
+.oddsBadge{display:inline-block;padding:3px 9px;border-radius:7px;
+  background:linear-gradient(135deg,rgba(56,224,138,.25),rgba(56,224,138,.08));
+  color:#38e08a;font-size:11px;font-weight:900;letter-spacing:.4px}
+
 .aBtns{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .aBtns .btn{flex:1;min-width:100px;height:44px;font-size:13px;border-radius:12px}
 .empty{text-align:center;padding:34px 14px;color:var(--muted);font-size:13px}
 .empty .eIcon{font-size:44px;opacity:.35;margin-bottom:10px}
 .qrUploadArea{border:2px dashed rgba(255,211,92,.4);border-radius:18px;padding:20px;
   background:rgba(255,211,92,.04);text-align:center;margin-bottom:12px;cursor:pointer;transition:.2s}
-.qrUploadArea:active{background:rgba(255,211,92,.1);transform:scale(.99)}
+.qrUploadArea:active{background:rgba(255,211,92,.1)}
 .qrUploadArea .ic{font-size:44px;opacity:.7;margin-bottom:8px}
 .qrUploadArea .t{font-size:13.5px;font-weight:800;color:#ffd35c}
 .qrUploadArea .s{font-size:11px;color:var(--muted);margin-top:4px}
 .qrPreview{width:140px;height:140px;border-radius:14px;background:#fff;padding:6px;
   box-shadow:0 10px 30px rgba(0,0,0,.4);margin:0 auto;display:block;object-fit:contain}
 
-/* Card odds editor */
-.oddsRow{display:grid;grid-template-columns:70px 1fr 60px;gap:8px;align-items:center;margin-bottom:6px;font-size:12px}
-.oddsRow .lbl{color:var(--muted);font-weight:700}
-.oddsRow .bar{height:8px;border-radius:99px;background:rgba(255,255,255,.08);overflow:hidden}
-.oddsRow .bar i{display:block;height:100%;background:linear-gradient(90deg,#ffd35c,#ff9d2e)}
-.oddsRow .pct{text-align:right;font-weight:900;color:var(--gold)}
-
-/* TOAST / POP */
 .toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,26px);z-index:300;padding:13px 20px;
   border-radius:16px;font-size:13.5px;font-weight:700;max-width:88vw;text-align:center;
   background:linear-gradient(180deg,#241a3a,#12101f);border:1px solid var(--line);
   box-shadow:0 20px 50px rgba(0,0,0,.8);opacity:0;pointer-events:none;transition:.3s}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.toast.ok{border-color:rgba(56,224,138,.5);box-shadow:0 20px 50px rgba(56,224,138,.25)}
-.toast.err{border-color:rgba(255,92,108,.5);box-shadow:0 20px 50px rgba(255,92,108,.25)}
+.toast.ok{border-color:rgba(56,224,138,.5)}
+.toast.err{border-color:rgba(255,92,108,.5)}
 .pop{position:fixed;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;
   background:rgba(0,0,0,.75);backdrop-filter:blur(10px);animation:fadeIn .25s}
 .popCard{max-width:340px;width:88%;padding:30px 24px;border-radius:26px;text-align:center;
@@ -552,7 +550,6 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
 
   <div id="broadcastBox" class="hidden"></div>
 
-  <!-- HOME -->
   <main id="viewHome" class="wrap">
     <div class="hero">
       <div class="heroRow">
@@ -578,27 +575,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
     </div>
 
     <div class="sectionTitle">🎴 Apna Card Chuno</div>
-    <div class="pickWrap" id="pickWrap">
-      <div class="pickCard low" data-card="low">
-        <div class="pickIcon">🍀</div>
-        <div class="pickName">LOW</div>
-        <div class="pickCost">10<small>coins</small></div>
-        <div class="pickMeta">Win 20%</div>
-      </div>
-      <div class="pickCard medium" data-card="medium">
-        <div class="pickIcon">⚡</div>
-        <div class="pickName">MEDIUM</div>
-        <div class="pickCost">50<small>coins</small></div>
-        <div class="pickMeta">Win 14%</div>
-      </div>
-      <div class="pickCard rare" data-card="rare">
-        <div class="pickBadge">HOT</div>
-        <div class="pickIcon">💎</div>
-        <div class="pickName">RARE</div>
-        <div class="pickCost">200<small>coins</small></div>
-        <div class="pickMeta">Win 9%</div>
-      </div>
-    </div>
+    <div class="pickWrap" id="pickWrap"></div>
 
     <div class="selectedCard" id="selectedCard">
       <div class="sc-left">
@@ -609,7 +586,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
         </div>
       </div>
       <div class="sc-meta">
-        <b id="scMax">Max 200</b>
+        <b id="scMax">Max ₹200</b>
         Top Prize
       </div>
     </div>
@@ -644,7 +621,6 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
     <button class="btn ghost block" id="dailyBtn" type="button">🎁 Daily Bonus Claim karo</button>
   </main>
 
-  <!-- WALLET -->
   <main id="viewWallet" class="wrap hidden">
     <div class="hero">
       <div class="heroRow">
@@ -671,7 +647,6 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
     <div id="txnList"></div>
   </main>
 
-  <!-- LEADERBOARD -->
   <main id="viewBoard" class="wrap hidden">
     <div id="boardContent"></div>
   </main>
@@ -701,6 +676,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
   </div>
   <div class="adminTabs" id="adminTabs">
     <button class="atab active" data-atab="dash" type="button">📊 Dashboard</button>
+    <button class="atab" data-atab="cards" type="button">🎴 Cards</button>
     <button class="atab" data-atab="payments" type="button">💳 Payments <span class="nBadge hidden" id="payBadge">0</span></button>
     <button class="atab" data-atab="users" type="button">👥 Users</button>
     <button class="atab" data-atab="broadcast" type="button">📢 Broadcast</button>
@@ -711,9 +687,9 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
 </div>
 
 <script>
-/* ============================
+/* =========================================================
    CONFIG
-   ============================ */
+   ========================================================= */
 const CFG = {
   apiKey  : "AIzaSyAKuwq0GGhkoXCgHzHly1PHwbDpREahcK8",
   dbUrl   : "https://hariom-scratch-gaming-app-default-rtdb.asia-southeast1.firebasedatabase.app",
@@ -722,7 +698,7 @@ const CFG = {
   ADMIN_PW: "Hariom@123456"
 };
 
-const COIN_RATE     = 1;   // ₹1 = 1 coin
+const COIN_RATE     = 1;
 const START_COINS   = 20;
 const MIN_DEPOSIT   = 20;
 const MIN_WITHDRAW  = 100;
@@ -730,69 +706,68 @@ const REVEAL_AT     = 55;
 const DAILY_AMOUNT  = 5;
 const DAY_MS        = 86400000;
 
-/* ---- 3 CARD TYPES (Low / Medium / Rare) ---- */
-const CARDS = {
+/* ---- Default cards (editable from admin) ---- */
+const DEFAULT_CARDS = {
   low: {
-    id:'low', name:'LOW CARD', icon:'🍀', cost:10, cls:'low',
+    id:'low', name:'LOW', icon:'🍀', cost:10, cls:'low',
     desc:'Chhota risk · Chhota reward',
-    color:'#38e08a',
-    prizes:[
-      { v:0,   w:80,   label:'₹0',           sub:'No luck today 😕' },
-      { v:5,   w:14,   label:'+₹5',          sub:'Chhota jeet 🪙' },
-      { v:15,  w:4.5,  label:'+₹15',         sub:'Nice! 🎉' },
-      { v:40,  w:1.2,  label:'+₹40',         sub:'Mast! 🔥' },
-      { v:200, w:0.3,  label:'JACKPOT +₹200',sub:'MINI JACKPOT 🏆' }
+    winChance: 20,
+    prizes: [
+      { v:5,   w:14,  label:'+₹5' },
+      { v:15,  w:4.5, label:'+₹15' },
+      { v:40,  w:1.2, label:'+₹40' },
+      { v:200, w:0.3, label:'JACKPOT' }
     ]
   },
   medium: {
-    id:'medium', name:'MEDIUM CARD', icon:'⚡', cost:50, cls:'medium',
+    id:'medium', name:'MEDIUM', icon:'⚡', cost:50, cls:'medium',
     desc:'Balanced risk · Balanced reward',
-    color:'#a855f7',
-    prizes:[
-      { v:0,    w:86,   label:'₹0',          sub:'So close... 😕' },
-      { v:30,   w:10,   label:'+₹30',        sub:'Nice! 🪙' },
-      { v:80,   w:3,    label:'+₹80',        sub:'Zabardast! 🔥' },
-      { v:250,  w:0.9,  label:'+₹250',       sub:'Wow! 💎' },
-      { v:1500, w:0.1,  label:'MEGA +₹1500', sub:'MEGA WIN 🏆' }
+    winChance: 14,
+    prizes: [
+      { v:30,   w:10,  label:'+₹30' },
+      { v:80,   w:3,   label:'+₹80' },
+      { v:250,  w:0.9, label:'+₹250' },
+      { v:1500, w:0.1, label:'MEGA' }
     ]
   },
   rare: {
-    id:'rare', name:'RARE CARD', icon:'💎', cost:200, cls:'rare',
+    id:'rare', name:'RARE', icon:'💎', cost:200, cls:'rare',
     desc:'High risk · Huge reward',
-    color:'#f43f5e',
-    prizes:[
-      { v:0,     w:91,   label:'₹0',           sub:'So close... 😕' },
-      { v:150,   w:6,    label:'+₹150',        sub:'Great! 💰' },
-      { v:500,   w:2.4,  label:'+₹500',        sub:'Amazing! 🔥' },
-      { v:2000,  w:0.5,  label:'+₹2000',       sub:'WOW! 💎' },
-      { v:10000, w:0.1,  label:'JACKPOT +₹10000',sub:'MEGA JACKPOT 🏆' }
+    winChance: 9,
+    prizes: [
+      { v:150,   w:6,   label:'+₹150' },
+      { v:500,   w:2.4, label:'+₹500' },
+      { v:2000,  w:0.5, label:'+₹2000' },
+      { v:10000, w:0.1, label:'JACKPOT' }
     ]
   }
 };
 
+let CARDS = JSON.parse(JSON.stringify(DEFAULT_CARDS));
 let selectedCard = 'low';
 
-/* ============================
+/* =========================================================
    STATE
-   ============================ */
-const LS_KEY = 'scratchpro_v4';
-const LS_ANN = 'scratchpro_ann_v4';
+   ========================================================= */
+const LS_KEY = 'scratchpro_v5';
+const LS_ANN = 'scratchpro_ann_v5';
 
 const S = {
   idToken:null, refreshToken:null, uid:null, email:null, expiresAt:0,
   profile:null, sound:true, card:null, isAdmin:false,
-  cfg:{ broadcast:'', multiplier:1,
-        upiId:'hariom@upi', paytm:'9876543210',
-        upiLink:'', paytmLink:'', qrImage:'' }
+  cfg:{ broadcast:'', multiplier:1, upiId:'hariom@upi', paytm:'9876543210',
+        upiLink:'', paytmLink:'', qrImage:'', welcomeBonus: 20 }
 };
 
 let cardState = 'idle';
 let adminTab = 'dash';
 let currentView = 'home';
+let userFilter = 'all';
+let userSort = 'newest';
 
-/* ============================
+/* =========================================================
    HELPERS
-   ============================ */
+   ========================================================= */
 const $  = (s,r=document) => r.querySelector(s);
 const $$ = (s,r=document) => [...r.querySelectorAll(s)];
 
@@ -803,11 +778,9 @@ function setMsg(el,text,kind=''){ el.textContent=text||''; el.className='msg '+k
 const fmt = n => Number(n||0).toLocaleString('en-IN');
 const esc = s => String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const initials = s => String(s||'P').trim().charAt(0).toUpperCase();
-const coinsToRupee = c => c; // 1:1
-const rupeeToCoins = r => r; // 1:1
 const timeAgo = ts => { const s=Math.floor((Date.now()-ts)/1000);
-  if(s<60) return 'abhi'; if(s<3600) return Math.floor(s/60)+'m pehle';
-  if(s<86400) return Math.floor(s/3600)+'h pehle'; return Math.floor(s/86400)+'d pehle'; };
+  if(s<60) return 'abhi'; if(s<3600) return Math.floor(s/60)+'m'; if(s<86400) return Math.floor(s/3600)+'h';
+  return Math.floor(s/86400)+'d'; };
 function tierOf(w){ w=w||0;
   if(w>=500) return {name:'LEGEND',cls:'legend',icon:'👑'};
   if(w>=200) return {name:'DIAMOND',cls:'diamond',icon:'💎'};
@@ -815,13 +788,6 @@ function tierOf(w){ w=w||0;
   if(w>=50)  return {name:'SILVER',cls:'silver',icon:'🥈'};
   if(w>=20)  return {name:'BRONZE',cls:'bronze',icon:'🥉'};
   return {name:'ROOKIE',cls:'rookie',icon:'🌱'}; }
-function winChance(cardId){
-  const c = CARDS[cardId]; if(!c) return 0;
-  const zero = c.prizes.find(p => p.v === 0);
-  const zeroW = zero ? zero.w : 0;
-  const total = c.prizes.reduce((a,p)=>a+p.w,0);
-  return Math.round(((total - zeroW) / total) * 100);
-}
 
 let actx=null;
 function beep(f=600,d=.07,t='sine',v=.05){ if(!S.sound) return;
@@ -835,12 +801,8 @@ function beep(f=600,d=.07,t='sine',v=.05){ if(!S.sound) return;
 
 function successPop(icon,title,msg){
   const p = document.createElement('div'); p.className='pop';
-  p.innerHTML = `<div class="popCard">
-    <div class="pIcon">${icon}</div>
-    <h3>${title}</h3>
-    <p>${msg}</p>
-    <button class="btn gold block" id="popOk">OK</button>
-  </div>`;
+  p.innerHTML = `<div class="popCard"><div class="pIcon">${icon}</div><h3>${title}</h3><p>${msg}</p>
+    <button class="btn gold block" id="popOk">OK</button></div>`;
   document.body.appendChild(p);
   p.querySelector('#popOk').onclick = () => p.remove();
   setTimeout(()=>{ if(p.parentNode) p.remove(); }, 5000);
@@ -854,16 +816,10 @@ function loadStored(){ try{ const d=JSON.parse(localStorage.getItem(LS_KEY)||'nu
 function clearStored(){ localStorage.removeItem(LS_KEY); }
 
 /* AUTH */
-const ERR = {
-  EMAIL_EXISTS:'Ye email pehle se registered hai',
-  EMAIL_NOT_FOUND:'Ye email registered nahi hai',
-  INVALID_PASSWORD:'Password galat hai',
-  INVALID_LOGIN_CREDENTIALS:'Email ya password galat hai',
-  INVALID_EMAIL:'Email sahi nahi hai',
-  WEAK_PASSWORD:'Password kam se kam 6 characters',
-  TOO_MANY_ATTEMPTS_TRY_LATER:'Bahut zyada koshish — thodi der baad',
-  USER_DISABLED:'Ye account band hai'
-};
+const ERR = { EMAIL_EXISTS:'Ye email pehle se registered hai', EMAIL_NOT_FOUND:'Ye email registered nahi hai',
+  INVALID_PASSWORD:'Password galat hai', INVALID_LOGIN_CREDENTIALS:'Email ya password galat hai',
+  INVALID_EMAIL:'Email sahi nahi hai', WEAK_PASSWORD:'Password kam se kam 6 characters',
+  TOO_MANY_ATTEMPTS_TRY_LATER:'Bahut zyada koshish — thodi der baad', USER_DISABLED:'Ye account band hai' };
 async function authAPI(endpoint, body){
   const res = await fetch(CFG.authBase + endpoint + '?key=' + CFG.apiKey, {
     method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(body) });
@@ -872,8 +828,7 @@ async function authAPI(endpoint, body){
     throw new Error(ERR[code]||code.replace(/_/g,' ').toLowerCase()); }
   return data;
 }
-function useAuthResult(d){ S.idToken=d.idToken; S.refreshToken=d.refreshToken;
-  S.uid=d.localId; S.email=d.email;
+function useAuthResult(d){ S.idToken=d.idToken; S.refreshToken=d.refreshToken; S.uid=d.localId; S.email=d.email;
   S.expiresAt = Date.now() + (parseInt(d.expiresIn,10)||3600)*1000; persist(); }
 async function refreshSession(){
   if(!S.refreshToken) throw new Error('NO_SESSION');
@@ -910,17 +865,16 @@ const dbPatch = (p,d) => dbReq('PATCH', p, d);
 const dbPush = (p,d) => dbReq('POST', p, d);
 const dbDel = p => dbReq('DELETE', p);
 
-/* ============================
+/* =========================================================
    PROFILE
-   ============================ */
+   ========================================================= */
 async function loadProfile(){
   const uid = S.uid;
   let p = await dbGet('users/' + uid);
   if(!p){
     p = { name: S.email ? S.email.split('@')[0] : 'Player', email: S.email || '',
-      coins: START_COINS, totalWon:0, cardsPlayed:0, best:0,
-      banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0,
-      createdAt: Date.now() };
+      coins: S.cfg.welcomeBonus || START_COINS, totalWon:0, cardsPlayed:0, best:0,
+      banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0, createdAt:Date.now() };
     await dbSet('users/' + uid, p);
     await dbPatch('leaderboard/' + uid, { name:p.name, totalWon:0, updatedAt:Date.now() });
   }
@@ -931,7 +885,6 @@ async function loadProfile(){
     toast('Account banned hai.', 'err'); setTimeout(()=>location.reload(), 2200); return; }
   S.profile = p; renderProfile(); renderDailyBtn();
 }
-
 function renderProfile(){
   const p = S.profile || {};
   $('#userName').textContent = p.name || 'Player';
@@ -942,15 +895,12 @@ function renderProfile(){
   $('#statWon').textContent = fmt(p.totalWon);
   $('#statCards').textContent = fmt(p.cardsPlayed);
   $('#statBest').textContent = fmt(p.best);
-  const r = coinsToRupee(c);
-  if($('#heroRupee')) $('#heroRupee').textContent = fmt(r);
+  if($('#heroRupee')) $('#heroRupee').textContent = fmt(c);
   if($('#heroCoins')) $('#heroCoins').textContent = fmt(c);
-  if($('#wRupee')) $('#wRupee').textContent = fmt(r);
+  if($('#wRupee')) $('#wRupee').textContent = fmt(c);
   if($('#wCoins')) $('#wCoins').textContent = fmt(c);
-  updateLockState();
-  renderBuyBtn();
+  updateLockState(); renderBuyBtn();
 }
-
 function updateLockState(){
   const p = S.profile || {};
   const unlocked = p.verified || p.deposited > 0 || p.totalWon > 0;
@@ -959,12 +909,9 @@ function updateLockState(){
   if(unlocked){ lock.classList.add('hidden'); area.classList.remove('hidden'); }
   else { lock.classList.remove('hidden'); area.classList.add('hidden'); }
 }
-
 function renderBuyBtn(){
-  const c = CARDS[selectedCard];
-  const btn = $('#buyBtn');
-  if(!btn || !c) return;
-  btn.textContent = `🎫 Naya ${c.name} · ${c.cost} 🪙`;
+  const c = CARDS[selectedCard]; const btn = $('#buyBtn');
+  if(!btn || !c) return; btn.textContent = `🎫 Naya ${c.name} · ${c.cost} 🪙`;
 }
 
 /* DAILY */
@@ -987,10 +934,19 @@ async function claimDaily(){
   try{ await dbPatch('users/' + S.uid, { coins:p.coins, lastBonus:p.lastBonus }); }catch(e){}
 }
 
-/* CONFIG / BROADCAST */
+/* CONFIG */
 async function loadConfig(){
-  try{ const cfg = await dbGet('admin/config'); if(cfg) S.cfg = { ...S.cfg, ...cfg }; }catch(e){}
-  renderBroadcast();
+  try{
+    const [cfg, cardsCfg] = await Promise.all([
+      dbGet('admin/config'),
+      dbGet('admin/cards').catch(()=>null)
+    ]);
+    if(cfg) S.cfg = { ...S.cfg, ...cfg };
+    if(cardsCfg){
+      CARDS = { ...JSON.parse(JSON.stringify(DEFAULT_CARDS)), ...cardsCfg };
+    }
+  }catch(e){}
+  renderBroadcast(); renderPickCards();
 }
 function renderBroadcast(){
   const box = $('#broadcastBox'); if(!box) return;
@@ -1006,9 +962,9 @@ function renderBroadcast(){
   $('#bcClose').onclick = () => { localStorage.setItem(LS_ANN, msg); box.className='hidden'; };
 }
 
-/* ============================
+/* =========================================================
    SCRATCH ENGINE
-   ============================ */
+   ========================================================= */
 const cv = $('#scratch');
 const ctx = cv.getContext('2d', { willReadFrequently:true });
 const CW = 640, CH = 376;
@@ -1016,21 +972,22 @@ cv.width = CW; cv.height = CH;
 const SCRATCH_R = 42;
 let drawing = false, lastPt = null, checkTimer = null;
 
+/* Pick prize: winChance % win, else 0 */
 function pickPrize(cardId){
-  const c = CARDS[cardId];
+  const c = CARDS[cardId]; if(!c) return { v:0, label:'₹0', sub:'No luck 😕' };
   const mult = S.cfg.multiplier || 1;
-  const total = c.prizes.reduce((a,p) => a + p.w * (p.v > 0 ? mult : 1), 0);
+  const effectiveWin = Math.min(100, (c.winChance || 0) * mult);
+  if(Math.random() * 100 >= effectiveWin) return { v:0, label:'₹0', sub:'No luck today 😕' };
+  const total = c.prizes.reduce((a,p)=>a+(p.w||0), 0);
+  if(total <= 0) return { v:0, label:'₹0', sub:'No luck 😕' };
   let r = Math.random() * total;
-  for(const p of c.prizes){
-    const w = p.w * (p.v > 0 ? mult : 1);
-    if((r -= w) <= 0) return p;
-  }
-  return c.prizes[0];
+  for(const p of c.prizes){ if((r -= (p.w||0)) <= 0) return { v:p.v, label:'+₹'+p.v, sub: p.v>=500?'MEGA! 🏆':'Nice! 🎉' }; }
+  const p0 = c.prizes[0];
+  return { v:p0.v, label:'+₹'+p0.v, sub:'Nice! 🎉' };
 }
 
 function paintFoil(){
-  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
-  ctx.clearRect(0,0,CW,CH);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1; ctx.clearRect(0,0,CW,CH);
   const g = ctx.createLinearGradient(0,0,CW,CH);
   g.addColorStop(0,'#8f96a3'); g.addColorStop(.14,'#eef1f6'); g.addColorStop(.30,'#a4abb8');
   g.addColorStop(.46,'#f8fafc'); g.addColorStop(.62,'#9aa1ae'); g.addColorStop(.80,'#e7ebf1'); g.addColorStop(1,'#7f8794');
@@ -1051,8 +1008,7 @@ function paintFoil(){
   ctx.fillStyle = 'rgba(255,255,255,.55)';
   ctx.font = '900 38px -apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.fillText(c.icon + ' SCRATCH HERE', CW/2, CH/2 - 14);
-  ctx.fillStyle = 'rgba(45,52,68,.55)';
-  ctx.fillText(c.icon + ' SCRATCH HERE', CW/2, CH/2 - 12);
+  ctx.fillStyle = 'rgba(45,52,68,.55)'; ctx.fillText(c.icon + ' SCRATCH HERE', CW/2, CH/2 - 12);
   ctx.fillStyle = 'rgba(45,52,68,.45)';
   ctx.font = '700 20px -apple-system,"Segoe UI",Roboto,sans-serif';
   ctx.fillText(c.name + ' · ' + c.cost + ' coins', CW/2, CH/2 + 28);
@@ -1093,9 +1049,24 @@ function updateProg(pct){
   $('#progTxt').textContent = pct + '%';
 }
 
-/* ============================
+/* =========================================================
    GAME FLOW
-   ============================ */
+   ========================================================= */
+function renderPickCards(){
+  const wrap = $('#pickWrap'); if(!wrap) return;
+  wrap.innerHTML = Object.values(CARDS).map(c => `
+    <div class="pickCard ${c.cls}" data-card="${c.id}">
+      ${c.id === 'rare' ? '<div class="pickBadge">HOT</div>' : ''}
+      <div class="pickIcon">${c.icon}</div>
+      <div class="pickName">${esc(c.name)}</div>
+      <div class="pickCost">${c.cost}<small>coins</small></div>
+      <div class="pickMeta">Win ${c.winChance}%</div>
+    </div>`).join('');
+  wrap.querySelectorAll('.pickCard').forEach(el => el.addEventListener('click', () => selectCard(el.dataset.card)));
+  // Restore selection
+  wrap.querySelectorAll('.pickCard').forEach(el => el.classList.toggle('active', el.dataset.card === selectedCard));
+}
+
 function selectCard(id){
   if(cardState === 'active') return toast('Pehle ye card scratch karo 👆','err');
   if(cardState === 'revealed') return toast('Pehle prize claim karo ✅','err');
@@ -1103,14 +1074,13 @@ function selectCard(id){
   const c = CARDS[id];
   $$('.pickCard').forEach(el => el.classList.toggle('active', el.dataset.card === id));
   $('#scIcon').textContent = c.icon;
-  $('#scName').textContent = c.name;
-  $('#scDesc').textContent = c.desc;
+  $('#scName').textContent = c.name + ' CARD';
+  $('#scDesc').textContent = c.desc || '';
   const maxPrize = c.prizes.reduce((a,p) => Math.max(a,p.v), 0);
   $('#scMax').textContent = 'Max ₹' + fmt(maxPrize);
   $('#cardWrap').className = 'cardWrap ' + c.cls;
   cv.classList.remove('gone');
-  paintFoil();
-  updateProg(0);
+  paintFoil(); updateProg(0);
   $('#prizeValue').textContent = '?';
   $('#prizeSub').textContent = c.name + ' kharido aur scratch karo';
   $('#claimBtn').disabled = true;
@@ -1134,9 +1104,7 @@ async function buyCard(){
   p.cardsPlayed = (p.cardsPlayed||0) + 1;
   renderProfile();
 
-  cv.classList.remove('gone');
-  paintFoil();
-  updateProg(0);
+  cv.classList.remove('gone'); paintFoil(); updateProg(0);
   $('#prizeValue').textContent = '?';
   $('#prizeSub').textContent = 'Ungli se khiso! 👆';
   $('#claimBtn').disabled = true;
@@ -1170,80 +1138,59 @@ async function claimPrize(){
   if(prize.v <= 0) return;
   S.card.claimed = true; cardState = 'idle';
   const p = S.profile;
-  p.coins    = (p.coins||0) + prize.v;
-  p.totalWon = (p.totalWon||0) + prize.v;
-  p.best     = Math.max(p.best||0, prize.v);
+  p.coins += prize.v; p.totalWon += prize.v; p.best = Math.max(p.best||0, prize.v);
   renderProfile();
   $('#claimBtn').disabled = true;
   $('#prizeSub').textContent = 'Claimed ✅';
   try{
     await dbPatch('users/' + S.uid, { coins:p.coins, totalWon:p.totalWon, best:p.best });
-    await dbPush('users/' + S.uid + '/history', {
-      prize:prize.v, label:prize.label, card:S.card.cardId, at:Date.now() });
+    await dbPush('users/' + S.uid + '/history', { prize:prize.v, label:prize.label, card:S.card.cardId, at:Date.now() });
     await dbPatch('leaderboard/' + S.uid, { name:p.name, totalWon:p.totalWon, updatedAt:Date.now() });
   }catch(e){}
-  successPop('🎉','You Won!', `+₹${prize.v} (${prize.v} coins) add ho gaye!`);
-  beep(1046,.1,'sine');
-  S.card = null;
+  successPop('🎉','You Won!', `+₹${prize.v} aapke balance me add ho gaye!`);
+  beep(1046,.1,'sine'); S.card = null;
 }
 
-/* ============================
-   PAYMENTS (UPI + Paytm only)
-   ============================ */
+/* =========================================================
+   PAYMENTS
+   ========================================================= */
 function openDepositSheet(){
   const presets = [50, 100, 200, 500, 1000, 2000];
   const hasQR = !!S.cfg.qrImage;
   openSheet('➕ Add Money', `
     <p class="hint" style="text-align:left;margin-bottom:14px">
-      Amount choose karo, QR scan ya UPI app se pay karo, UTR submit karo. Admin 5-10 min me approve karega.
+      Amount choose karo, QR scan karo, UTR submit karo. Admin 5-10 min me approve karega.
     </p>
-
     <label class="aLabel">Amount (₹)</label>
     <div class="amtGrid" id="depAmtGrid">
       ${presets.map(v=>`<button class="amtBtn" data-v="${v}" type="button">₹${v}</button>`).join('')}
     </div>
     <input id="depAmt" class="aInput" type="number" placeholder="Custom (min ₹${MIN_DEPOSIT})" inputmode="numeric" style="margin-bottom:14px">
-
-    ${hasQR ? `
-      <div class="qrBox">
-        <img src="${esc(S.cfg.qrImage)}" class="qrImg" alt="Payment QR">
-        <div class="qrLabel">📷 Scan & Pay</div>
-        <div class="qrSub">UPI · Paytm · GPay · PhonePe</div>
-      </div>` : `
-      <div class="qrBox">
-        <div class="qrPlaceholder"><div class="eIcon">📷</div><div class="eTxt">QR not uploaded</div></div>
-        <div class="qrLabel" style="color:#666">Admin QR upload karega</div>
-      </div>`}
-
-    ${S.cfg.upiLink ? `<button class="upiOpenBtn" id="openUpi" type="button">📱 Open UPI App (GPay / PhonePe / Paytm)</button>` : ''}
-    ${S.cfg.paytmLink ? `<button class="upiOpenBtn paytm" id="openPaytm" type="button">💳 Open Paytm App</button>` : ''}
-
+    ${hasQR ? `<div class="qrBox"><img src="${esc(S.cfg.qrImage)}" class="qrImg" alt="QR">
+      <div class="qrLabel">📷 Scan & Pay</div><div class="qrSub">UPI · Paytm · GPay · PhonePe</div></div>`
+      : `<div class="qrBox"><div class="qrPlaceholder"><div class="eIcon">📷</div><div class="eTxt">QR not uploaded</div></div>
+         <div class="qrLabel" style="color:#666">Admin QR upload karega</div></div>`}
+    ${S.cfg.upiLink ? `<button class="upiOpenBtn" id="openUpi" type="button">📱 Open UPI App</button>` : ''}
+    ${S.cfg.paytmLink ? `<button class="upiOpenBtn paytm" id="openPaytm" type="button">💳 Open Paytm</button>` : ''}
     <div class="payInfo">
       <div style="font-size:11px;color:#8b8fa8;letter-spacing:1px;margin-bottom:10px;font-weight:800">💳 OR PAY TO</div>
       <div class="payInfoRow"><span>UPI ID</span><b>${esc(S.cfg.upiId||'—')}<button class="copyBtn" data-copy="${esc(S.cfg.upiId||'')}">COPY</button></b></div>
       <div class="payInfoRow"><span>Paytm</span><b>${esc(S.cfg.paytm||'—')}<button class="copyBtn" data-copy="${esc(S.cfg.paytm||'')}">COPY</button></b></div>
     </div>
-
     <label class="aLabel">UTR / Transaction ID</label>
     <input id="depUtr" class="aInput" type="text" placeholder="e.g. 4587XXXXXXXX" maxlength="30" style="margin-bottom:14px">
-
     <label class="aLabel">Payment Method</label>
     <div class="methodGrid" id="depMethod">
       <button class="methodBtn active" data-m="upi" type="button"><span>📱</span>UPI</button>
       <button class="methodBtn" data-m="paytm" type="button"><span>💳</span>Paytm</button>
     </div>
-
     <button class="btn gold block" id="depSubmit" type="button">📤 Submit Deposit Request</button>
     <div class="msg" id="depMsg" style="margin-top:10px"></div>
   `);
-
   let amtVal=0, method='upi';
   $$('#depAmtGrid .amtBtn').forEach(b => b.onclick = () => {
-    $$('#depAmtGrid .amtBtn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active');
-    amtVal = parseInt(b.dataset.v);
-    $('#depAmt').value = amtVal;
-    updateLinks();
+    $$('#depAmtGrid .amtBtn').forEach(x=>x.classList.remove('active')); b.classList.add('active');
+    amtVal = parseInt(b.dataset.v); $('#depAmt').value = amtVal; updateLinks();
   });
   $('#depAmt').addEventListener('input', e => {
     amtVal = parseInt(e.target.value) || 0;
@@ -1251,41 +1198,24 @@ function openDepositSheet(){
     updateLinks();
   });
   $$('#depMethod .methodBtn').forEach(b => b.onclick = () => {
-    $$('#depMethod .methodBtn').forEach(x=>x.classList.remove('active'));
-    b.classList.add('active'); method = b.dataset.m;
+    $$('#depMethod .methodBtn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); method = b.dataset.m;
   });
-  $$('.copyBtn').forEach(b => b.onclick = () => {
-    navigator.clipboard.writeText(b.dataset.copy); toast('Copied ✅','ok');
-  });
-
+  $$('.copyBtn').forEach(b => b.onclick = () => { navigator.clipboard.writeText(b.dataset.copy); toast('Copied ✅','ok'); });
   function updateLinks(){
     const upiBtn = $('#openUpi'), paytmBtn = $('#openPaytm');
     const amt = amtVal || 0;
-    if(upiBtn && S.cfg.upiLink){
-      const base = S.cfg.upiLink;
-      const sep = base.includes('?') ? '&' : '?';
-      upiBtn.onclick = () => {
-        const link = amt ? `${base}${sep}am=${amt}&cu=INR&tn=ScratchPro` : base;
-        window.location.href = link;
-      };
-    }
-    if(paytmBtn && S.cfg.paytmLink){
-      const base = S.cfg.paytmLink;
-      const sep = base.includes('?') ? '&' : '?';
-      paytmBtn.onclick = () => {
-        const link = amt ? `${base}${sep}am=${amt}&cu=INR` : base;
-        window.location.href = link;
-      };
-    }
+    if(upiBtn && S.cfg.upiLink){ const base = S.cfg.upiLink; const sep = base.includes('?') ? '&' : '?';
+      upiBtn.onclick = () => { window.location.href = amt ? `${base}${sep}am=${amt}&cu=INR&tn=ScratchPro` : base; }; }
+    if(paytmBtn && S.cfg.paytmLink){ const base = S.cfg.paytmLink; const sep = base.includes('?') ? '&' : '?';
+      paytmBtn.onclick = () => { window.location.href = amt ? `${base}${sep}am=${amt}&cu=INR` : base; }; }
   }
   updateLinks();
-
   $('#depSubmit').onclick = async () => {
     const amt = amtVal || parseInt($('#depAmt').value);
     const utr = $('#depUtr').value.trim();
     setMsg($('#depMsg'),'');
     if(!amt || amt < MIN_DEPOSIT) return setMsg($('#depMsg'), `Min deposit ₹${MIN_DEPOSIT}`,'err');
-    if(utr.length < 6) return setMsg($('#depMsg'), 'UTR / Transaction ID daalo (min 6 chars)','err');
+    if(utr.length < 6) return setMsg($('#depMsg'), 'UTR daalo (min 6 chars)','err');
     const btn = $('#depSubmit'); btn.disabled = true; btn.textContent = 'Submitting…';
     const req = { uid:S.uid, name:S.profile.name, email:S.profile.email,
       type:'deposit', amount:amt, coins:amt, method, utr, status:'pending', at:Date.now() };
@@ -1293,59 +1223,42 @@ function openDepositSheet(){
       const ref = await dbPush('payments', req);
       await dbPush('users/' + S.uid + '/requests', { ...req, ref });
       closeSheet();
-      successPop('📤','Request Submitted!', `₹${amt} ka deposit request bhej diya. Admin approve karega to coins add ho jayenge.`);
+      successPop('📤','Request Submitted!', `₹${amt} ka deposit request bhej diya.`);
       beep(660,.12,'triangle');
-    }catch(e){
-      setMsg($('#depMsg'), 'Fail: ' + e.message,'err');
-      btn.disabled = false; btn.textContent = '📤 Submit Deposit Request';
-    }
+    }catch(e){ setMsg($('#depMsg'), 'Fail: ' + e.message,'err'); btn.disabled=false; btn.textContent='📤 Submit Deposit Request'; }
   };
 }
 
 function openWithdrawSheet(){
-  const p = S.profile || {};
-  const maxR = p.coins || 0; // 1:1
+  const p = S.profile || {}; const maxR = p.coins || 0;
   openSheet('💸 Withdraw Money', `
     <div class="card2" style="text-align:center;margin-bottom:14px">
       <div style="font-size:11px;color:#8b8fa8;letter-spacing:1px;font-weight:800">AVAILABLE</div>
       <div style="font-size:28px;font-weight:900;margin-top:4px;
         background:linear-gradient(135deg,#fff8d6,#ffd35c 60%,#c9962a);
         -webkit-background-clip:text;background-clip:text;color:transparent">₹${fmt(maxR)}</div>
-      <div style="font-size:11px;color:#8b8fa8;margin-top:2px">${fmt(p.coins || 0)} coins</div>
     </div>
-
-    <p class="hint" style="text-align:left;margin-bottom:14px">
-      Min ₹${MIN_WITHDRAW}. Coins hold ho jayenge. Admin approve karega to UPI pe paise aa jayenge.
-    </p>
-
+    <p class="hint" style="text-align:left;margin-bottom:14px">Min ₹${MIN_WITHDRAW}. Coins hold ho jayenge.</p>
     <label class="aLabel">Amount (₹)</label>
     <input id="wdAmt" class="aInput" type="number" placeholder="Min ₹${MIN_WITHDRAW}" inputmode="numeric" style="margin-bottom:14px">
-
     <label class="aLabel">Aapka UPI ID</label>
     <input id="wdUpi" class="aInput" type="text" placeholder="yourname@upi" style="margin-bottom:14px">
-
     <label class="aLabel">Account Holder Name</label>
     <input id="wdName" class="aInput" type="text" placeholder="Full name" value="${esc(p.name || '')}" maxlength="40" style="margin-bottom:14px">
-
     <button class="btn danger block" id="wdSubmit" type="button">📤 Submit Withdraw Request</button>
     <div class="msg" id="wdMsg" style="margin-top:10px"></div>
   `);
-
   $('#wdSubmit').onclick = async () => {
-    const amt = parseInt($('#wdAmt').value);
-    const upi = $('#wdUpi').value.trim();
-    const name = $('#wdName').value.trim();
+    const amt = parseInt($('#wdAmt').value); const upi = $('#wdUpi').value.trim(); const name = $('#wdName').value.trim();
     setMsg($('#wdMsg'),'');
     if(!amt || amt < MIN_WITHDRAW) return setMsg($('#wdMsg'), `Min withdraw ₹${MIN_WITHDRAW}`,'err');
     if(amt > maxR) return setMsg($('#wdMsg'), 'Itna balance nahi hai','err');
-    if(!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi)) return setMsg($('#wdMsg'), 'UPI ID sahi nahi lagti','err');
+    if(!/^[\w.\-]{2,}@[a-zA-Z]{2,}$/.test(upi)) return setMsg($('#wdMsg'), 'UPI ID sahi nahi','err');
     if(name.length < 3) return setMsg($('#wdMsg'), 'Naam daalein','err');
     const btn = $('#wdSubmit'); btn.disabled = true; btn.textContent = 'Submitting…';
-    const coinsToHold = amt;
-    const newBal = (p.coins || 0) - coinsToHold;
-    const req = { uid:S.uid, name:S.profile.name, email:S.profile.email,
-      type:'withdraw', amount:amt, coins:coinsToHold, upi, holderName:name,
-      status:'pending', at:Date.now() };
+    const newBal = (p.coins || 0) - amt;
+    const req = { uid:S.uid, name:S.profile.name, email:S.profile.email, type:'withdraw',
+      amount:amt, coins:amt, upi, holderName:name, status:'pending', at:Date.now() };
     try{
       await dbPatch('users/' + S.uid, { coins:newBal }); p.coins = newBal;
       const ref = await dbPush('payments', req);
@@ -1353,10 +1266,7 @@ function openWithdrawSheet(){
       renderProfile(); closeSheet();
       successPop('📤','Request Sent!', `₹${amt} ka withdraw request bhej diya.`);
       beep(660,.12,'triangle');
-    }catch(e){
-      setMsg($('#wdMsg'), 'Fail: ' + e.message,'err');
-      btn.disabled = false; btn.textContent = '📤 Submit Withdraw Request';
-    }
+    }catch(e){ setMsg($('#wdMsg'), 'Fail: ' + e.message,'err'); btn.disabled=false; btn.textContent='📤 Submit Withdraw Request'; }
   };
 }
 
@@ -1365,39 +1275,31 @@ async function renderTransactions(){
   list.innerHTML = '<div class="loader"><div class="spin"></div><span>Loading…</span></div>';
   try{
     const [reqs, hist] = await Promise.all([
-      dbGet('users/' + S.uid + '/requests'),
-      dbGet('users/' + S.uid + '/history')
+      dbGet('users/' + S.uid + '/requests'), dbGet('users/' + S.uid + '/history')
     ]);
     const rows = [];
-    if(reqs) Object.values(reqs).forEach(r => {
-      rows.push({ type:r.type, title: r.type==='deposit'?'Deposit Request':'Withdraw Request',
-        amount:r.amount, coins:r.coins||r.amount, status:r.status, at:r.at, method:r.method||'UPI' });
-    });
-    if(hist) Object.values(hist).forEach(h => {
-      rows.push({ type:'win', title:`Scratch Win · ${h.label||('+₹'+h.prize)}`,
-        amount:0, coins:h.prize, status:'approved', at:h.at, method: h.card ? h.card.toUpperCase() : 'game' });
-    });
+    if(reqs) Object.values(reqs).forEach(r => rows.push({ type:r.type,
+      title: r.type==='deposit'?'Deposit Request':'Withdraw Request',
+      amount:r.amount, coins:r.coins||r.amount, status:r.status, at:r.at, method:r.method||'UPI' }));
+    if(hist) Object.values(hist).forEach(h => rows.push({ type:'win',
+      title:`Scratch · ${h.card ? h.card.toUpperCase() : 'Win'}`, amount:0, coins:h.prize,
+      status:'approved', at:h.at, method:h.label||('+₹'+h.prize) }));
     rows.sort((a,b)=>(b.at||0)-(a.at||0));
-    if(!rows.length){ list.innerHTML = '<div class="empty"><div class="eIcon">💳</div>Abhi koi transaction nahi hai.<br>Deposit karo aur khelo!</div>'; return; }
+    if(!rows.length){ list.innerHTML = '<div class="empty"><div class="eIcon">💳</div>Abhi koi transaction nahi.<br>Deposit karo!</div>'; return; }
     list.innerHTML = rows.slice(0,60).map(r => {
       const icons = { deposit:'➕', withdraw:'➖', win:'🎁' };
       const sign = (r.type==='deposit'||r.type==='win') ? '+' : '-';
       const cls = (r.type==='deposit'||r.type==='win') ? 'pos' : 'neg';
       const pillCls = r.status==='pending'?'pending':r.status==='rejected'?'rejected':'approved';
-      const pillTxt = r.status==='pending'?'PENDING':r.status==='rejected'?'REJECTED':'APPROVED';
+      const pillTxt = r.status==='pending'?'PENDING':r.status==='rejected'?'REJECTED':'DONE';
       return `<div class="txnRow">
         <div class="txnIcon">${icons[r.type]||'•'}</div>
-        <div class="txnInfo">
-          <b>${esc(r.title)}</b>
-          <span>${timeAgo(r.at)} · ${esc(r.method)}</span>
-          <span class="pill ${pillCls}">${pillTxt}</span>
-        </div>
+        <div class="txnInfo"><b>${esc(r.title)}</b><span>${timeAgo(r.at)} · ${esc(r.method)}</span>
+          <span class="pill ${pillCls}">${pillTxt}</span></div>
         <div class="txnAmt ${cls}">${sign}₹${fmt(r.type==='withdraw'?r.amount:r.coins)}</div>
       </div>`;
     }).join('');
-  }catch(e){
-    list.innerHTML = '<div class="empty">Load nahi hua.</div>';
-  }
+  }catch(e){ list.innerHTML = '<div class="empty">Load nahi hua.</div>'; }
 }
 
 /* VIEWS */
@@ -1423,7 +1325,6 @@ async function renderBoard(){
     const myIdx = rows.findIndex(r => r.uid === S.uid);
     const myRank = myIdx >= 0 ? myIdx+1 : null;
     const myData = myIdx >= 0 ? rows[myIdx] : { totalWon:S.profile?.totalWon||0, name:S.profile?.name };
-
     const p1=rows[0], p2=rows[1], p3=rows[2];
     const podHTML = (r, pos) => {
       if(!r) return `<div class="podCard ${pos}" style="visibility:hidden"><div class="podMedal"></div></div>`;
@@ -1431,63 +1332,42 @@ async function renderBoard(){
       const cls = pos==='first'?'first':pos==='second'?'second':'third';
       const medal = pos==='first'?'🥇':pos==='second'?'🥈':'🥉';
       return `<div class="podCard ${cls}">
-        ${pos==='first'?'<div class="podCrownTop">👑</div>':''}
         <div class="podMedal">${medal}</div>
         <div class="podAvatar">${initials(r.name)}</div>
         <div class="podName">${esc(r.name||'Player')}</div>
         <div class="podAmt">₹${fmt(r.totalWon)}</div>
-        <div class="podTier">${tier.icon} ${tier.name}</div>
-      </div>`;
+        <div class="podTier">${tier.icon} ${tier.name}</div></div>`;
     };
     const restRows = rows.slice(3, 53);
     const listHTML = restRows.map((r,i) => {
-      const rank = i+4;
-      const tier = tierOf(r.totalWon);
-      const isMe = r.uid === S.uid;
+      const rank = i+4; const tier = tierOf(r.totalWon); const isMe = r.uid === S.uid;
       return `<div class="rankItem ${isMe?'me':''}">
         <div class="rankNum">${rank}</div>
         <div class="rankAv">${initials(r.name)}</div>
-        <div class="rankInfo">
-          <b>${esc(r.name||'Player')}${isMe?' <span style="color:#8b8fa8;font-weight:600">(you)</span>':''}</b>
-          <span class="tier ${tier.cls}">${tier.icon} ${tier.name}</span>
-        </div>
-        <div class="rankVal">₹${fmt(r.totalWon)}<span>winnings</span></div>
-      </div>`;
+        <div class="rankInfo"><b>${esc(r.name||'Player')}${isMe?' <span style="color:#8b8fa8">(you)</span>':''}</b>
+          <span class="tier ${tier.cls}">${tier.icon} ${tier.name}</span></div>
+        <div class="rankVal">₹${fmt(r.totalWon)}<span>winnings</span></div></div>`;
     }).join('');
-
-    const myCardHTML = myRank ? `
-      <div class="yourRank">
-        <div class="rankNum">#${myRank}</div>
-        <div class="info">
-          <b>${esc(myData.name||'You')} <span style="color:#8b8fa8;font-weight:600">(you)</span></b>
-          <span>${tierOf(myData.totalWon).icon} ${tierOf(myData.totalWon).name} · ₹${fmt(myData.totalWon)}</span>
-        </div>
-        <div class="amt">${myRank <= 3 ? '🏅' : '#'+myRank}</div>
-      </div>` : `
-      <div class="yourRank" style="background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02));border-color:var(--line)">
+    const myCardHTML = myRank ? `<div class="yourRank">
+      <div class="rankNum">#${myRank}</div>
+      <div class="info"><b>${esc(myData.name||'You')} (you)</b>
+        <span>${tierOf(myData.totalWon).icon} ${tierOf(myData.totalWon).name} · ₹${fmt(myData.totalWon)}</span></div>
+      <div class="amt">${myRank <= 3 ? '🏅' : '#'+myRank}</div></div>`
+      : `<div class="yourRank" style="background:linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.02))">
         <div class="rankNum" style="background:rgba(255,255,255,.08);color:#8b8fa8">—</div>
-        <div class="info"><b>Abhi tak rank nahi hai</b><span>Khelo, jeeto, aur top me pahucho! 🚀</span></div>
-      </div>`;
-
+        <div class="info"><b>Abhi tak rank nahi</b><span>Khelo aur top me aao! 🚀</span></div></div>`;
     cont.innerHTML = `
-      <div class="lbHero">
-        <div class="crownBig">👑</div>
-        <h2>LEADERBOARD</h2>
-        <p>Top players — tumhara naam kab aayega?</p>
+      <div class="lbHero"><div class="crownBig">👑</div><h2>LEADERBOARD</h2>
+        <p>Top players ki list</p>
         <div class="lbHeroStats">
           <div><span>Players</span><b>${fmt(totalPlayers)}</b></div>
           <div><span>Total Won</span><b>₹${fmt(totalCoins)}</b></div>
           <div><span>Your Rank</span><b>${myRank?'#'+myRank:'—'}</b></div>
-        </div>
-      </div>
+        </div></div>
       ${totalPlayers >= 1 ? `<div class="podium">${podHTML(p2,'second')}${podHTML(p1,'first')}${podHTML(p3,'third')}</div>` : ''}
       ${myCardHTML}
-      ${restRows.length ? `<div class="secTitle">🏅 Top 4 - 50</div><div class="rankList">${listHTML}</div>` :
-        (totalPlayers <= 3 ? `<div class="empty" style="margin-top:10px"><div class="eIcon">🌱</div>Abhi sirf ${totalPlayers} player hai.</div>` : '')}
-    `;
-  }catch(e){
-    cont.innerHTML = '<div class="empty">Leaderboard load nahi hua.</div>';
-  }
+      ${restRows.length ? `<div class="secTitle">🏅 Top 4 - 50</div><div class="rankList">${listHTML}</div>` : ''}`;
+  }catch(e){ cont.innerHTML = '<div class="empty">Load nahi hua.</div>'; }
 }
 
 /* SHEET */
@@ -1504,11 +1384,10 @@ function openProfile(){
       <div class="avatar" style="width:70px;height:70px;font-size:26px;margin:0 auto 12px">${initials(p.name)}</div>
       <div style="font-size:19px;font-weight:900">${esc(p.name)}</div>
       <div style="font-size:12.5px;color:#8b93a7;margin-top:3px">${esc(p.email || '')}</div>
-      ${p.verified ? '<div class="pill approved" style="margin-top:8px">✓ VERIFIED</div>' : '<div class="pill pending" style="margin-top:8px">UNVERIFIED</div>'}
+      ${p.verified ? '<div class="pill approved" style="margin-top:8px">✓ VERIFIED</div>' : ''}
     </div>
     <div class="glowLine"></div>
     <div class="lbRow"><div class="lbRank">🪙</div><div class="lbName">Coins</div><div class="lbVal">${fmt(p.coins)}</div></div>
-    <div class="lbRow"><div class="lbRank">💰</div><div class="lbName">Value</div><div class="lbVal">₹${fmt(p.coins)}</div></div>
     <div class="lbRow"><div class="lbRank">🏆</div><div class="lbName">Total Won</div><div class="lbVal">₹${fmt(p.totalWon)}</div></div>
     <div class="lbRow"><div class="lbRank">📥</div><div class="lbName">Deposited</div><div class="lbVal">₹${fmt(p.deposited)}</div></div>
     <div class="lbRow"><div class="lbRank">📤</div><div class="lbName">Withdrawn</div><div class="lbVal">₹${fmt(p.withdrawn)}</div></div>
@@ -1539,15 +1418,16 @@ function applySound(){
 function logout(){ clearStored(); S.idToken=S.refreshToken=S.uid=S.email=S.profile=S.card=null; location.reload(); }
 $$('.bnav button').forEach(b => b.addEventListener('click', () => switchView(b.dataset.view)));
 
-/* ADMIN */
+/* =========================================================
+   ADMIN — NEW
+   ========================================================= */
 function askAdminPassword(){
   openSheet('🛡️ Admin Access', `
     <p class="hint" style="margin-bottom:18px">Enter admin password</p>
     <label class="aLabel">Password</label>
     <input id="adminPw" class="aInput" type="password" placeholder="••••••••" autocomplete="off">
     <div class="aBtns" style="margin-top:16px">
-      <button class="btn gold block" id="adminPwGo" type="button" style="height:48px">🔓 Unlock</button>
-    </div>
+      <button class="btn gold block" id="adminPwGo" type="button" style="height:48px">🔓 Unlock</button></div>
     <div class="msg" id="adminPwMsg" style="margin-top:10px"></div>
   `);
   setTimeout(()=>$('#adminPw')?.focus(), 100);
@@ -1585,6 +1465,7 @@ async function renderAdmin(){
   body.innerHTML = '<div class="loader"><div class="spin"></div><span>Loading…</span></div>';
   try{
     if(adminTab === 'dash') return renderAdminDash(body);
+    if(adminTab === 'cards') return renderAdminCards(body);
     if(adminTab === 'payments') return renderAdminPayments(body);
     if(adminTab === 'users') return renderAdminUsers(body);
     if(adminTab === 'broadcast') return renderAdminBroadcast(body);
@@ -1593,15 +1474,16 @@ async function renderAdmin(){
   }catch(e){ body.innerHTML = `<div class="empty">Error: ${esc(e.message)}</div>`; }
 }
 
+/* ---- Dashboard ---- */
 async function renderAdminDash(body){
   const [users, payments] = await Promise.all([dbGet('users')||{}, dbGet('payments')||{}]);
-  const list = Object.values(users);
-  const pays = Object.values(payments);
+  const list = Object.values(users); const pays = Object.values(payments);
   const totalUsers = list.length;
   const totalCoins = list.reduce((a,u)=>a+(u.coins||0),0);
   const totalWon = list.reduce((a,u)=>a+(u.totalWon||0),0);
   const totalCards = list.reduce((a,u)=>a+(u.cardsPlayed||0),0);
   const banned = list.filter(u=>u.banned).length;
+  const verified = list.filter(u=>u.verified).length;
   const pendingPays = pays.filter(p=>p.status==='pending').length;
   const totalDep = pays.filter(p=>p.type==='deposit'&&p.status==='approved').reduce((a,p)=>a+(p.amount||0),0);
   const totalWd = pays.filter(p=>p.type==='withdraw'&&p.status==='approved').reduce((a,p)=>a+(p.amount||0),0);
@@ -1620,22 +1502,23 @@ async function renderAdminDash(body){
       <div class="aStat"><span>Coins</span><b>${fmt(totalCoins)}</b></div>
       <div class="aStat"><span>Won</span><b>${fmt(totalWon)}</b></div>
       <div class="aStat"><span>Cards</span><b>${fmt(totalCards)}</b></div>
-      <div class="aStat"><span>Banned</span><b>${fmt(banned)}</b></div>
+      <div class="aStat"><span>Banned</span><b style="color:#ff5c6c">${fmt(banned)}</b></div>
+      <div class="aStat"><span>Verified</span><b style="color:#38e08a">${fmt(verified)}</b></div>
       <div class="aStat"><span>Multiplier</span><b>${S.cfg.multiplier}x</b></div>
       <div class="aStat"><span>QR</span><b>${S.cfg.qrImage?'✓':'—'}</b></div>
-      <div class="aStat"><span>Rate</span><b>1:1</b></div>
     </div>
     <div class="secTitle">🎴 Card Odds (Win Chances)</div>
     <div class="card2">
-      ${Object.values(CARDS).map(c => {
-        const total = c.prizes.reduce((a,p)=>a+p.w,0);
-        const win = winChance(c.id);
-        return `<div class="oddsRow" style="margin-bottom:10px">
-          <div class="lbl">${c.icon} ${c.name.split(' ')[0]}</div>
-          <div class="bar"><i style="width:${win}%"></i></div>
-          <div class="pct">${win}%</div>
-        </div>`;
-      }).join('')}
+      ${Object.values(CARDS).map(c => `
+        <div style="display:flex;align-items:center;gap:12px;padding:8px 0">
+          <div style="width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-size:20px;
+            background:rgba(255,255,255,.05)">${c.icon}</div>
+          <div style="flex:1">
+            <div style="font-weight:900;font-size:13px;margin-bottom:4px">${esc(c.name)} · ₹${c.cost}</div>
+            <div class="oddsPreview"><i style="width:${Math.min(100,c.winChance)}%"></i></div>
+          </div>
+          <div style="font-weight:900;color:#ffd35c;font-size:15px">${c.winChance}%</div>
+        </div>`).join('')}
     </div>
     <div class="secTitle">⚡ Quick Actions</div>
     <div class="aBtns">
@@ -1648,55 +1531,130 @@ async function renderAdminDash(body){
   updatePayBadge();
 }
 
+/* ---- Cards Editor (NEW) ---- */
+async function renderAdminCards(body){
+  body.innerHTML = Object.values(CARDS).map(c => `
+    <div class="cardEditor" data-cid="${c.id}">
+      <div class="ceHead">
+        <div class="left">
+          <div class="ic">${c.icon}</div>
+          <div>
+            <b>${esc(c.name)} CARD</b>
+            <span>${esc(c.desc || '')}</span>
+          </div>
+        </div>
+        <div class="oddsBadge">Win ${c.winChance}%</div>
+      </div>
+      <div class="ceGrid">
+        <div class="ceField">
+          <label>Cost (coins)</label>
+          <input type="number" class="ceCost" value="${c.cost}" min="1" max="100000">
+        </div>
+        <div class="ceField">
+          <label>Win Chance (%)</label>
+          <input type="number" class="ceWin" value="${c.winChance}" min="0" max="100" step="0.1">
+        </div>
+      </div>
+      <div style="font-size:11px;color:#8b8fa8;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px">
+        🎁 Prize List (value · weight)
+      </div>
+      <div class="cePrizes"></div>
+      <div class="aBtns">
+        <button class="btn ok ceAddPrize" type="button" style="height:40px">➕ Add Prize</button>
+        <button class="btn gold ceSave" type="button" style="height:40px">💾 Save</button>
+      </div>
+    </div>`).join('');
+
+  // Populate prize rows
+  Object.values(CARDS).forEach(c => {
+    const ed = body.querySelector(`.cardEditor[data-cid="${c.id}"]`);
+    const list = ed.querySelector('.cePrizes');
+    c.prizes.forEach((p, i) => {
+      const row = document.createElement('div');
+      row.className = 'prizeEditRow';
+      row.innerHTML = `
+        <div class="pv">₹<input type="number" class="pV" value="${p.v}" min="1" max="1000000"></div>
+        <div class="pw">W<input type="number" class="pW" value="${p.w}" min="0" step="0.1"></div>
+        <button class="delBtn" type="button">✕</button>`;
+      list.appendChild(row);
+      row.querySelector('.delBtn').onclick = () => { row.remove(); };
+    });
+
+    ed.querySelector('.ceAddPrize').onclick = () => {
+      const row = document.createElement('div');
+      row.className = 'prizeEditRow';
+      row.innerHTML = `
+        <div class="pv">₹<input type="number" class="pV" value="50" min="1"></div>
+        <div class="pw">W<input type="number" class="pW" value="1" min="0" step="0.1"></div>
+        <button class="delBtn" type="button">✕</button>`;
+      list.appendChild(row);
+      row.querySelector('.delBtn').onclick = () => row.remove();
+    };
+
+    ed.querySelector('.ceSave').onclick = async () => {
+      const cost = Math.max(1, parseInt(ed.querySelector('.ceCost').value) || 1);
+      const winChance = Math.max(0, Math.min(100, parseFloat(ed.querySelector('.ceWin').value) || 0));
+      const prizes = [...ed.querySelectorAll('.prizeEditRow')].map(r => ({
+        v: Math.max(1, parseInt(r.querySelector('.pV').value) || 1),
+        w: Math.max(0, parseFloat(r.querySelector('.pW').value) || 0),
+        label: '+₹' + (parseInt(r.querySelector('.pV').value) || 1)
+      })).filter(p => p.w > 0);
+
+      if(!prizes.length) return toast('Kam se kam 1 prize add karo','err');
+
+      CARDS[c.id].cost = cost;
+      CARDS[c.id].winChance = winChance;
+      CARDS[c.id].prizes = prizes;
+      await dbSet('admin/cards', CARDS);
+      toast(`${c.name} card updated ✅`,'ok');
+      // Update live if this was selected
+      if(selectedCard === c.id){
+        renderPickCards();
+        $('#scMax').textContent = 'Max ₹' + fmt(prizes.reduce((a,p)=>Math.max(a,p.v),0));
+        renderBuyBtn();
+      }
+    };
+  });
+}
+
+/* ---- Payments ---- */
 async function renderAdminPayments(body){
   const all = await dbGet('payments') || {};
   const rows = Object.entries(all).map(([id,p])=>({id, ...p})).sort((a,b)=>(b.at||0)-(a.at||0));
   const pendingD = rows.filter(r => r.status === 'pending' && r.type === 'deposit');
   const pendingW = rows.filter(r => r.status === 'pending' && r.type === 'withdraw');
   const past = rows.filter(r => r.status !== 'pending').slice(0, 40);
-
   body.innerHTML = `
-    <div class="secTitle">⏳ Pending Deposits (${pendingD.length})</div>
-    <div id="pendDep"></div>
-    <div class="secTitle">⏳ Pending Withdrawals (${pendingW.length})</div>
-    <div id="pendWd"></div>
-    <div class="secTitle">📜 Past Requests</div>
-    <div id="pastReqs"></div>
-  `;
+    <div class="secTitle">⏳ Pending Deposits (${pendingD.length})</div><div id="pendDep"></div>
+    <div class="secTitle">⏳ Pending Withdrawals (${pendingW.length})</div><div id="pendWd"></div>
+    <div class="secTitle">📜 Past Requests</div><div id="pastReqs"></div>`;
   const renderCard = (r, showActions = true) => {
     const isDep = r.type === 'deposit';
     return `<div class="payCard ${isDep?'dep':'wd'}">
-      <div class="head">
-        <div class="typ">${isDep?'📥 DEPOSIT':'📤 WITHDRAW'}</div>
-        <div class="amt">₹${fmt(r.amount)}</div>
-      </div>
+      <div class="head"><div class="typ">${isDep?'📥 DEPOSIT':'📤 WITHDRAW'}</div>
+        <div class="amt">₹${fmt(r.amount)}</div></div>
       <div class="det">
         <div class="kv"><span>User</span><b>${esc(r.name||'—')}</b></div>
         <div class="kv"><span>Email</span><b style="font-size:11px">${esc(r.email||'—')}</b></div>
         ${isDep ? `
           <div class="kv"><span>Method</span><b>${esc((r.method||'upi').toUpperCase())}</b></div>
-          <div class="kv"><span>UTR</span><b style="font-size:11px">${esc(r.utr||'—')}</b></div>
-          <div class="kv"><span>Coins</span><b>+${fmt(r.coins||r.amount)} 🪙</b></div>
-        ` : `
+          <div class="kv"><span>UTR</span><b style="font-size:11px">${esc(r.utr||'—')}</b></div>`
+        : `
           <div class="kv"><span>UPI</span><b style="font-size:11px">${esc(r.upi||'—')}</b></div>
-          <div class="kv"><span>Holder</span><b>${esc(r.holderName||'—')}</b></div>
-          <div class="kv"><span>Coins Held</span><b>${fmt(r.coins||r.amount)} 🪙</b></div>
-        `}
+          <div class="kv"><span>Holder</span><b>${esc(r.holderName||'—')}</b></div>`}
         <div class="kv"><span>Time</span><b>${timeAgo(r.at)}</b></div>
         ${r.status !== 'pending' ? `<div class="kv"><span>Status</span><b>${r.status.toUpperCase()}</b></div>` : ''}
       </div>
-      ${showActions ? `
-        <div class="aBtns">
-          <button class="btn ok" data-approve="${r.id}" type="button" style="height:42px">✓ Approve</button>
-          <button class="btn danger" data-reject="${r.id}" type="button" style="height:42px">✕ Reject</button>
-          <button class="btn" data-delete="${r.id}" type="button" style="height:42px;background:#2a2233;border:1px solid #4a3a55">🗑️</button>
-        </div>` : ''}
+      ${showActions ? `<div class="aBtns">
+        <button class="btn ok" data-approve="${r.id}" type="button" style="height:42px">✓ Approve</button>
+        <button class="btn danger" data-reject="${r.id}" type="button" style="height:42px">✕ Reject</button>
+        <button class="btn" data-delete="${r.id}" type="button" style="height:42px;background:#2a2233;border:1px solid #4a3a55">🗑️</button>
+      </div>` : ''}
     </div>`;
   };
   $('#pendDep').innerHTML = pendingD.length ? pendingD.map(r=>renderCard(r)).join('') : '<div class="empty" style="padding:20px"><div class="eIcon">✓</div>No pending deposits.</div>';
   $('#pendWd').innerHTML = pendingW.length ? pendingW.map(r=>renderCard(r)).join('') : '<div class="empty" style="padding:20px"><div class="eIcon">✓</div>No pending withdrawals.</div>';
   $('#pastReqs').innerHTML = past.length ? past.map(r=>renderCard(r, false)).join('') : '<div class="empty" style="padding:20px">Kuch nahi.</div>';
-
   body.querySelectorAll('[data-approve]').forEach(b => b.onclick = () => handleApprove(b.dataset.approve, rows));
   body.querySelectorAll('[data-reject]').forEach(b => b.onclick = () => handleReject(b.dataset.reject, rows));
   body.querySelectorAll('[data-delete]').forEach(b => b.onclick = () => handleDelete(b.dataset.delete));
@@ -1719,13 +1677,12 @@ async function handleApprove(id, rows){
 }
 async function handleReject(id, rows){
   const r = rows.find(x=>x.id === id); if(!r) return;
-  const reason = prompt('Rejection reason (optional):') || 'Rejected by admin';
-  if(!confirm(`Reject request? ${r.type === 'withdraw' ? 'Coins will be refunded.' : ''}`)) return;
+  const reason = prompt('Reason (optional):') || 'Rejected by admin';
+  if(!confirm(`Reject request?${r.type === 'withdraw' ? ' Coins will refund.' : ''}`)) return;
   try{
     if(r.type === 'withdraw'){
       const u = await dbGet('users/' + r.uid) || {};
-      const refund = r.coins || r.amount;
-      await dbPatch('users/' + r.uid, { coins:(u.coins||0)+refund });
+      await dbPatch('users/' + r.uid, { coins:(u.coins||0)+(r.coins||r.amount) });
     }
     await dbPatch('payments/' + id, { status:'rejected', reason, processedAt: Date.now() });
     toast('Rejected ❌','ok'); renderAdmin(); updatePayBadge();
@@ -1737,33 +1694,77 @@ async function handleDelete(id){
   catch(e){ toast('Fail: ' + e.message,'err'); }
 }
 
+/* ---- Users (NEW with filters) ---- */
 let adminUserSearch = '';
 async function renderAdminUsers(body){
   const users = await dbGet('users') || {};
-  const rows = Object.entries(users).map(([uid,u])=>({uid, ...u}))
-    .filter(u => {
-      if(!adminUserSearch) return true;
-      const q = adminUserSearch.toLowerCase();
-      return (u.name||'').toLowerCase().includes(q) || (u.email||'').toLowerCase().includes(q) || u.uid.includes(q);
-    })
-    .sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  let rows = Object.entries(users).map(([uid,u])=>({uid, ...u}));
+
+  // Filter
+  if(userFilter === 'banned') rows = rows.filter(u => u.banned);
+  if(userFilter === 'verified') rows = rows.filter(u => u.verified);
+  if(userFilter === 'unverified') rows = rows.filter(u => !u.verified);
+  if(userFilter === 'hascoins') rows = rows.filter(u => (u.coins||0) > 0);
+
+  // Search
+  if(adminUserSearch){
+    const q = adminUserSearch.toLowerCase();
+    rows = rows.filter(u => (u.name||'').toLowerCase().includes(q) ||
+      (u.email||'').toLowerCase().includes(q) || u.uid.includes(q));
+  }
+
+  // Sort
+  if(userSort === 'newest') rows.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+  if(userSort === 'coins') rows.sort((a,b)=>(b.coins||0)-(a.coins||0));
+  if(userSort === 'won') rows.sort((a,b)=>(b.totalWon||0)-(a.totalWon||0));
+  if(userSort === 'cards') rows.sort((a,b)=>(b.cardsPlayed||0)-(a.cardsPlayed||0));
+
+  const counts = {
+    all: Object.keys(users).length,
+    banned: Object.values(users).filter(u=>u.banned).length,
+    verified: Object.values(users).filter(u=>u.verified).length,
+    unverified: Object.values(users).filter(u=>!u.verified).length,
+    hascoins: Object.values(users).filter(u=>(u.coins||0)>0).length
+  };
+
   body.innerHTML = `
-    <div class="secTitle">Users (${rows.length})</div>
-    <input id="adminUserSearch" class="aInput" type="text" placeholder="🔍 Search…" value="${esc(adminUserSearch)}">
+    <div class="secTitle">👥 Users (${rows.length})</div>
+    <input id="adminUserSearch" class="aInput" type="text" placeholder="🔍 Search name / email / ID…" value="${esc(adminUserSearch)}">
+    <div class="chips" style="margin-top:10px">
+      <button class="chip ${userFilter==='all'?'active':''}" data-f="all" type="button">All (${counts.all})</button>
+      <button class="chip ${userFilter==='verified'?'active':''}" data-f="verified" type="button">✓ Verified (${counts.verified})</button>
+      <button class="chip ${userFilter==='unverified'?'active':''}" data-f="unverified" type="button">⏳ Unverified (${counts.unverified})</button>
+      <button class="chip ${userFilter==='banned'?'active':''}" data-f="banned" type="button">🚫 Banned (${counts.banned})</button>
+      <button class="chip ${userFilter==='hascoins'?'active':''}" data-f="hascoins" type="button">💰 Has Coins</button>
+    </div>
+    <div class="chips">
+      <button class="chip ${userSort==='newest'?'active':''}" data-s="newest" type="button">🆕 Newest</button>
+      <button class="chip ${userSort==='coins'?'active':''}" data-s="coins" type="button">🪙 By Coins</button>
+      <button class="chip ${userSort==='won'?'active':''}" data-s="won" type="button">🏆 By Winnings</button>
+      <button class="chip ${userSort==='cards'?'active':''}" data-s="cards" type="button">🎫 By Cards</button>
+    </div>
     <div style="margin-top:12px" id="adminUserList"></div>
   `;
   $('#adminUserSearch').addEventListener('input', e => { adminUserSearch = e.target.value; renderAdminUsers(body); });
+  body.querySelectorAll('.chip[data-f]').forEach(b => b.onclick = () => { userFilter = b.dataset.f; renderAdminUsers(body); });
+  body.querySelectorAll('.chip[data-s]').forEach(b => b.onclick = () => { userSort = b.dataset.s; renderAdminUsers(body); });
+
   const list = $('#adminUserList');
-  if(!rows.length){ list.innerHTML = '<div class="empty">No users found.</div>'; return; }
-  list.innerHTML = rows.map(u => `
-    <div class="userRow ${u.banned?'banned':''}" data-uid="${u.uid}">
-      <div class="avmini">${initials(u.name)}</div>
-      <div class="info">
-        <b>${esc(u.name||'Player')} ${u.banned?'🚫':u.verified?'✓':''}</b>
-        <span>${esc(u.email||'—')} · ₹${fmt(u.coins||0)}</span>
+  if(!rows.length){ list.innerHTML = '<div class="empty">Koi user nahi mila.</div>'; return; }
+  list.innerHTML = rows.map(u => {
+    const dotColor = u.banned ? '#ff5c6c' : u.verified ? '#38e08a' : '#ffd35c';
+    return `<div class="userRow ${u.banned?'banned':''}" data-uid="${u.uid}">
+      <div class="avmini">${initials(u.name)}
+        <div class="dot" style="background:${dotColor}"></div>
       </div>
-      <div class="c">${fmt(u.coins)} 🪙</div>
-    </div>`).join('');
+      <div class="info">
+        <b>${esc(u.name||'Player')} ${u.banned?'🚫':''}${u.verified?'✓':''}</b>
+        <span>${esc(u.email||'—')}</span>
+        <span>🎫 ${fmt(u.cardsPlayed||0)} cards · 🏆 ₹${fmt(u.totalWon||0)} won</span>
+      </div>
+      <div class="c">₹${fmt(u.coins||0)}<small>coins</small></div>
+    </div>`;
+  }).join('');
   list.querySelectorAll('.userRow').forEach(el => {
     el.addEventListener('click', () => openUserActions(el.dataset.uid, rows.find(r => r.uid === el.dataset.uid)));
   });
@@ -1772,26 +1773,47 @@ async function renderAdminUsers(body){
 function openUserActions(uid, u){
   if(!u) return;
   openSheet('👤 ' + esc(u.name||'User'), `
-    <div class="lbRow"><div class="lbRank">🆔</div><div class="lbName" style="font-size:10.5px;color:#8b93a7">${esc(uid)}</div></div>
-    <div class="lbRow"><div class="lbRank">✉️</div><div class="lbName" style="font-size:12.5px">${esc(u.email||'—')}</div></div>
-    <div class="lbRow"><div class="lbRank">🪙</div><div class="lbName">Coins</div><div class="lbVal">${fmt(u.coins)}</div></div>
-    <div class="lbRow"><div class="lbRank">💰</div><div class="lbName">Value</div><div class="lbVal">₹${fmt(u.coins||0)}</div></div>
-    <div class="lbRow"><div class="lbRank">📥</div><div class="lbName">Deposited</div><div class="lbVal">₹${fmt(u.deposited||0)}</div></div>
-    <div class="lbRow"><div class="lbRank">📤</div><div class="lbName">Withdrawn</div><div class="lbVal">₹${fmt(u.withdrawn||0)}</div></div>
-    <div class="lbRow"><div class="lbRank">🏆</div><div class="lbName">Total Won</div><div class="lbVal">₹${fmt(u.totalWon||0)}</div></div>
+    <div style="display:flex;gap:12px;align-items:center;padding:14px;border-radius:16px;
+      background:linear-gradient(135deg, rgba(124,58,237,.2), rgba(168,85,247,.08));
+      border:1px solid rgba(168,85,247,.3);margin-bottom:12px">
+      <div class="avmini" style="width:56px;height:56px;font-size:22px">${initials(u.name)}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:16px;font-weight:900">${esc(u.name||'User')}</div>
+        <div style="font-size:11px;color:#8b93a7;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">
+          ${esc(u.email||'—')}</div>
+        <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap">
+          ${u.banned ? '<span class="pill rejected">BANNED</span>' : ''}
+          ${u.verified ? '<span class="pill approved">✓ VERIFIED</span>' : '<span class="pill pending">UNVERIFIED</span>'}
+        </div>
+      </div>
+    </div>
 
-    <div class="secTitle">Add / Remove Coins</div>
-    <input id="addCoinAmt" class="aInput" type="number" placeholder="Coins" inputmode="numeric">
+    <div class="aGrid" style="grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px">
+      <div class="aStat" style="padding:10px"><span>Coins</span><b style="font-size:18px">₹${fmt(u.coins)}</b></div>
+      <div class="aStat" style="padding:10px"><span>Total Won</span><b style="font-size:18px">₹${fmt(u.totalWon)}</b></div>
+      <div class="aStat" style="padding:10px"><span>Deposited</span><b style="font-size:18px">₹${fmt(u.deposited||0)}</b></div>
+      <div class="aStat" style="padding:10px"><span>Withdrawn</span><b style="font-size:18px">₹${fmt(u.withdrawn||0)}</b></div>
+      <div class="aStat" style="padding:10px"><span>Cards</span><b style="font-size:18px">${fmt(u.cardsPlayed)}</b></div>
+      <div class="aStat" style="padding:10px"><span>Best</span><b style="font-size:18px">₹${fmt(u.best)}</b></div>
+    </div>
+
+    <div class="secTitle">➕ Add / ➖ Remove Coins</div>
+    <input id="addCoinAmt" class="aInput" type="number" placeholder="Amount" inputmode="numeric">
     <div class="aBtns">
       <button class="btn ok" id="addCoinsBtn" type="button" style="height:44px">➕ Add</button>
       <button class="btn danger" id="subCoinsBtn" type="button" style="height:44px">➖ Remove</button>
     </div>
 
-    <div class="secTitle">Danger Zone</div>
+    <div class="secTitle">🛡️ Account Controls</div>
     <div class="aBtns">
-      <button class="btn ${u.banned?'ok':'danger'}" id="banBtn" type="button">${u.banned?'✅ Unban':'🚫 Ban'}</button>
-      <button class="btn ok" id="verifyBtn" type="button">${u.verified?'↩️ Unverify':'✓ Verify'}</button>
-      <button class="btn danger" id="resetBtn" type="button" style="flex-basis:100%">🔄 Reset Stats</button>
+      <button class="btn ${u.banned?'ok':'danger'}" id="banBtn" type="button">${u.banned?'✅ Unban User':'🚫 Ban User'}</button>
+      <button class="btn ${u.verified?'ghost':'ok'}" id="verifyBtn" type="button">${u.verified?'↩️ Unverify':'✓ Verify User'}</button>
+    </div>
+
+    <div class="secTitle">⚠️ Danger Zone</div>
+    <div class="aBtns">
+      <button class="btn danger" id="resetBtn" type="button">🔄 Reset Stats</button>
+      <button class="btn danger" id="deleteBtn" type="button">🗑️ Delete User</button>
     </div>
   `);
   $('#addCoinsBtn').onclick = async () => {
@@ -1799,7 +1821,7 @@ function openUserActions(uid, u){
     if(!amt) return toast('Amount daalo','err');
     const nb = (u.coins||0) + amt;
     await dbPatch('users/' + uid, { coins:nb, verified:true });
-    toast(`+${amt} coins ✅`,'ok'); closeSheet(); renderAdmin();
+    toast(`+₹${amt} added ✅`,'ok'); closeSheet(); renderAdmin();
     if(uid === S.uid){ S.profile.coins = nb; S.profile.verified = true; renderProfile(); }
   };
   $('#subCoinsBtn').onclick = async () => {
@@ -1807,28 +1829,35 @@ function openUserActions(uid, u){
     if(!amt) return toast('Amount daalo','err');
     const nb = Math.max(0, (u.coins||0) - amt);
     await dbPatch('users/' + uid, { coins:nb });
-    toast(`-${amt} coins ✅`,'ok'); closeSheet(); renderAdmin();
+    toast(`-₹${amt} removed ✅`,'ok'); closeSheet(); renderAdmin();
     if(uid === S.uid){ S.profile.coins = nb; renderProfile(); }
   };
   $('#banBtn').onclick = async () => {
     await dbPatch('users/' + uid, { banned:!u.banned });
-    toast(u.banned?'Unbanned ✅':'Banned 🚫','ok'); closeSheet(); renderAdmin();
+    toast(u.banned?'✅ Unbanned':'🚫 Banned','ok'); closeSheet(); renderAdmin();
   };
   $('#verifyBtn').onclick = async () => {
     await dbPatch('users/' + uid, { verified:!u.verified });
-    toast(u.verified?'Unverified':'Verified ✅','ok'); closeSheet(); renderAdmin();
+    toast(u.verified?'Unverified':'✅ Verified','ok'); closeSheet(); renderAdmin();
   };
   $('#resetBtn').onclick = async () => {
-    if(!confirm('Reset user stats?')) return;
+    if(!confirm('Reset user stats? (coins, won, cards, deposits)')) return;
     await dbPatch('users/' + uid, { coins:START_COINS, totalWon:0, cardsPlayed:0, best:0, deposited:0, withdrawn:0 });
     await dbPatch('leaderboard/' + uid, { totalWon:0, updatedAt:Date.now() });
     toast('Reset ✅','ok'); closeSheet(); renderAdmin();
   };
+  $('#deleteBtn').onclick = async () => {
+    if(!confirm('Delete user permanently? Firebase Auth account stays but data deleted.')) return;
+    await dbDel('users/' + uid);
+    await dbDel('leaderboard/' + uid);
+    toast('User deleted 🗑️','ok'); closeSheet(); renderAdmin();
+  };
 }
 
+/* ---- Broadcast ---- */
 async function renderAdminBroadcast(body){
   body.innerHTML = `
-    <div class="secTitle">📢 Broadcast Message</div>
+    <div class="secTitle">📢 Broadcast</div>
     <p class="hint" style="text-align:left;margin-bottom:12px">Sabhi users ko home par dikhega.</p>
     <label class="aLabel">Message (max 200)</label>
     <textarea id="bcText" class="aInput" maxlength="200" placeholder="e.g. Aaj raat 9 baje double coins! 🎉">${esc(S.cfg.broadcast||'')}</textarea>
@@ -1836,8 +1865,7 @@ async function renderAdminBroadcast(body){
       <button class="btn gold" id="bcSave" type="button" style="height:46px">📢 Publish</button>
       <button class="btn danger" id="bcClear" type="button" style="height:46px">🗑️ Clear</button>
     </div>
-    <div class="msg" id="bcMsg" style="margin-top:10px"></div>
-  `;
+    <div class="msg" id="bcMsg" style="margin-top:10px"></div>`;
   $('#bcSave').onclick = async () => {
     const msg = $('#bcText').value.trim();
     if(!msg) return setMsg($('#bcMsg'),'Khali hai','err');
@@ -1852,44 +1880,32 @@ async function renderAdminBroadcast(body){
   };
 }
 
+/* ---- Config ---- */
 async function renderAdminConfig(body){
   body.innerHTML = `
     <div class="secTitle">🖼️ QR Code</div>
-    <p class="hint" style="text-align:left;margin-bottom:12px">UPI/Paytm QR upload karo. User deposit screen par dikhega.</p>
     ${S.cfg.qrImage ? `
       <img src="${esc(S.cfg.qrImage)}" class="qrPreview" alt="QR">
       <div class="aBtns">
         <button class="btn danger" id="qrDelete" type="button" style="height:44px">🗑️ Remove</button>
         <button class="btn primary" id="qrChange" type="button" style="height:44px">🔄 Change</button>
-      </div>
-    ` : `
-      <div class="qrUploadArea" id="qrUpload">
-        <div class="ic">📷</div>
-        <div class="t">Tap to upload QR</div>
-        <div class="s">PNG / JPG · Max 2MB</div>
-      </div>
-    `}
+      </div>` : `
+      <div class="qrUploadArea" id="qrUpload"><div class="ic">📷</div>
+        <div class="t">Tap to upload QR</div><div class="s">PNG / JPG · Max 2MB</div></div>`}
     <input type="file" id="qrFile" accept="image/*" style="display:none">
     <div class="msg" id="qrMsg" style="margin-top:8px"></div>
 
-    <div class="secTitle">🔗 Raw UPI Deep Links</div>
+    <div class="secTitle">🔗 UPI Deep Links</div>
     <label class="aLabel">UPI Deep Link</label>
-    <input id="cUpiLink" class="aInput" type="text" placeholder="upi://pay?pa=yourname@upi&pn=Your Name&cu=INR" value="${esc(S.cfg.upiLink||'')}" style="margin-bottom:6px">
-    <p class="hint" style="text-align:left;font-size:11px;margin-bottom:14px">
-      Example: <code style="color:#ffd35c">upi://pay?pa=hariom@upi&pn=Hariom Kumar&cu=INR</code>
-    </p>
-
+    <input id="cUpiLink" class="aInput" type="text" placeholder="upi://pay?pa=yourname@upi&pn=Your Name&cu=INR" value="${esc(S.cfg.upiLink||'')}" style="margin-bottom:12px">
     <label class="aLabel">Paytm Deep Link</label>
-    <input id="cPaytmLink" class="aInput" type="text" placeholder="paytmmp://pay?pa=9876543210" value="${esc(S.cfg.paytmLink||'')}" style="margin-bottom:6px">
-    <p class="hint" style="text-align:left;font-size:11px;margin-bottom:14px">
-      Example: <code style="color:#ffd35c">paytmmp://pay?pa=9876543210</code>
-    </p>
+    <input id="cPaytmLink" class="aInput" type="text" placeholder="paytmmp://pay?pa=9876543210" value="${esc(S.cfg.paytmLink||'')}" style="margin-bottom:12px">
 
     <div class="secTitle">📱 Manual Details</div>
     <label class="aLabel">UPI ID</label>
     <input id="cUpi" class="aInput" type="text" value="${esc(S.cfg.upiId||'')}" style="margin-bottom:12px">
     <label class="aLabel">Paytm Number</label>
-    <input id="cPaytm" class="aInput" type="text" value="${esc(S.cfg.paytm||'')}">
+    <input id="cPaytm" class="aInput" type="text" value="${esc(S.cfg.paytm||'')}" style="margin-bottom:12px">
 
     <div class="aBtns">
       <button class="btn gold" id="paySave" type="button" style="height:48px">💾 Save Payment Details</button>
@@ -1897,18 +1913,22 @@ async function renderAdminConfig(body){
     <div class="msg" id="cfgMsg" style="margin-top:10px"></div>
 
     <div class="secTitle">⚙️ Game Config</div>
-    <label class="aLabel">Prize Multiplier (1=normal)</label>
-    <input id="mulInput" class="aInput" type="number" step="0.1" min="0.5" max="5" value="${S.cfg.multiplier||1}">
+    <div class="ceGrid">
+      <div class="ceField"><label>Prize Multiplier</label>
+        <input id="mulInput" type="number" step="0.1" min="0.5" max="5" value="${S.cfg.multiplier||1}"></div>
+      <div class="ceField"><label>Welcome Bonus</label>
+        <input id="wbInput" type="number" min="0" max="1000" value="${S.cfg.welcomeBonus||20}"></div>
+    </div>
     <div class="aBtns">
-      <button class="btn primary" id="mulSave" type="button" style="height:46px">💾 Save</button>
+      <button class="btn primary" id="gameSave" type="button" style="height:46px">💾 Save Game Config</button>
     </div>
 
     <div class="secTitle">🧹 Maintenance</div>
     <div class="aBtns">
       <button class="btn danger" id="lbReset" type="button" style="height:46px">🔄 Reset Leaderboard</button>
       <button class="btn danger" id="allReset" type="button" style="height:46px">⚠️ Reset All Users</button>
-    </div>
-  `;
+      <button class="btn danger" id="cardsReset" type="button" style="height:46px">🎴 Reset Cards to Default</button>
+    </div>`;
 
   const fileInput = $('#qrFile'), upArea = $('#qrUpload');
   if(upArea) upArea.onclick = () => fileInput.click();
@@ -1929,12 +1949,12 @@ async function renderAdminConfig(body){
         const max = 400; let w = img.width, h = img.height;
         if(w > h){ if(w > max){ h = h*max/w; w = max; } } else { if(h > max){ w = w*max/h; h = max; } }
         const cvs = document.createElement('canvas'); cvs.width = w; cvs.height = h;
-        const c2 = cvs.getContext('2d'); c2.fillStyle = '#fff'; c2.fillRect(0,0,w,h);
+        const c2 = cvs.getContext('2d'); c2.fillStyle='#fff'; c2.fillRect(0,0,w,h);
         c2.drawImage(img, 0, 0, w, h);
         const dataUrl = cvs.toDataURL('image/jpeg', .85);
         try{
           await dbPatch('admin/config', { qrImage:dataUrl, updatedAt:Date.now() });
-          S.cfg.qrImage = dataUrl; setMsg($('#qrMsg'),'Uploaded ✅','ok'); toast('QR saved! ✅','ok');
+          S.cfg.qrImage = dataUrl; setMsg($('#qrMsg'),'Uploaded ✅','ok'); toast('QR saved ✅','ok');
           renderAdminConfig(body);
         }catch(err){ setMsg($('#qrMsg'),'Fail: ' + err.message,'err'); }
       };
@@ -1942,7 +1962,6 @@ async function renderAdminConfig(body){
     };
     reader.readAsDataURL(file);
   };
-
   $('#paySave').onclick = async () => {
     const patch = {
       upiLink: $('#cUpiLink').value.trim(),
@@ -1954,10 +1973,12 @@ async function renderAdminConfig(body){
     await dbPatch('admin/config', patch); S.cfg = { ...S.cfg, ...patch };
     setMsg($('#cfgMsg'),'Saved ✅','ok'); toast('Saved ✅','ok');
   };
-  $('#mulSave').onclick = async () => {
-    const v = Math.max(0.5, Math.min(5, parseFloat($('#mulInput').value) || 1));
-    await dbPatch('admin/config', { multiplier:v }); S.cfg.multiplier = v;
-    setMsg($('#cfgMsg'), `Multiplier = ${v}x ✅`,'ok');
+  $('#gameSave').onclick = async () => {
+    const mul = Math.max(0.5, Math.min(5, parseFloat($('#mulInput').value) || 1));
+    const wb = Math.max(0, parseInt($('#wbInput').value) || 0);
+    await dbPatch('admin/config', { multiplier:mul, welcomeBonus:wb, updatedAt:Date.now() });
+    S.cfg.multiplier = mul; S.cfg.welcomeBonus = wb;
+    setMsg($('#cfgMsg'), `Multiplier ${mul}x · Welcome ₹${wb}`,'ok');
   };
   $('#lbReset').onclick = async () => {
     if(!confirm('Reset leaderboard?')) return;
@@ -1972,8 +1993,15 @@ async function renderAdminConfig(body){
     await dbSet('leaderboard', Object.fromEntries(Object.entries(users).map(([uid,u]) => [uid, { name:u.name||'Player', totalWon:0, updatedAt:Date.now() }])));
     toast('All reset ✅','ok');
   };
+  $('#cardsReset').onclick = async () => {
+    if(!confirm('Reset cards to default?')) return;
+    CARDS = JSON.parse(JSON.stringify(DEFAULT_CARDS));
+    await dbSet('admin/cards', CARDS);
+    toast('Cards reset ✅','ok'); renderAdmin();
+  };
 }
 
+/* ---- History ---- */
 async function renderAdminHistory(body){
   const users = await dbGet('users') || {};
   const all = [];
@@ -2000,15 +2028,15 @@ async function renderAdminHistory(body){
           <div style="font-size:11px;color:#8b93a7;font-weight:400">${esc(r.label||('+₹'+r.prize))}${r.card?` · ${r.card.toUpperCase()}`:''} · ${timeAgo(r.at)}</div>
         </div>
         <div class="lbVal" style="${r.prize>0?'':'color:#8b93a7'}">${r.prize>0?'+₹'+fmt(r.prize):'0'}</div>
-      </div>`).join('')}
-  `;
+      </div>`).join('')}`;
 }
 
-/* AUTH UI */
+/* =========================================================
+   AUTH UI
+   ========================================================= */
 const tabs = $$('.tab');
 tabs.forEach(t => t.addEventListener('click', () => {
-  tabs.forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
+  tabs.forEach(x => x.classList.remove('active')); t.classList.add('active');
   const tab = t.dataset.tab;
   $('#loginForm').classList.toggle('hidden', tab !== 'login');
   $('#registerForm').classList.toggle('hidden', tab !== 'register');
@@ -2027,18 +2055,15 @@ $$('.eye').forEach(btn => btn.addEventListener('click', () => {
   const inp = document.getElementById(btn.dataset.eye);
   inp.type = inp.type === 'password' ? 'text' : 'password';
 }));
-
 $('#loginForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
-  const email = $('#loginEmail').value.trim();
-  const pass = $('#loginPass').value;
+  const email = $('#loginEmail').value.trim(); const pass = $('#loginPass').value;
   setMsg($('#loginMsg'),''); btn.disabled = true; btn.querySelector('span').textContent = 'Logging in…';
   try{
     const d = await authAPI('signInWithPassword', { email, password:pass, returnSecureToken:true });
-    useAuthResult(d); await loadProfile();
+    useAuthResult(d); await loadConfig(); await loadProfile();
     if(S.profile?.banned) return;
-    await loadConfig();
     toast('Welcome back, ' + S.profile.name + '! 👋','ok'); showApp();
   }catch(err){ setMsg($('#loginMsg'), err.message,'err'); }
   finally{ btn.disabled = false; btn.querySelector('span').textContent = 'Login'; }
@@ -2046,8 +2071,7 @@ $('#loginForm').addEventListener('submit', async e => {
 $('#registerForm').addEventListener('submit', async e => {
   e.preventDefault();
   const btn = e.target.querySelector('button[type=submit]');
-  const name = $('#regName').value.trim();
-  const email = $('#regEmail').value.trim();
+  const name = $('#regName').value.trim(); const email = $('#regEmail').value.trim();
   const p1 = $('#regPass').value, p2 = $('#regPass2').value;
   setMsg($('#regMsg'),'');
   if(name.length < 2) return setMsg($('#regMsg'),'Naam kam se kam 2 letters','err');
@@ -2058,13 +2082,14 @@ $('#registerForm').addEventListener('submit', async e => {
     const d = await authAPI('signUp', { email, password:p1, returnSecureToken:true });
     useAuthResult(d);
     await dbSet('users/' + S.uid, {
-      name, email, coins:START_COINS, totalWon:0, cardsPlayed:0, best:0,
+      name, email, coins:S.cfg.welcomeBonus||START_COINS, totalWon:0, cardsPlayed:0, best:0,
       banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0, createdAt:Date.now()
     });
     await dbPatch('leaderboard/' + S.uid, { name, totalWon:0, updatedAt:Date.now() });
-    S.profile = { name, email, coins:START_COINS, totalWon:0, cardsPlayed:0, best:0, banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0 };
+    S.profile = { name, email, coins:S.cfg.welcomeBonus||START_COINS, totalWon:0, cardsPlayed:0, best:0,
+      banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0 };
     await loadConfig();
-    successPop('🎉','Welcome!', `Account ban gaya! ${START_COINS} welcome coins mile. Deposit karke khelo.`);
+    successPop('🎉','Welcome!', `Account ban gaya! ${S.cfg.welcomeBonus||START_COINS} welcome coins mile.`);
     showApp();
   }catch(err){ setMsg($('#regMsg'), err.message,'err'); }
   finally{ btn.disabled = false; btn.querySelector('span').textContent = 'Create Account'; }
@@ -2080,17 +2105,17 @@ $('#forgotForm').addEventListener('submit', async e => {
   finally{ btn.disabled = false; btn.querySelector('span').textContent = 'Send Reset Link'; }
 });
 
-/* SCREEN + BOOT */
+/* =========================================================
+   SCREEN + BOOT
+   ========================================================= */
 function showAuth(){ $('#appScreen').classList.remove('show'); $('#authScreen').classList.add('show'); }
 function showApp(){
   $('#authScreen').classList.remove('show'); $('#appScreen').classList.add('show');
   cardState = 'idle'; S.card = null;
+  renderPickCards();
   selectCard(selectedCard);
   renderProfile(); renderDailyBtn(); applySound(); switchView('home');
 }
-
-/* Card picker clicks */
-$$('.pickCard').forEach(el => el.addEventListener('click', () => selectCard(el.dataset.card)));
 
 $('#buyBtn').addEventListener('click', buyCard);
 $('#claimBtn').addEventListener('click', claimPrize);
@@ -2110,13 +2135,15 @@ setInterval(() => { if(S.profile && $('#appScreen').classList.contains('show')) 
   if(S.refreshToken){
     $('#bootLoader').classList.remove('hidden');
     try{
-      await refreshSession(); await loadProfile();
+      await refreshSession();
+      await loadConfig();
+      await loadProfile();
       if(S.profile?.banned) return;
-      await loadConfig(); $('#bootLoader').classList.add('hidden'); showApp(); return;
+      $('#bootLoader').classList.add('hidden'); showApp(); return;
     }catch(e){ clearStored(); $('#bootLoader').classList.add('hidden'); }
   }
   showAuth();
 })();
 </script>
 </body>
-</html>
+  </html>
