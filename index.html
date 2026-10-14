@@ -10,17 +10,28 @@
   --bg:#07050e; --line:rgba(255,255,255,.09); --txt:#f5f6ff; --muted:#8b8fa8; --muted2:#5a5f75;
   --gold:#ffd35c; --gold2:#c9962a; --ok:#38e08a; --danger:#ff5c6c; --purple:#a855f7;
   --card:linear-gradient(160deg, rgba(255,255,255,.06), rgba(255,255,255,.015));
+  --g1:#4c1d95; --g2:#831843; --g3:#0c4a6e;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 input,textarea{-webkit-user-select:text;user-select:text}
 html,body{height:100%}
 body{margin:0;color:var(--txt);overflow-x:hidden;background:var(--bg);position:relative;
   font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Ubuntu,sans-serif}
+
+/* ================= THEMES ================= */
+body.theme-default { --bg:#07050e; --g1:#4c1d95; --g2:#831843; --g3:#0c4a6e; }
+body.theme-diwali { --bg:#1a0b00; --g1:#b45309; --g2:#d97706; --g3:#fef08a; }
+body.theme-holi { --bg:#1a0b18; --g1:#d946ef; --g2:#ec4899; --g3:#facc15; }
+body.theme-summer { --bg:#0a192f; --g1:#0ea5e9; --g2:#f59e0b; --g3:#10b981; }
+body.theme-winter { --bg:#0f172a; --g1:#38bdf8; --g2:#818cf8; --g3:#94a3b8; }
+body.theme-monsoon { --bg:#0f172a; --g1:#334155; --g2:#0f766e; --g3:#1e293b; }
+body.theme-christmas { --bg:#0f0a0a; --g1:#dc2626; --g2:#16a34a; --g3:#fef08a; }
+
 body::before{content:"";position:fixed;inset:0;z-index:-2;
   background:
-    radial-gradient(1100px 700px at 10% -10%, #4c1d95 0%, transparent 55%),
-    radial-gradient(900px 500px at 110% 20%, #831843 0%, transparent 55%),
-    radial-gradient(900px 600px at 50% 110%, #0c4a6e 0%, transparent 55%),
+    radial-gradient(1100px 700px at 10% -10%, var(--g1) 0%, transparent 55%),
+    radial-gradient(900px 500px at 110% 20%, var(--g2) 0%, transparent 55%),
+    radial-gradient(900px 600px at 50% 110%, var(--g3) 0%, transparent 55%),
     var(--bg);
   animation:bgShift 24s ease-in-out infinite alternate}
 @keyframes bgShift{0%{filter:hue-rotate(0deg)}100%{filter:hue-rotate(30deg)}}
@@ -28,11 +39,23 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
   background-image:radial-gradient(rgba(255,255,255,.07) 1px, transparent 1px);background-size:24px 24px;
   mask-image:radial-gradient(ellipse at center, #000 30%, transparent 75%);
   -webkit-mask-image:radial-gradient(ellipse at center, #000 30%, transparent 75%)}
+
+/* ================= SPLASH SCREEN ================= */
+.splash{position:fixed;inset:0;z-index:9999;background:#07050e;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease, visibility .6s}
+.splash.fade-out{opacity:0;visibility:hidden}
+.splash-logo{font-size:80px;filter:drop-shadow(0 14px 38px rgba(255,211,92,.6));animation:float 2s ease-in-out infinite}
+.splash-title{margin:15px 0 5px;font-size:32px;letter-spacing:6px;font-weight:900;
+  background:linear-gradient(135deg,#fff8d6,#ffd35c 30%,#c9962a 55%,#ffd35c 80%,#fff8d6);
+  background-size:300% 200%;-webkit-background-clip:text;background-clip:text;color:transparent;
+  animation:shine 3s linear infinite}
+.splash-sub{color:var(--muted);font-size:13px;letter-spacing:1px;font-weight:600;margin-bottom:30px}
+.splash-loader{width:44px;height:44px;border-radius:50%;border:3px solid rgba(255,255,255,.1);border-top-color:var(--gold);animation:sp .8s linear infinite}
+
+/* ================= AUTH ================= */
 .screen{display:none;min-height:100dvh}
 .screen.show{display:block}
 .hidden{display:none !important}
 
-/* AUTH */
 #authScreen{display:none;flex-direction:column;align-items:center;justify-content:center;gap:26px;padding:30px 18px}
 #authScreen.show{display:flex}
 .brand{text-align:center}
@@ -222,6 +245,16 @@ body::after{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;opa
 .refCard .rInfo{flex:1;min-width:0}
 .refCard .rInfo b{display:block;font-size:15px;font-weight:900;margin-bottom:4px}
 .refCard .rInfo span{display:block;font-size:12px;color:rgba(255,255,255,.75);font-weight:600}
+
+/* New Cards for Quiz & Promo */
+.newFeatureGrid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:4px}
+.newCard{position:relative;overflow:hidden;border-radius:20px;padding:16px 14px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;cursor:pointer;transition:.25s}
+.newCard:active{transform:scale(.97)}
+.newCard .nIcon{font-size:32px;filter:drop-shadow(0 8px 16px rgba(0,0,0,.4))}
+.newCard .nTitle{font-size:14px;font-weight:900;letter-spacing:.5px}
+.newCard .nDesc{font-size:11px;font-weight:600;opacity:.85;line-height:1.3}
+.quizCard{background:linear-gradient(135deg, #ec4899, #8b5cf6);border:1.5px solid rgba(255,255,255,.2);box-shadow:0 12px 30px rgba(236,72,153,.35)}
+.promoCard{background:linear-gradient(135deg, #f59e0b, #ef4444);border:1.5px solid rgba(255,255,255,.2);box-shadow:0 12px 30px rgba(245,158,11,.35)}
 
 /* Bottom Nav */
 .bnav{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);z-index:40;display:flex;gap:4px;padding:7px;border-radius:24px;
@@ -570,7 +603,8 @@ textarea.aInput{min-height:100px;resize:vertical;line-height:1.55}
 .ceGrid{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:13px}
 .ceField{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.1);border-radius:13px;padding:11px 13px}
 .ceField label{display:block;font-size:10.5px;color:var(--muted);font-weight:800;text-transform:uppercase;margin-bottom:6px}
-.ceField input{width:100%;background:transparent;border:0;outline:0;color:var(--txt);font-size:18px;font-weight:900;font-family:inherit}
+.ceField input, .ceField select{width:100%;background:transparent;border:0;outline:0;color:var(--txt);font-size:16px;font-weight:800;font-family:inherit;padding:0}
+.ceField select option { background:#1a1228; color:#fff; }
 .prizeEditRow{display:grid;grid-template-columns:1fr 80px 40px;gap:9px;align-items:center;padding:10px 12px;
   border-radius:13px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);margin-bottom:8px}
 .prizeEditRow .pv{font-size:16px;font-weight:900;color:var(--gold)}
@@ -659,9 +693,26 @@ textarea.aInput{min-height:100px;resize:vertical;line-height:1.55}
   background:linear-gradient(135deg, rgba(124,58,237,.28), rgba(255,211,92,.15));
   border:1.5px solid rgba(255,211,92,.45);display:flex;gap:11px;align-items:flex-start;font-weight:600;line-height:1.55}
 .broadcast .x{background:transparent;border:0;color:var(--muted);font-size:17px;cursor:pointer;padding:0 5px;font-family:inherit;flex:none}
+
+/* QUIZ / PROMO */
+.quizOption{display:block;width:100%;padding:15px 18px;border-radius:15px;background:rgba(255,255,255,.05);
+  border:1.5px solid rgba(255,255,255,.1);color:var(--txt);font-size:15px;font-weight:700;cursor:pointer;
+  font-family:inherit;transition:.2s;text-align:left;margin-bottom:10px}
+.quizOption:active{transform:scale(.98)}
+.quizOption.correct{background:rgba(56,224,138,.25);border-color:#38e08a;color:#fff}
+.quizOption.wrong{background:rgba(255,92,108,.25);border-color:#ff5c6c;color:#fff}
+.quizOption:disabled{cursor:not-allowed;opacity:.7}
 </style>
 </head>
-<body>
+<body class="theme-default">
+
+<!-- SPLASH SCREEN -->
+<div id="splashScreen" class="splash">
+  <div class="splash-logo">🎰</div>
+  <h1 class="splash-title">SCRATCH PRO</h1>
+  <p class="splash-sub">Ungli se khiso — jeeto! 💰</p>
+  <div class="splash-loader"></div>
+</div>
 
 <!-- AUTH -->
 <section id="authScreen" class="screen">
@@ -763,6 +814,19 @@ textarea.aInput{min-height:100px;resize:vertical;line-height:1.55}
       <div class="stat"><span>Total Won</span><b id="statWon">0</b></div>
       <div class="stat"><span>Cards</span><b id="statCards">0</b></div>
       <div class="stat"><span>Best Win</span><b id="statBest">0</b></div>
+    </div>
+
+    <div class="newFeatureGrid">
+      <div class="newCard quizCard" id="quizCardOpen">
+        <div class="nIcon">🎯</div>
+        <div class="nTitle">Daily Quiz</div>
+        <div class="nDesc">Sahi jawab do · 10 coins pao</div>
+      </div>
+      <div class="newCard promoCard" id="promoCardOpen">
+        <div class="nIcon">🎁</div>
+        <div class="nTitle">Promo Code</div>
+        <div class="nDesc">Code daalo · Bonus pao</div>
+      </div>
     </div>
 
     <div class="spinCard" id="spinCardOpen">
@@ -891,6 +955,7 @@ textarea.aInput{min-height:100px;resize:vertical;line-height:1.55}
     <button class="atab" data-atab="cards" type="button">🎴 Cards</button>
     <button class="atab" data-atab="payments" type="button">💳 Payments <span class="nBadge hidden" id="payBadge">0</span></button>
     <button class="atab" data-atab="users" type="button">👥 Users</button>
+    <button class="atab" data-atab="promos" type="button">🎁 Promos</button>
     <button class="atab" data-atab="broadcast" type="button">📢 Broadcast</button>
     <button class="atab" data-atab="config" type="button">⚙️ Config</button>
     <button class="atab" data-atab="history" type="button">📜 History</button>
@@ -920,6 +985,7 @@ const DAY_MS        = 86400000;
 const SPIN_COST     = 15;
 const REF_BONUS     = 50;
 const SPIN_WIN_CHANCE = 30;
+const QUIZ_REWARD   = 10;
 
 const DEFAULT_CARDS = {
   low: { id:'low', name:'LOW', icon:'🍀', cost:10, cls:'low', desc:'Chhota risk · Chhota reward', winChance: 20,
@@ -939,6 +1005,24 @@ const WHEEL_PRIZES = [
   { v:25,  label:'+₹25',  color:'#1a4a2e', text:'#86efac' },
   { v:0,   label:'₹0',    color:'#4a1a2e', text:'#ff8b96' },
   { v:100, label:'+₹100', color:'#4a3d1a', text:'#ffd35c' }
+];
+
+const QUIZ_QUESTIONS = [
+  { q: "Which festival is known as the Festival of Lights?", a: "Diwali", opts: ["Holi", "Diwali", "Christmas"] },
+  { q: "How many colors are in a rainbow?", a: "7", opts: ["5", "7", "9"] },
+  { q: "Which planet is known as the Red Planet?", a: "Mars", opts: ["Venus", "Mars", "Jupiter"] },
+  { q: "What is the capital of India?", a: "New Delhi", opts: ["Mumbai", "New Delhi", "Kolkata"] },
+  { q: "Which animal is known as the 'Ship of the Desert'?", a: "Camel", opts: ["Horse", "Camel", "Elephant"] },
+  { q: "How many days are there in a leap year?", a: "366", opts: ["365", "366", "367"] },
+  { q: "Which is the largest ocean on Earth?", a: "Pacific", opts: ["Atlantic", "Indian", "Pacific"] },
+  { q: "Who wrote the national anthem of India?", a: "Rabindranath Tagore", opts: ["Bankim Chandra", "Rabindranath Tagore", "Mahatma Gandhi"] },
+  { q: "What is the currency of Japan?", a: "Yen", opts: ["Yuan", "Yen", "Won"] },
+  { q: "Which gas do plants absorb from the atmosphere?", a: "Carbon Dioxide", opts: ["Oxygen", "Carbon Dioxide", "Nitrogen"] },
+  { q: "How many players are there in a cricket team?", a: "11", opts: ["9", "10", "11"] },
+  { q: "Which is the tallest mountain in the world?", a: "Mount Everest", opts: ["K2", "Mount Everest", "Kanchenjunga"] },
+  { q: "What is the chemical symbol for water?", a: "H2O", opts: ["CO2", "H2O", "O2"] },
+  { q: "Which festival is celebrated with colors?", a: "Holi", opts: ["Diwali", "Holi", "Eid"] },
+  { q: "Who is known as the 'Missile Man of India'?", a: "Dr. APJ Abdul Kalam", opts: ["Nehru", "Dr. APJ Abdul Kalam", "Vikram Sarabhai"] }
 ];
 
 const ACHIEVEMENTS = [
@@ -968,16 +1052,16 @@ const MISSIONS = [
 let CARDS = JSON.parse(JSON.stringify(DEFAULT_CARDS));
 let selectedCard = 'low';
 
-const LS_KEY = 'scratchpro_v11';
-const LS_ANN = 'scratchpro_ann_v11';
-const LS_MUSIC = 'scratchpro_music_v11';
+const LS_KEY = 'scratchpro_v12';
+const LS_ANN = 'scratchpro_ann_v12';
+const LS_MUSIC = 'scratchpro_music_v12';
 
 const S = {
   idToken:null, refreshToken:null, uid:null, email:null, expiresAt:0,
   profile:null, sound:true, music:true, musicVol:0.15, card:null, isAdmin:false,
   cfg:{ broadcast:'', multiplier:1, upiId:'hariom@upi', paytm:'9876543210',
         upiLink:'', paytmLink:'', qrImage:'', welcomeBonus: 20,
-        musicVolume: 0.15, referralBonus: 50, spinCost: 15 }
+        musicVolume: 0.15, referralBonus: 50, spinCost: 15, theme: 'default' }
 };
 
 let cardState = 'idle';
@@ -1349,7 +1433,11 @@ async function loadConfig(){
     if(cardsCfg) CARDS = { ...JSON.parse(JSON.stringify(DEFAULT_CARDS)), ...cardsCfg };
   }catch(e){}
   if(S.cfg.musicVolume != null) S.musicVol = Number(S.cfg.musicVolume) || S.musicVol;
+  applyTheme(S.cfg.theme || 'default');
   renderBroadcast(); renderPickCards();
+}
+function applyTheme(themeName){
+  document.body.className = 'theme-' + themeName;
 }
 function renderBroadcast(){
   const box = $('#broadcastBox'); if(!box) return;
@@ -1673,6 +1761,102 @@ async function finishSpin(prizeIdx){
   setTimeout(checkNewAchievements, 500);
 }
 
+/* ================= QUIZ FEATURE ================= */
+function openQuizSheet(){
+  const p = S.profile;
+  const today = new Date().toISOString().slice(0,10);
+  if(p.lastQuizDate === today){
+    return toast('Aaj ka quiz already khel liya! Kal aana ⏳','err');
+  }
+  const qIndex = new Date().getDate() % QUIZ_QUESTIONS.length;
+  const q = QUIZ_QUESTIONS[qIndex];
+  openSheet('🎯 Daily Quiz', `
+    <p class="hint" style="text-align:left;margin-bottom:18px">
+      Sahi jawab do aur <b style="color:#38e08a">${QUIZ_REWARD} coins</b> jeeto! Roz ek naya sawaal.
+    </p>
+    <div style="background:rgba(255,255,255,.06);padding:20px;border-radius:18px;margin-bottom:18px;border:1px solid rgba(255,255,255,.1)">
+      <div style="font-size:16px;font-weight:800;line-height:1.5">${esc(q.q)}</div>
+    </div>
+    <div id="quizOptions">
+      ${q.opts.map(opt => `<button class="quizOption" data-opt="${esc(opt)}">${esc(opt)}</button>`).join('')}
+    </div>
+    <div class="msg" id="quizMsg" style="margin-top:10px"></div>
+  `);
+  let answered = false;
+  $$('#quizOptions .quizOption').forEach(btn => {
+    btn.onclick = async () => {
+      if(answered) return;
+      answered = true;
+      const selected = btn.dataset.opt;
+      const isCorrect = selected === q.a;
+      $$('#quizOptions .quizOption').forEach(b => {
+        b.disabled = true;
+        if(b.dataset.opt === q.a) b.classList.add('correct');
+        else if(b.dataset.opt === selected && !isCorrect) b.classList.add('wrong');
+      });
+      if(isCorrect){
+        const p2 = S.profile;
+        p2.coins += QUIZ_REWARD; p2.lastQuizDate = today;
+        renderProfile();
+        try{ await dbPatch('users/' + S.uid, { coins: p2.coins, lastQuizDate: today }); }catch(e){}
+        showFloatWin('+' + QUIZ_REWARD + ' 🪙');
+        beep(1046,.12,'sine');
+        setMsg($('#quizMsg'), `Sahi jawab! +${QUIZ_REWARD} coins mile! 🎉`, 'ok');
+        setTimeout(() => { closeSheet(); successPop('🎯','Quiz Passed!', `+${QUIZ_REWARD} coins aapke balance me add ho gaye!`); }, 1500);
+      } else {
+        setMsg($('#quizMsg'), 'Galat jawab! Kal phir koshish karo 😕', 'err');
+        beep(240,.15,'square');
+        p.lastQuizDate = today;
+        try{ await dbPatch('users/' + S.uid, { lastQuizDate: today }); }catch(e){}
+        setTimeout(() => closeSheet(), 1800);
+      }
+    };
+  });
+}
+
+/* ================= PROMO FEATURE ================= */
+function openPromoSheet(){
+  openSheet('🎁 Promo Code', `
+    <p class="hint" style="text-align:left;margin-bottom:18px">
+      Apna promo code daalein aur instant coins paayein!
+    </p>
+    <label class="aLabel">Enter Code</label>
+    <input id="promoInput" class="aInput" type="text" placeholder="e.g. DIWALI50" style="text-transform:uppercase;margin-bottom:14px">
+    <button class="btn gold block" id="promoSubmit" type="button">🎁 Redeem Code</button>
+    <div class="msg" id="promoMsg" style="margin-top:10px"></div>
+  `);
+  setTimeout(()=>$('#promoInput')?.focus(), 100);
+  $('#promoSubmit').onclick = async () => {
+    const code = ($('#promoInput').value || '').trim().toUpperCase();
+    if(!code) return setMsg($('#promoMsg'), 'Code daalein','err');
+    const btn = $('#promoSubmit'); btn.disabled = true; btn.textContent = 'Checking…';
+    try{
+      const promos = await dbGet('admin/promos').catch(()=>null) || {};
+      const promo = promos[code];
+      if(!promo){ setMsg($('#promoMsg'), 'Invalid promo code ❌','err'); btn.disabled = false; btn.textContent = '🎁 Redeem Code'; return; }
+      const p = S.profile;
+      const used = p.usedPromos || {};
+      if(used[code]){ setMsg($('#promoMsg'), 'Ye code aap already use kar chuke ho ❌','err'); btn.disabled = false; btn.textContent = '🎁 Redeem Code'; return; }
+      const coins = promo.coins || 0;
+      if(coins <= 0){ setMsg($('#promoMsg'), 'Code expired ya invalid ❌','err'); btn.disabled = false; btn.textContent = '🎁 Redeem Code'; return; }
+      
+      p.coins += coins;
+      p.usedPromos = { ...used, [code]: Date.now() };
+      renderProfile();
+      await dbPatch('users/' + S.uid, { coins: p.coins, usedPromos: p.usedPromos });
+      
+      setMsg($('#promoMsg'), `Code applied! +${coins} coins mile! 🎉`, 'ok');
+      showFloatWin('+' + coins + ' 🪙');
+      beep(1046,.12,'sine');
+      setTimeout(() => { closeSheet(); successPop('🎁','Promo Applied!', `+${coins} coins aapke balance me add ho gaye!`); }, 1500);
+    }catch(e){
+      setMsg($('#promoMsg'), 'Network error ❌', 'err');
+      btn.disabled = false; btn.textContent = '🎁 Redeem Code';
+    }
+  };
+}
+
+
 function openDepositSheet(){
   const presets = [50, 100, 200, 500, 1000, 2000];
   const hasQR = !!S.cfg.qrImage;
@@ -1720,13 +1904,24 @@ function openDepositSheet(){
     $$('#depMethod .methodBtn').forEach(x=>x.classList.remove('active')); b.classList.add('active'); method = b.dataset.m;
   });
   $$('.copyBtn').forEach(b => b.onclick = () => { navigator.clipboard.writeText(b.dataset.copy); toast('Copied ✅','ok'); });
+  
   function updateLinks(){
     const upiBtn = $('#openUpi'), paytmBtn = $('#openPaytm');
     const amt = amtVal || 0;
-    if(upiBtn && S.cfg.upiLink){ const base = S.cfg.upiLink; const sep = base.includes('?') ? '&' : '?';
-      upiBtn.onclick = () => { window.location.href = amt ? `${base}${sep}am=${amt}&cu=INR&tn=ScratchPro` : base; }; }
-    if(paytmBtn && S.cfg.paytmLink){ const base = S.cfg.paytmLink; const sep = base.includes('?') ? '&' : '?';
-      paytmBtn.onclick = () => { window.location.href = amt ? `${base}${sep}am=${amt}&cu=INR` : base; }; }
+    if(upiBtn && S.cfg.upiLink){
+      const base = S.cfg.upiLink; const sep = base.includes('?') ? '&' : '?';
+      upiBtn.onclick = () => {
+        let url = amt ? `${base}${sep}am=${amt}&cu=INR&tn=ScratchPro` : base;
+        window.location.replace(url);
+      };
+    }
+    if(paytmBtn && S.cfg.paytmLink){
+      const base = S.cfg.paytmLink; const sep = base.includes('?') ? '&' : '?';
+      paytmBtn.onclick = () => {
+        let url = amt ? `${base}${sep}am=${amt}&cu=INR` : base;
+        window.location.replace(url);
+      };
+    }
   }
   updateLinks();
   $('#depSubmit').onclick = async () => {
@@ -1992,18 +2187,20 @@ function openAbout(){
       <div class="ic">🎰</div>
       <h2>SCRATCH PRO</h2>
       <p>Ungli se khiso — jeeto! 💰</p>
-      <div class="version">VERSION v11.0</div>
+      <div class="version">VERSION v12.0</div>
     </div>
     <div class="secTitle">✨ Features</div>
     <div class="featureList">
       <div class="featureItem"><div class="fi">🎴</div><div class="ft"><b>3 Scratch Cards</b><span>LOW, MEDIUM, RARE</span></div></div>
       <div class="featureItem"><div class="fi">🎡</div><div class="ft"><b>Lucky Spin Wheel</b><span>30% win chance, jackpot ₹100</span></div></div>
+      <div class="featureItem"><div class="fi">🎯</div><div class="ft"><b>Daily Quiz</b><span>Roz ek sawaal, 10 coins jeeto</span></div></div>
+      <div class="featureItem"><div class="fi">🎁</div><div class="ft"><b>Promo Codes</b><span>Special codes se bonus pao</span></div></div>
       <div class="featureItem"><div class="fi">👥</div><div class="ft"><b>Refer & Earn</b><span>Dost ko bulao, bonus pao</span></div></div>
       <div class="featureItem"><div class="fi">🎯</div><div class="ft"><b>Daily Missions</b><span>Roz naye missions</span></div></div>
       <div class="featureItem"><div class="fi">🔥</div><div class="ft"><b>Daily Streak</b><span>7 din bonus</span></div></div>
       <div class="featureItem"><div class="fi">🏆</div><div class="ft"><b>Achievements & Rank</b><span>12 badges + leaderboard</span></div></div>
       <div class="featureItem"><div class="fi">💳</div><div class="ft"><b>Instant Payments</b><span>UPI & Paytm</span></div></div>
-      <div class="featureItem"><div class="fi">🎵</div><div class="ft"><b>Background Music</b><span>Real EDM beats</span></div></div>
+      <div class="featureItem"><div class="fi">🎵</div><div class="ft"><b>Background Music & Themes</b><span>Real EDM beats + 7 Themes</span></div></div>
     </div>
     <div class="secTitle">📞 Contact</div>
     <div class="contactRow">
@@ -2223,6 +2420,10 @@ $('#musicBtn').addEventListener('click', e => { e.stopPropagation(); toggleMusic
 $('#spinCardOpen').addEventListener('click', openSpinSheet);
 $('#refCardOpen').addEventListener('click', openReferSheet);
 
+// NEW EVENT LISTENERS
+$('#quizCardOpen').addEventListener('click', openQuizSheet);
+$('#promoCardOpen').addEventListener('click', openPromoSheet);
+
 const fabBtn = $('#fabBtn'), fabMenu = $('#fabMenu');
 fabBtn.addEventListener('click', e => { e.stopPropagation(); fabMenu.classList.toggle('hidden'); });
 document.addEventListener('click', () => fabMenu.classList.add('hidden'));
@@ -2282,6 +2483,7 @@ async function renderAdmin(){
     if(adminTab === 'cards')     { await renderAdminCards(body);     return; }
     if(adminTab === 'payments')  { await renderAdminPayments(body);  return; }
     if(adminTab === 'users')     { await renderAdminUsers(body);     return; }
+    if(adminTab === 'promos')    { await renderAdminPromos(body);    return; }
     if(adminTab === 'broadcast') { await renderAdminBroadcast(body); return; }
     if(adminTab === 'config')    { await renderAdminConfig(body);    return; }
     if(adminTab === 'history')   { await renderAdminHistory(body);   return; }
@@ -2457,7 +2659,6 @@ async function handleApprove(id, rows){
   const btn = document.querySelector(`button[data-approve="${id}"]`);
   if(btn){ btn.disabled = true; btn.textContent = 'Approving…'; }
 
-  // 1. Payment status FIRST
   try{
     await dbPatch('payments/' + id, { status:'approved', processedAt: Date.now() });
   }catch(e){
@@ -2466,7 +2667,6 @@ async function handleApprove(id, rows){
     return;
   }
 
-  // 2. Queue credit
   if(r.type === 'deposit'){
     try{
       await dbPush('pending_credits/' + r.uid, {
@@ -2665,6 +2865,52 @@ function openUserActions(uid, u){
   };
 }
 
+async function renderAdminPromos(body){
+  const promos = await dbGet('admin/promos').catch(()=>null) || {};
+  const rows = Object.entries(promos).map(([code, data]) => ({ code, ...data }));
+  body.innerHTML = `
+    <div class="secTitle">🎁 Active Promo Codes (${rows.length})</div>
+    <div style="background:rgba(255,255,255,.04);padding:15px;border-radius:18px;border:1px solid rgba(255,255,255,.08);margin-bottom:18px">
+      <div style="font-size:13px;font-weight:800;margin-bottom:10px">➕ Add New Promo</div>
+      <input id="newPromoCode" class="aInput" type="text" placeholder="CODE (e.g. DIWALI50)" style="text-transform:uppercase;margin-bottom:9px">
+      <input id="newPromoCoins" class="aInput" type="number" placeholder="Coins (e.g. 50)" style="margin-bottom:9px">
+      <button class="btn gold block" id="addPromoBtn" type="button">Create Promo</button>
+      <div class="msg" id="promoAdminMsg" style="margin-top:9px"></div>
+    </div>
+    <div id="promoList"></div>
+  `;
+  const list = $('#promoList');
+  if(!rows.length){
+    list.innerHTML = '<div class="empty"><div class="eIcon">🎁</div>Koi promo code nahi.</div>';
+  } else {
+    list.innerHTML = rows.map(p => `
+      <div class="card2" style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+        <div>
+          <div style="font-size:17px;font-weight:900;color:#ffd35c;letter-spacing:1.5px">${esc(p.code)}</div>
+          <div style="font-size:12px;color:#8b8fa8;margin-top:4px">+${p.coins} coins</div>
+        </div>
+        <button class="btn danger" data-del-promo="${esc(p.code)}" type="button" style="width:auto;padding:0 16px;height:40px;font-size:12px">🗑️ Delete</button>
+      </div>
+    `).join('');
+    list.querySelectorAll('[data-del-promo]').forEach(b => b.onclick = async () => {
+      if(!confirm('Delete this promo?')) return;
+      try{ await dbDel('admin/promos/' + b.dataset.delPromo); toast('Deleted','ok'); renderAdminPromos(body); }
+      catch(e){ toast('Fail: ' + e.message,'err'); }
+    });
+  }
+  $('#addPromoBtn').onclick = async () => {
+    const code = ($('#newPromoCode').value || '').trim().toUpperCase();
+    const coins = parseInt($('#newPromoCoins').value) || 0;
+    if(!code || code.length < 3) return setMsg($('#promoAdminMsg'), 'Code min 3 chars','err');
+    if(coins <= 0) return setMsg($('#promoAdminMsg'), 'Coins > 0','err');
+    try{
+      await dbPatch('admin/promos', { [code]: { coins, createdAt: Date.now() } });
+      setMsg($('#promoAdminMsg'), 'Promo created ✅','ok');
+      renderAdminPromos(body);
+    }catch(e){ setMsg($('#promoAdminMsg'), 'Fail: ' + e.message,'err'); }
+  };
+}
+
 async function renderAdminBroadcast(body){
   body.innerHTML = `
     <div class="secTitle">📢 Broadcast</div>
@@ -2693,10 +2939,25 @@ async function renderAdminBroadcast(body){
 }
 
 /* =========================================================
-   ADMIN CONFIG — QR UPLOAD (FIXED with URL fallback)
+   ADMIN CONFIG — QR UPLOAD + THEME CHANGER
    ========================================================= */
 async function renderAdminConfig(body){
   body.innerHTML = `
+    <div class="secTitle">🎨 App Theme (Background Changer)</div>
+    <div class="ceField" style="margin-bottom:15px">
+      <label>Select Festival / Season Theme</label>
+      <select id="themeSelect">
+        <option value="default" ${S.cfg.theme==='default'?'selected':''}>Default (Purple/Dark)</option>
+        <option value="diwali" ${S.cfg.theme==='diwali'?'selected':''}>🪔 Diwali</option>
+        <option value="holi" ${S.cfg.theme==='holi'?'selected':''}>🎨 Holi</option>
+        <option value="summer" ${S.cfg.theme==='summer'?'selected':''}>☀️ Summer</option>
+        <option value="winter" ${S.cfg.theme==='winter'?'selected':''}>❄️ Winter</option>
+        <option value="monsoon" ${S.cfg.theme==='monsoon'?'selected':''}>🌧️ Monsoon</option>
+        <option value="christmas" ${S.cfg.theme==='christmas'?'selected':''}>🎄 Christmas</option>
+      </select>
+    </div>
+    <button class="btn gold block" id="themeSave" type="button" style="height:46px;margin-bottom:18px">💾 Save Theme</button>
+
     <div class="secTitle">🎵 Music Settings</div>
     <div class="musicRow">
       <div class="mIcon">🎵</div>
@@ -2765,10 +3026,21 @@ async function renderAdminConfig(body){
       <button class="btn danger" id="cardsReset" type="button" style="height:48px">🎴 Reset Cards</button>
     </div>`;
 
+  const themeSelect = $('#themeSelect');
+  if(themeSelect) themeSelect.addEventListener('change', () => {});
+  $('#themeSave').onclick = async () => {
+    const theme = themeSelect.value;
+    try{
+      await dbPatch('admin/config', { theme, updatedAt: Date.now() });
+      S.cfg.theme = theme;
+      applyTheme(theme);
+      toast('Theme updated! 🎨','ok');
+    }catch(e){ toast('Fail: ' + e.message,'err'); }
+  };
+
   const mVol = $('#mVol');
   if(mVol) mVol.addEventListener('input', () => { $('#mVolVal').textContent = Math.round(mVol.value*100)+'%'; });
 
-  /* --- QR Upload via file --- */
   const fileInput = $('#qrFile'), upArea = $('#qrUpload');
   if(upArea) upArea.onclick = () => fileInput.click();
   const qrChange = $('#qrChange'); if(qrChange) qrChange.onclick = () => fileInput.click();
@@ -2792,7 +3064,6 @@ async function renderAdminConfig(body){
       const img = new Image();
       img.onerror = () => setMsg($('#qrMsg'),'Image load fail','err');
       img.onload = async () => {
-        // Compact: 300px max, JPEG 0.7 quality → ~15KB
         const max = 300; let w = img.width, h = img.height;
         if(w > h){ if(w > max){ h = Math.round(h * max / w); w = max; } }
         else { if(h > max){ w = Math.round(w * max / h); h = max; } }
@@ -2801,12 +3072,9 @@ async function renderAdminConfig(body){
         c2.fillStyle = '#ffffff'; c2.fillRect(0, 0, w, h);
         c2.drawImage(img, 0, 0, w, h);
         const dataUrl = cvs.toDataURL('image/jpeg', 0.7);
-
-        // Check size
         if(dataUrl.length > 200000){
           return setMsg($('#qrMsg'),'Image bahut bada hai — chhoti image try karo','err');
         }
-
         try{
           await dbPatch('admin/config', { qrImage:dataUrl, updatedAt:Date.now() });
           S.cfg.qrImage = dataUrl;
@@ -2822,7 +3090,6 @@ async function renderAdminConfig(body){
     reader.readAsDataURL(file);
   };
 
-  /* --- QR via URL --- */
   const qrUrlSave = $('#qrUrlSave');
   if(qrUrlSave) qrUrlSave.onclick = async () => {
     const url = ($('#qrUrl')?.value || '').trim();
@@ -2837,7 +3104,6 @@ async function renderAdminConfig(body){
     }catch(e){ setMsg($('#qrMsg'),'Fail: ' + e.message,'err'); }
   };
 
-  /* --- Save payment details --- */
   $('#paySave').onclick = async () => {
     const patch = {
       upiLink: $('#cUpiLink').value.trim(),
@@ -2855,7 +3121,6 @@ async function renderAdminConfig(body){
     }catch(e){ setMsg($('#cfgMsg'),'Fail: ' + e.message,'err'); }
   };
 
-  /* --- Save game config --- */
   $('#gameSave').onclick = async () => {
     const mul = Math.max(0.5, Math.min(5, parseFloat($('#mulInput').value) || 1));
     const wb = Math.max(0, parseInt($('#wbInput').value) || 0);
@@ -2869,7 +3134,6 @@ async function renderAdminConfig(body){
     }catch(e){ setMsg($('#cfgMsg'),'Fail: ' + e.message,'err'); }
   };
 
-  /* --- Maintenance --- */
   $('#lbReset').onclick = async () => {
     if(!confirm('Reset leaderboard?')) return;
     try{
@@ -3060,6 +3324,13 @@ document.addEventListener('click', firstInteraction, { once:true });
 
 (async function boot(){
   loadStored(); loadMusicPref(); applySound(); updateMusicBtn();
+  
+  // Splash Screen Hide Logic
+  setTimeout(() => {
+    const splash = document.getElementById('splashScreen');
+    if(splash) splash.classList.add('fade-out');
+  }, 2000);
+
   if(S.refreshToken){
     $('#bootLoader').classList.remove('hidden');
     try{
