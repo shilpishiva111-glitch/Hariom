@@ -721,7 +721,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
       <div class="scIco">🎡</div>
       <div class="scInfo">
         <b>Lucky Spin Wheel</b>
-        <span>Spin karo aur bade prizes jeeto!</span>
+        <span>Spin karo · 30% jeetne ka mauka!</span>
       </div>
       <button class="scBtn" type="button">SPIN</button>
     </div>
@@ -736,7 +736,7 @@ textarea.aInput{min-height:90px;resize:vertical;line-height:1.5}
       <div style="font-size:20px;color:#38e08a">›</div>
     </div>
 
-    <div class="sectionTitle">🎴 Apna Card Chuno (30% Win)</div>
+    <div class="sectionTitle">🎴 Apna Card Chuno</div>
     <div class="pickWrap" id="pickWrap"></div>
 
     <div class="selectedCard" id="selectedCard">
@@ -864,12 +864,13 @@ const DAILY_AMOUNT  = 5;
 const DAY_MS        = 86400000;
 const SPIN_COST     = 15;
 const REF_BONUS     = 50;
+const SPIN_WIN_CHANCE = 30; // ✅ 30% Win for Spin Wheel
 
-/* ---- 30% WIN CHANCE ON ALL CARDS ---- */
+/* ---- CARDS: Original win chances restored ---- */
 const DEFAULT_CARDS = {
   low: {
     id:'low', name:'LOW', icon:'🍀', cost:10, cls:'low',
-    desc:'Chhota risk · 30% jeet', winChance: 30,
+    desc:'Chhota risk · Chhota reward', winChance: 20,
     prizes: [
       { v:5,   w:14,  label:'+₹5' },
       { v:15,  w:4.5, label:'+₹15' },
@@ -879,7 +880,7 @@ const DEFAULT_CARDS = {
   },
   medium: {
     id:'medium', name:'MEDIUM', icon:'⚡', cost:50, cls:'medium',
-    desc:'Balanced · 30% jeet', winChance: 30,
+    desc:'Balanced risk · Balanced reward', winChance: 14,
     prizes: [
       { v:30,   w:10,  label:'+₹30' },
       { v:80,   w:3,   label:'+₹80' },
@@ -889,7 +890,7 @@ const DEFAULT_CARDS = {
   },
   rare: {
     id:'rare', name:'RARE', icon:'💎', cost:200, cls:'rare',
-    desc:'High risk · 30% jeet', winChance: 30,
+    desc:'High risk · Huge reward', winChance: 9,
     prizes: [
       { v:150,   w:6,   label:'+₹150' },
       { v:500,   w:2.4, label:'+₹500' },
@@ -980,16 +981,16 @@ function beep(f=600,d=.07,t='sine',v=.05){
 }
 
 /* =========================================================
-   HARD EDM MUSIC ENGINE (kick + hat + bass + arp)
+   HARD EDM MUSIC ENGINE
    ========================================================= */
 const MusicEngine = {
   ctx:null, master:null, filter:null, timer:null,
   playing:false, nextNoteTime:0, step:0, bpm:128,
   chords: [
-    { root:45, notes:[45, 52, 57, 60] },   // Am
-    { root:41, notes:[41, 48, 53, 57] },   // F
-    { root:48, notes:[48, 55, 60, 64] },   // C
-    { root:43, notes:[43, 50, 55, 59] }    // G
+    { root:45, notes:[45, 52, 57, 60] },
+    { root:41, notes:[41, 48, 53, 57] },
+    { root:48, notes:[48, 55, 60, 64] },
+    { root:43, notes:[43, 50, 55, 59] }
   ],
   bassPattern: [0,0,0,0, 0,0,0,0, 7,7,7,7, 5,5,5,5],
   arpPattern:  [0,1,2,3,2,1,0,2],
@@ -1005,7 +1006,6 @@ const MusicEngine = {
       const lp = ctx.createBiquadFilter();
       lp.type = 'lowpass'; lp.frequency.value = 3200; lp.Q.value = 0.8;
       lp.connect(this.master); this.filter = lp;
-      // Compressor for punchy feel
       if(ctx.createDynamicsCompressor){
         try{
           const comp = ctx.createDynamicsCompressor();
@@ -1039,7 +1039,7 @@ const MusicEngine = {
   _tick(){
     if(!this.playing) return;
     const ctx = this.ctx;
-    const stepDur = 60 / this.bpm / 4; // 16th notes
+    const stepDur = 60 / this.bpm / 4;
     while(this.nextNoteTime < ctx.currentTime + 0.15){
       this._playStep(this.step, this.nextNoteTime);
       this.nextNoteTime += stepDur;
@@ -1051,38 +1051,24 @@ const MusicEngine = {
     const s16 = step % 16;
     const bar = Math.floor(step / 16);
     const chord = this.chords[bar % 4];
-
-    // KICK on 1 and 3
     if(s16 % 8 === 0) this._kick(when, 0.85);
-    // Extra kick on beat 4 (drop) every 4th bar
     if(bar % 4 === 3 && s16 === 14) this._kick(when, 0.7);
-
-    // HI-HAT on every 8th
     if(s16 % 2 === 0) this._hat(when, s16 % 4 === 0 ? 0.22 : 0.14);
-
-    // OPEN HAT on 8th offbeat
     if(s16 % 8 === 4) this._hat(when, 0.28, true);
-
-    // BASS on every 8th (deep saw)
     if(s16 % 2 === 0){
       const bassNote = chord.notes[0] - 12 + (this.bassPattern[step % 16] || 0);
       this._bass(bassNote, when, 60 / this.bpm / 4, 0.32);
     }
-
-    // ARP lead on 16ths
     const arpIdx = this.arpPattern[step % 8];
     const arpMidi = chord.notes[arpIdx] + 12;
     this._tone(arpMidi, when, 0.18, 'square', 0.12);
-
-    // PAD on bar change
     if(s16 === 0){
       chord.notes.forEach((n, i) => this._tone(n + 12, when, 60 / this.bpm * 4, 'sine', 0.05 - i * 0.008));
     }
   },
   _kick(when, vol){
     const ctx = this.ctx;
-    const o = ctx.createOscillator();
-    const g = ctx.createGain();
+    const o = ctx.createOscillator(); const g = ctx.createGain();
     o.frequency.setValueAtTime(160, when);
     o.frequency.exponentialRampToValueAtTime(42, when + 0.12);
     g.gain.setValueAtTime(vol, when);
@@ -1228,7 +1214,7 @@ async function loadProfile(){
     p = { name: S.email ? S.email.split('@')[0] : 'Player', email: S.email || '',
       coins: S.cfg.welcomeBonus || START_COINS, totalWon:0, cardsPlayed:0, best:0,
       banned:false, lastBonus:0, verified:false, deposited:0, withdrawn:0,
-      refCode, referrals: 0, refBonus: 0, spins: 0, lastSpin: 0,
+      refCode, referrals: 0, refBonus: 0, spins: 0,
       createdAt: Date.now() };
     await dbSet('users/' + uid, p);
     await dbSet('refcodes/' + refCode, uid);
@@ -1331,7 +1317,7 @@ let drawing = false, lastPt = null, checkTimer = null;
 function pickPrize(cardId){
   const c = CARDS[cardId]; if(!c) return { v:0, label:'₹0', sub:'No luck 😕' };
   const mult = S.cfg.multiplier || 1;
-  const effectiveWin = Math.min(100, (c.winChance || 30) * mult);
+  const effectiveWin = Math.min(100, (c.winChance || 20) * mult);
   if(Math.random() * 100 >= effectiveWin) return { v:0, label:'₹0', sub:'No luck today 😕' };
   const total = c.prizes.reduce((a,p)=>a+(p.w||0), 0);
   if(total <= 0) return { v:0, label:'₹0', sub:'No luck 😕' };
@@ -1453,6 +1439,7 @@ async function buyCard(){
   $('#claimBtn').disabled = true;
   beep(680,.07,'triangle');
   try{ await dbPatch('users/' + S.uid, { coins:p.coins, cardsPlayed:p.cardsPlayed }); }catch(e){}
+  trackMission('play5', 1);
 }
 function revealCard(){
   if(cardState !== 'active') return;
@@ -1488,10 +1475,11 @@ async function claimPrize(){
   showFloatWin('+' + prize.v + ' 🪙');
   successPop('🎉','You Won!', `+₹${prize.v} aapke balance me add ho gaye!`);
   beep(1046,.1,'sine'); S.card = null;
+  trackMission('win3', 1);
 }
 
 /* =========================================================
-   SPIN WHEEL
+   SPIN WHEEL — 30% WIN CHANCE
    ========================================================= */
 let wheelCanvas, wheelCtx, wheelRot = 0;
 function drawWheel(){
@@ -1514,7 +1502,6 @@ function drawWheel(){
     wheelCtx.strokeStyle = 'rgba(255,211,92,.5)';
     wheelCtx.lineWidth = 2;
     wheelCtx.stroke();
-    // text
     wheelCtx.save();
     wheelCtx.translate(cx,cy);
     wheelCtx.rotate(start + segAngle/2);
@@ -1524,7 +1511,6 @@ function drawWheel(){
     wheelCtx.fillText(WHEEL_PRIZES[i].label, r - 14, 6);
     wheelCtx.restore();
   }
-  // center ring
   wheelCtx.beginPath();
   wheelCtx.arc(cx,cy,60,0,Math.PI*2);
   wheelCtx.strokeStyle = 'rgba(255,211,92,.7)';
@@ -1533,10 +1519,12 @@ function drawWheel(){
 }
 function openSpinSheet(){
   const p = S.profile;
-  const canAfford = (p.coins||0) >= SPIN_COST;
+  const spinCost = S.cfg.spinCost || SPIN_COST;
+  const canAfford = (p.coins||0) >= spinCost;
   openSheet('🎡 Lucky Spin Wheel', `
     <p class="hint" style="text-align:left;margin-bottom:14px">
-      Ek spin me <b style="color:#ffd35c">${SPIN_COST} coins</b> lagte hain. Prizes: ₹5, ₹15, ₹25, ₹100 (jackpot)!
+      Ek spin me <b style="color:#ffd35c">${spinCost} coins</b> lagte hain. <b style="color:#38e08a">30% win chance!</b>
+      Prizes: ₹5, ₹15, ₹25, ₹100 (jackpot).
     </p>
     <div class="wheelWrap">
       <div class="wheelPointer">▼</div>
@@ -1544,36 +1532,53 @@ function openSpinSheet(){
       <div class="wheelCenter">🎯</div>
     </div>
     <div style="text-align:center;margin:16px 0 10px;font-size:12px;color:#8b8fa8;font-weight:700">
-      Total Spins: <b style="color:#ffd35c">${fmt(p.spins||0)}</b>
+      Total Spins: <b style="color:#ffd35c">${fmt(p.spins||0)}</b> · Win Chance: <b style="color:#38e08a">30%</b>
     </div>
     <button class="btn gold block" id="spinBtn" type="button" ${canAfford?'':'disabled'}>
-      ${canAfford ? `🎡 SPIN NOW · ${SPIN_COST} 🪙` : `❌ Need ${SPIN_COST} coins`}
+      ${canAfford ? `🎡 SPIN NOW · ${spinCost} 🪙` : `❌ Need ${spinCost} coins`}
     </button>
     <div class="msg" id="spinMsg" style="margin-top:10px"></div>
   `);
   wheelCanvas = $('#wheelCanvas');
   wheelCtx = wheelCanvas.getContext('2d');
+  wheelRot = 0;
+  wheelCanvas.style.transform = 'rotate(0deg)';
   drawWheel();
   $('#spinBtn').onclick = doSpin;
 }
 async function doSpin(){
   if(spinning) return;
   const p = S.profile; if(!p) return;
-  if((p.coins||0) < SPIN_COST) return toast('Coins kam hain','err');
+  const spinCost = S.cfg.spinCost || SPIN_COST;
+  if((p.coins||0) < spinCost) return toast('Coins kam hain','err');
   spinning = true;
   $('#spinBtn').disabled = true;
 
-  // Deduct
-  p.coins -= SPIN_COST; p.spins = (p.spins||0) + 1;
+  p.coins -= spinCost; p.spins = (p.spins||0) + 1;
   renderProfile();
   try{ await dbPatch('users/' + S.uid, { coins:p.coins, spins:p.spins }); }catch(e){}
+  trackMission('spin1', 1);
 
-  // Pick weighted prize
-  const weights = WHEEL_PRIZES.map((w,i) => ({ i, w: w.v === 0 ? 60 : w.v === 5 ? 20 : w.v === 15 ? 12 : w.v === 25 ? 6 : 2 }));
-  const totalW = weights.reduce((a,x)=>a+x.w,0);
-  let r = Math.random()*totalW;
+  // ---- 30% WIN CHANCE ----
   let prizeIdx = 0;
-  for(const x of weights){ if((r -= x.w) <= 0){ prizeIdx = x.i; break; } }
+  const rolledWin = Math.random() * 100 < SPIN_WIN_CHANCE;
+  if(!rolledWin){
+    // 70% → any ZERO segment
+    const zeroIdxs = WHEEL_PRIZES.map((w,i) => w.v === 0 ? i : -1).filter(i => i >= 0);
+    prizeIdx = zeroIdxs[Math.floor(Math.random() * zeroIdxs.length)];
+  } else {
+    // 30% → weighted winning segment
+    const winIdxs = WHEEL_PRIZES.map((w,i) => w.v > 0 ? i : -1).filter(i => i >= 0);
+    const weights = winIdxs.map(i => {
+      const v = WHEEL_PRIZES[i].v;
+      return v === 5 ? 20 : v === 15 ? 12 : v === 25 ? 6 : 2;
+    });
+    const totalW = weights.reduce((a,x)=>a+x,0);
+    let r = Math.random() * totalW;
+    for(let k = 0; k < winIdxs.length; k++){
+      if((r -= weights[k]) <= 0){ prizeIdx = winIdxs[k]; break; }
+    }
+  }
 
   // Animation
   const segs = WHEEL_PRIZES.length;
@@ -1901,12 +1906,13 @@ function openProfile(){
 /* REFERRAL SHEET */
 function openReferSheet(){
   const p = S.profile || {};
-  const text = `🎰 Scratch Pro join karo! Use my code ${p.refCode} and get bonus coins! 💰`;
+  const bonus = S.cfg.referralBonus || REF_BONUS;
+  const text = `🎰 Scratch Pro join karo! Use my code ${p.refCode} and get ${bonus} bonus coins! 💰`;
   openSheet('👥 Refer & Earn', `
     <div class="refPanel">
-      <div class="rpHead"><div class="ic">🎁</div><b>Get ₹${S.cfg.referralBonus||REF_BONUS} per referral!</b></div>
+      <div class="rpHead"><div class="ic">🎁</div><b>Get ₹${bonus} per referral!</b></div>
       <p class="hint" style="text-align:left;margin-bottom:12px">
-        Apna referral code dost ko do. Jab wo signup karega aur code daalega, tumhe <b style="color:#38e08a">₹${S.cfg.referralBonus||REF_BONUS}</b> bonus milega!
+        Apna referral code dost ko do. Jab wo signup karega aur code daalega, tumhe <b style="color:#38e08a">₹${bonus}</b> bonus milega!
       </p>
       <div class="codeBox">
         <div class="code" id="refCode2">${esc(p.refCode || '—')}</div>
@@ -1917,14 +1923,9 @@ function openReferSheet(){
         <div><span>Bonus Earned</span><b>₹${fmt(p.refBonus||0)}</b></div>
       </div>
     </div>
-
     <div class="secTitle">📤 Share Your Code</div>
-    <button class="btn primary block" id="shareRefBtn" type="button" style="margin-bottom:10px">
-      💬 Share on WhatsApp
-    </button>
-    <button class="btn gold block" id="shareRefBtn2" type="button">
-      🔗 Copy Invite Text
-    </button>
+    <button class="btn primary block" id="shareRefBtn" type="button" style="margin-bottom:10px">💬 Share on WhatsApp</button>
+    <button class="btn gold block" id="shareRefBtn2" type="button">🔗 Copy Invite Text</button>
   `);
   setTimeout(()=>{
     const copy1 = $('#copyRefBtn2');
@@ -1991,8 +1992,7 @@ function openMissionsSheet(){
       MISSIONS.forEach(mi => {
         const cur = prog2[mi.id] || 0;
         if(cur >= mi.target && !claimedMap[today2+'_'+mi.id]){
-          total += mi.reward;
-          count++;
+          total += mi.reward; count++;
           claimedMap[today2+'_'+mi.id] = true;
         }
       });
@@ -2137,7 +2137,7 @@ async function renderAdminDash(body){
       <div class="aStat"><span>Verified</span><b style="color:#38e08a">${fmt(verified)}</b></div>
       <div class="aStat"><span>Multiplier</span><b>${S.cfg.multiplier}x</b></div>
     </div>
-    <div class="secTitle">🎴 Card Odds (30% Win)</div>
+    <div class="secTitle">🎴 Card Odds (Win Chances)</div>
     <div class="card2">
       ${Object.values(CARDS).map(c => `
         <div style="display:flex;align-items:center;gap:12px;padding:8px 0">
@@ -2149,6 +2149,12 @@ async function renderAdminDash(body){
           </div>
           <div style="font-weight:900;color:#ffd35c;font-size:15px">${c.winChance}%</div>
         </div>`).join('')}
+    </div>
+    <div class="secTitle">🎡 Spin Wheel</div>
+    <div class="card2" style="text-align:center">
+      <div style="font-size:12px;color:#8b8fa8;font-weight:700;margin-bottom:6px">WIN CHANCE</div>
+      <div style="font-size:32px;font-weight:900;color:#38e08a">${SPIN_WIN_CHANCE}%</div>
+      <div style="font-size:11px;color:#8b8fa8;margin-top:4px">Cost: ${S.cfg.spinCost||SPIN_COST} coins</div>
     </div>
     <div class="secTitle">⚡ Quick Actions</div>
     <div class="aBtns">
@@ -2711,7 +2717,6 @@ $('#registerForm').addEventListener('submit', async e => {
   if(p1 !== p2) return setMsg($('#regMsg'),'Passwords match nahi','err');
   btn.disabled = true; btn.querySelector('span').textContent = 'Creating…';
   try{
-    // Validate referral first (before creating account)
     let referrerUid = null;
     if(refInput){
       try{
@@ -2738,7 +2743,6 @@ $('#registerForm').addEventListener('submit', async e => {
     await dbSet('refcodes/' + refCode, S.uid);
     await dbPatch('leaderboard/' + S.uid, { name, totalWon:0, updatedAt:Date.now() });
 
-    // Credit referrer
     if(referrerUid){
       try{
         const ref = await dbGet('users/' + referrerUid) || {};
