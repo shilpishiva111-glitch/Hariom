@@ -1451,7 +1451,6 @@ async function loadConfig(){
 }
 function applyTheme(themeName){
   document.body.className = 'theme-' + themeName;
-  // Trigger Particle Engine Change
   if (window.ParticleEngine) {
     window.ParticleEngine.setTheme(themeName);
   }
@@ -2754,11 +2753,15 @@ async function renderAdminUsers(body){
   if(userSort === 'coins') rows.sort((a,b)=>(b.coins||0)-(a.coins||0));
   if(userSort === 'won') rows.sort((a,b)=>(b.totalWon||0)-(a.totalWon||0));
   if(userSort === 'cards') rows.sort((a,b)=>(b.cardsPlayed||0)-(a.cardsPlayed||0));
-  const counts = { all: Object.keys(users).length,
+  
+  const counts = { 
+    all: Object.keys(users).length,
     banned: Object.values(users).filter(u=>u.banned).length,
     verified: Object.values(users).filter(u=>u.verified).length,
     unverified: Object.values(users).filter(u=>!u.verified).length,
-    hascoins: Object.values(users).filter(u=>(u.coins||0)>0).length };
+    hascoins: Object.values(users).filter(u=>(u.coins||0)>0).length 
+  };
+  
   body.innerHTML = `
     <div class="secTitle">👥 Users (${rows.length})</div>
     <input id="adminUserSearch" class="aInput" type="text" placeholder="🔍 Search name / email / ID…" value="${esc(adminUserSearch)}">
@@ -2776,11 +2779,14 @@ async function renderAdminUsers(body){
       <button class="chip ${userSort==='cards'?'active':''}" data-s="cards" type="button">🎫 By Cards</button>
     </div>
     <div style="margin-top:13px" id="adminUserList"></div>`;
+  
   $('#adminUserSearch').addEventListener('input', e => { adminUserSearch = e.target.value; renderAdminUsers(body); });
   body.querySelectorAll('.chip[data-f]').forEach(b => b.onclick = () => { userFilter = b.dataset.f; renderAdminUsers(body); });
   body.querySelectorAll('.chip[data-s]').forEach(b => b.onclick = () => { userSort = b.dataset.s; renderAdminUsers(body); });
+  
   const list = $('#adminUserList');
   if(!rows.length){ list.innerHTML = '<div class="empty">Koi user nahi mila.</div>'; return; }
+  
   list.innerHTML = rows.map(u => {
     const dotColor = u.banned ? '#ff5c6c' : u.verified ? '#38e08a' : '#ffd35c';
     return `<div class="userRow ${u.banned?'banned':''}" data-uid="${u.uid}">
@@ -2793,13 +2799,24 @@ async function renderAdminUsers(body){
       <div class="c">₹${fmt(u.coins||0)}<small>coins</small></div>
     </div>`;
   }).join('');
+  
+  // FIX: Attach click handler directly with the user object in closure
   list.querySelectorAll('.userRow').forEach(el => {
-    el.addEventListener('click', () => openUserActions(el.dataset.uid, rows.find(r => r.uid === el.dataset.uid)));
+    el.onclick = () => {
+      const uid = el.dataset.uid;
+      const userObj = rows.find(r => r.uid === uid);
+      if (userObj) {
+        openUserActions(uid, userObj);
+      } else {
+        toast('User data not found', 'err');
+      }
+    };
   });
 }
 
 function openUserActions(uid, u){
-  if(!u) return;
+  if(!u){ toast('User data missing', 'err'); return; }
+  
   openSheet('👤 ' + esc(u.name||'User'), `
     <div style="display:flex;gap:13px;align-items:center;padding:15px;border-radius:17px;
       background:linear-gradient(135deg, rgba(124,58,237,.25), rgba(168,85,247,.1));
@@ -2838,48 +2855,83 @@ function openUserActions(uid, u){
       <button class="btn danger" id="resetBtn" type="button">🔄 Reset Stats</button>
       <button class="btn danger" id="deleteBtn" type="button">🗑️ Delete User</button>
     </div>`);
-  $('#addCoinsBtn').onclick = async () => {
-    const amt = Math.max(0, parseInt($('#addCoinAmt').value,10) || 0);
-    if(!amt) return toast('Amount daalo','err');
-    const nb = (u.coins||0) + amt;
-    try{ await dbPatch('users/' + uid, { coins:nb, verified:true });
-      toast(`+₹${amt} added ✅`,'ok'); closeSheet(); renderAdmin();
-      if(uid === S.uid){ S.profile.coins = nb; S.profile.verified = true; renderProfile(); }
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
-  $('#subCoinsBtn').onclick = async () => {
-    const amt = Math.max(0, parseInt($('#addCoinAmt').value,10) || 0);
-    if(!amt) return toast('Amount daalo','err');
-    const nb = Math.max(0, (u.coins||0) - amt);
-    try{ await dbPatch('users/' + uid, { coins:nb });
-      toast(`-₹${amt} removed ✅`,'ok'); closeSheet(); renderAdmin();
-      if(uid === S.uid){ S.profile.coins = nb; renderProfile(); }
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
-  $('#banBtn').onclick = async () => {
-    try{ await dbPatch('users/' + uid, { banned:!u.banned });
-      toast(u.banned?'✅ Unbanned':'🚫 Banned','ok'); closeSheet(); renderAdmin();
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
-  $('#verifyBtn').onclick = async () => {
-    try{ await dbPatch('users/' + uid, { verified:!u.verified });
-      toast(u.verified?'Unverified':'✅ Verified','ok'); closeSheet(); renderAdmin();
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
-  $('#resetBtn').onclick = async () => {
-    if(!confirm('Reset user stats?')) return;
-    try{ await dbPatch('users/' + uid, { coins:START_COINS, totalWon:0, cardsPlayed:0, best:0, deposited:0, withdrawn:0 });
-      await dbPatch('leaderboard/' + uid, { totalWon:0, updatedAt:Date.now() });
-      toast('Reset ✅','ok'); closeSheet(); renderAdmin();
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
-  $('#deleteBtn').onclick = async () => {
-    if(!confirm('Delete user permanently?')) return;
-    try{ await dbDel('users/' + uid); await dbDel('leaderboard/' + uid);
-      if(u.refCode) await dbDel('refcodes/' + u.refCode);
-      toast('User deleted 🗑️','ok'); closeSheet(); renderAdmin();
-    }catch(e){ toast('Fail: ' + e.message,'err'); }
-  };
+  
+  // FIX: Delay event listener attachment to ensure DOM is ready
+  setTimeout(() => {
+    const addBtn = $('#addCoinsBtn');
+    const subBtn = $('#subCoinsBtn');
+    const banBtn = $('#banBtn');
+    const verifyBtn = $('#verifyBtn');
+    const resetBtn = $('#resetBtn');
+    const deleteBtn = $('#deleteBtn');
+    
+    if (addBtn) addBtn.onclick = async () => {
+      const amt = Math.max(0, parseInt($('#addCoinAmt').value,10) || 0);
+      if(!amt) return toast('Amount daalo','err');
+      const nb = (u.coins||0) + amt;
+      try{ 
+        await dbPatch('users/' + uid, { coins:nb, verified:true });
+        toast(`+₹${amt} added ✅`,'ok'); 
+        closeSheet(); 
+        renderAdmin();
+        if(uid === S.uid){ S.profile.coins = nb; S.profile.verified = true; renderProfile(); }
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+    
+    if (subBtn) subBtn.onclick = async () => {
+      const amt = Math.max(0, parseInt($('#addCoinAmt').value,10) || 0);
+      if(!amt) return toast('Amount daalo','err');
+      const nb = Math.max(0, (u.coins||0) - amt);
+      try{ 
+        await dbPatch('users/' + uid, { coins:nb });
+        toast(`-₹${amt} removed ✅`,'ok'); 
+        closeSheet(); 
+        renderAdmin();
+        if(uid === S.uid){ S.profile.coins = nb; renderProfile(); }
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+    
+    if (banBtn) banBtn.onclick = async () => {
+      try{ 
+        await dbPatch('users/' + uid, { banned:!u.banned });
+        toast(u.banned?'✅ Unbanned':'🚫 Banned','ok'); 
+        closeSheet(); 
+        renderAdmin();
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+    
+    if (verifyBtn) verifyBtn.onclick = async () => {
+      try{ 
+        await dbPatch('users/' + uid, { verified:!u.verified });
+        toast(u.verified?'Unverified':'✅ Verified','ok'); 
+        closeSheet(); 
+        renderAdmin();
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+    
+    if (resetBtn) resetBtn.onclick = async () => {
+      if(!confirm('Reset user stats?')) return;
+      try{ 
+        await dbPatch('users/' + uid, { coins:START_COINS, totalWon:0, cardsPlayed:0, best:0, deposited:0, withdrawn:0 });
+        await dbPatch('leaderboard/' + uid, { totalWon:0, updatedAt:Date.now() });
+        toast('Reset ✅','ok'); 
+        closeSheet(); 
+        renderAdmin();
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+    
+    if (deleteBtn) deleteBtn.onclick = async () => {
+      if(!confirm('Delete user permanently?')) return;
+      try{ 
+        await dbDel('users/' + uid); 
+        await dbDel('leaderboard/' + uid);
+        if(u.refCode) await dbDel('refcodes/' + u.refCode);
+        toast('User deleted 🗑️','ok'); 
+        closeSheet(); 
+        renderAdmin();
+      }catch(e){ toast('Fail: ' + e.message,'err'); }
+    };
+  }, 100);
 }
 
 async function renderAdminPromos(body){
